@@ -10,22 +10,9 @@
 		676E2BE62E6F36470074641F /* EvenHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EvenHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		676E2BF82E6F36480074641F /* Exceptions for "EvenHub" folder in "EvenHub" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 676E2BE52E6F36470074641F /* EvenHub */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		676E2BE82E6F36470074641F /* EvenHub */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				676E2BF82E6F36480074641F /* Exceptions for "EvenHub" folder in "EvenHub" target */,
-			);
 			path = EvenHub;
 			sourceTree = "<group>";
 		};
