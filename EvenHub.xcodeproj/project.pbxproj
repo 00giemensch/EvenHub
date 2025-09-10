@@ -13,6 +13,7 @@
 		676E2C192E7097B20074641F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E2C142E7097B20074641F /* ViewController.swift */; };
 		676E2C1A2E7097B20074641F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 676E2C0E2E7097B20074641F /* Assets.xcassets */; };
 		676E2C1C2E7097B20074641F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 676E2C122E7097B20074641F /* LaunchScreen.storyboard */; };
+		67CC87202E71D86800C1CB05 /* EventDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CC871F2E71D86800C1CB05 /* EventDetailsCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		676E2C112E7097B20074641F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		676E2C132E7097B20074641F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		676E2C142E7097B20074641F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		67CC871F2E71D86800C1CB05 /* EventDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				676E2C0F2E7097B20074641F /* EventDetailsVC.swift */,
+				67CC871F2E71D86800C1CB05 /* EventDetailsCell.swift */,
 			);
 			path = EventDetails;
 			sourceTree = "<group>";
@@ -151,6 +154,7 @@
 				676E2C162E7097B20074641F /* AppDelegate.swift in Sources */,
 				676E2C172E7097B20074641F /* EventDetailsVC.swift in Sources */,
 				676E2C182E7097B20074641F /* SceneDelegate.swift in Sources */,
+				67CC87202E71D86800C1CB05 /* EventDetailsCell.swift in Sources */,
 				676E2C192E7097B20074641F /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
