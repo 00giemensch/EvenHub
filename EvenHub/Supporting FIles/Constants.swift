@@ -172,5 +172,19 @@ class Constants {
         static let extraBold = "AirbnbCereal-ExtraBold"
         static let light = "AirbnbCereal-Light"
         static let medium = "AirbnbCereal-Medium"
+        
+        static func attributedString(for text: String, font: String, fontSize: CGFloat, lineHeigh: CGFloat, letterSpacing: CGFloat = 0) -> NSAttributedString {
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.minimumLineHeight = lineHeigh
+            paragraphStyle.maximumLineHeight = lineHeigh
+            
+            let attributes: [NSAttributedString.Key: Any] = [
+                .paragraphStyle: paragraphStyle,
+                .font: UIFont(name: font, size: fontSize) as Any,
+                .kern: letterSpacing
+            ]
+            
+            return NSAttributedString(string: text, attributes: attributes)
+        }
     }
 }

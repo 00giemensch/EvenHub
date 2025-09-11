@@ -29,7 +29,7 @@ class AuthenticationViewController: UIViewController {
     private let loginTextField: UITextField = {
        let loginTextField = UITextField()
         loginTextField.translatesAutoresizingMaskIntoConstraints = false
-        loginTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: <#T##String#>, font: <#T##String#>, fontSize: <#T##CGFloat#>, lineHeigh: <#T##CGFloat#>)
+//        loginTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: <#T##String#>, font: <#T##String#>, fontSize: <#T##CGFloat#>, lineHeigh: <#T##CGFloat#>)
         return loginTextField
     }()
     
