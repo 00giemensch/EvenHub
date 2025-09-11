@@ -187,4 +187,5 @@ class Constants {
             return NSAttributedString(string: text, attributes: attributes)
         }
     }
+
 }
