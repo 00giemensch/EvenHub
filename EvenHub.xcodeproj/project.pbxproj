@@ -18,6 +18,9 @@
 		BEE372262E72EC7D002C9178 /* TodayEventDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372252E72EC7D002C9178 /* TodayEventDTO.swift */; };
 		BEE372282E72EDF8002C9178 /* SearchEventDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372272E72EDF8002C9178 /* SearchEventDTO.swift */; };
 		BEE3722A2E72EE1B002C9178 /* EventDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372292E72EE1B002C9178 /* EventDTO.swift */; };
+		BEE372302E7312FA002C9178 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE3722F2E7312FA002C9178 /* APIClient.swift */; };
+		BEE372322E73296C002C9178 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372312E73296C002C9178 /* NetworkError.swift */; };
+		BEE372352E733CC2002C9178 /* EventAPISpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372342E733CC2002C9178 /* EventAPISpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +37,9 @@
 		BEE372252E72EC7D002C9178 /* TodayEventDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayEventDTO.swift; sourceTree = "<group>"; };
 		BEE372272E72EDF8002C9178 /* SearchEventDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEventDTO.swift; sourceTree = "<group>"; };
 		BEE372292E72EE1B002C9178 /* EventDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDTO.swift; sourceTree = "<group>"; };
+		BEE3722F2E7312FA002C9178 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		BEE372312E73296C002C9178 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		BEE372342E733CC2002C9178 /* EventAPISpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAPISpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +72,7 @@
 		676E2C152E7097B20074641F /* EvenHub */ = {
 			isa = PBXGroup;
 			children = (
+				BEE3722B2E730679002C9178 /* Services */,
 				BEE372202E72EA95002C9178 /* DTO */,
 				676E2C0D2E7097B20074641F /* AppDelegate.swift */,
 				676E2C0E2E7097B20074641F /* Assets.xcassets */,
@@ -96,6 +103,32 @@
 				BEE372292E72EE1B002C9178 /* EventDTO.swift */,
 			);
 			path = DTO;
+			sourceTree = "<group>";
+		};
+		BEE3722B2E730679002C9178 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				BEE3722C2E73068A002C9178 /* NetworkService */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		BEE3722C2E73068A002C9178 /* NetworkService */ = {
+			isa = PBXGroup;
+			children = (
+				BEE3722D2E73069D002C9178 /* APIService */,
+			);
+			path = NetworkService;
+			sourceTree = "<group>";
+		};
+		BEE3722D2E73069D002C9178 /* APIService */ = {
+			isa = PBXGroup;
+			children = (
+				BEE3722F2E7312FA002C9178 /* APIClient.swift */,
+				BEE372342E733CC2002C9178 /* EventAPISpec.swift */,
+				BEE372312E73296C002C9178 /* NetworkError.swift */,
+			);
+			path = APIService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -174,11 +207,14 @@
 				676E2C162E7097B20074641F /* AppDelegate.swift in Sources */,
 				676E2C172E7097B20074641F /* EventDetailsVC.swift in Sources */,
 				676E2C182E7097B20074641F /* SceneDelegate.swift in Sources */,
+				BEE372302E7312FA002C9178 /* APIClient.swift in Sources */,
+				BEE372352E733CC2002C9178 /* EventAPISpec.swift in Sources */,
 				BEE3722A2E72EE1B002C9178 /* EventDTO.swift in Sources */,
 				676E2C192E7097B20074641F /* ViewController.swift in Sources */,
 				BEE372242E72EBAA002C9178 /* MovieDTO.swift in Sources */,
 				BEE372222E72EAAE002C9178 /* ListDTO.swift in Sources */,
 				BEE372282E72EDF8002C9178 /* SearchEventDTO.swift in Sources */,
+				BEE372322E73296C002C9178 /* NetworkError.swift in Sources */,
 				BEE372262E72EC7D002C9178 /* TodayEventDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
