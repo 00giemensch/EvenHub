@@ -11,7 +11,6 @@
 		676E2C172E7097B20074641F /* EventDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E2C0F2E7097B20074641F /* EventDetailsVC.swift */; };
 		676E2C182E7097B20074641F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E2C132E7097B20074641F /* SceneDelegate.swift */; };
 		676E2C192E7097B20074641F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E2C142E7097B20074641F /* ViewController.swift */; };
-		676E2C1C2E7097B20074641F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 676E2C122E7097B20074641F /* LaunchScreen.storyboard */; };
 		6E5FE8122E730E6C00104B1A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5FE80E2E730E6C00104B1A /* Constants.swift */; };
 		6E5FE8132E730E6C00104B1A /* AirbnbCereal_Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6E5FE80A2E730E6C00104B1A /* AirbnbCereal_Light.otf */; };
 		6E5FE8142E730E6C00104B1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E5FE80D2E730E6C00104B1A /* Assets.xcassets */; };
@@ -20,7 +19,6 @@
 		6E5FE8172E730E6C00104B1A /* AirbnbCereal_Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6E5FE8082E730E6C00104B1A /* AirbnbCereal_Book.otf */; };
 		6E5FE8182E730E6C00104B1A /* AirbnbCereal_Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6E5FE8072E730E6C00104B1A /* AirbnbCereal_Bold.otf */; };
 		6E5FE8192E730E6C00104B1A /* AirbnbCereal_Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6E5FE8062E730E6C00104B1A /* AirbnbCereal_Black.otf */; };
-		6E5FE81A2E730E6C00104B1A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E5FE8102E730E6C00104B1A /* LaunchScreen.storyboard */; };
 		BEE372222E72EAAE002C9178 /* ListDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372212E72EAAE002C9178 /* ListDTO.swift */; };
 		BEE372242E72EBAA002C9178 /* MovieDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372232E72EBAA002C9178 /* MovieDTO.swift */; };
 		BEE372262E72EC7D002C9178 /* TodayEventDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372252E72EC7D002C9178 /* TodayEventDTO.swift */; };
@@ -33,7 +31,6 @@
 		676E2C0D2E7097B20074641F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		676E2C0F2E7097B20074641F /* EventDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsVC.swift; sourceTree = "<group>"; };
 		676E2C102E7097B20074641F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		676E2C112E7097B20074641F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		676E2C132E7097B20074641F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		676E2C142E7097B20074641F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		6E5FE8062E730E6C00104B1A /* AirbnbCereal_Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCereal_Black.otf; sourceTree = "<group>"; };
@@ -94,7 +91,6 @@
 				676E2C0D2E7097B20074641F /* AppDelegate.swift */,
 				676E2C1D2E7097B70074641F /* EventDetails */,
 				676E2C102E7097B20074641F /* Info.plist */,
-				676E2C122E7097B20074641F /* LaunchScreen.storyboard */,
 				676E2C132E7097B20074641F /* SceneDelegate.swift */,
 				676E2C142E7097B20074641F /* ViewController.swift */,
 				6E5FE8112E730E6C00104B1A /* Supporting FIles */,
@@ -218,8 +214,6 @@
 				6E5FE8172E730E6C00104B1A /* AirbnbCereal_Book.otf in Resources */,
 				6E5FE8182E730E6C00104B1A /* AirbnbCereal_Bold.otf in Resources */,
 				6E5FE8192E730E6C00104B1A /* AirbnbCereal_Black.otf in Resources */,
-				6E5FE81A2E730E6C00104B1A /* LaunchScreen.storyboard in Resources */,
-				676E2C1C2E7097B20074641F /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,14 +240,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		676E2C122E7097B20074641F /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				676E2C112E7097B20074641F /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 		6E5FE8102E730E6C00104B1A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
