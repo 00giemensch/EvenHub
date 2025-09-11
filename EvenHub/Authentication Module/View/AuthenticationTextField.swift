@@ -11,12 +11,21 @@ class AuthenticationTextField: UITextField {
         setup()
     }
     
-    private let image = UIImageView()
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
+        return imageView
+    }()
+    
     
     private func setup() {
         translatesAutoresizingMaskIntoConstraints = false
-        rightView = image
+        rightView = imageView
         rightViewMode = .always
-        
+    }
+    
+    func updateImage(image: UIImage) {
+        imageView.image = image
+        setup()
     }
 }

@@ -26,33 +26,26 @@ class AuthenticationViewController: UIViewController {
         return appLabel
     }()
     
-    private let loginTextField: UITextField = {
-       let loginTextField = UITextField()
-        loginTextField.translatesAutoresizingMaskIntoConstraints = false
-//        loginTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: <#T##String#>, font: <#T##String#>, fontSize: <#T##CGFloat#>, lineHeigh: <#T##CGFloat#>)
+    private let loginTextField: AuthenticationTextField = {
+       let loginTextField = AuthenticationTextField()
+        loginTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: Constants.passwordPlaceholder, font: Constants.Fonts.book, fontSize: 14, lineHeigh: 23)
+//        loginTextField.updateImage(image: Constants.Icons.Authentication.mail!)
         return loginTextField
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setupUI()
     }
     
     func setupUI() {
-        
+        view.backgroundColor = .systemGray
+        view.addSubview(eventHubImage)
+        NSLayoutConstraint.activate([
+            eventHubImage.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -77),
+            eventHubImage.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 296),
+            eventHubImage.widthAnchor.constraint(equalToConstant: 56),
+            eventHubImage.heightAnchor.constraint(equalToConstant: 58)
+        ])
     }
-    
-//    func attributedString(for text: String, font: String, fontSize: CGFloat, lineHeigh: CGFloat, letterSpacing: CGFloat = 0) -> NSAttributedString {
-//        let paragraphStyle = NSMutableParagraphStyle()
-//        paragraphStyle.minimumLineHeight = lineHeigh
-//        paragraphStyle.maximumLineHeight = lineHeigh
-//        
-//        let attributes: [NSAttributedString.Key: Any] = [
-//            .paragraphStyle: paragraphStyle,
-//            .font: UIFont(name: font, size: fontSize) as Any,
-//            .kern: letterSpacing
-//        ]
-//        
-//        return NSAttributedString(string: text, attributes: attributes)
-//    }
 }

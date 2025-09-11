@@ -1,6 +1,13 @@
 import UIKit
 
 class Constants {
+    
+    //MARK: - Names & Placeholders
+    static let appName = "EventHub"
+    static let loginPlaceholder = "abc@email.com"
+    static let passwordPlaceholder = "Your password"
+    static let passwordConfirmationPlaceholder = "Confirm your password"
+    
     // MARK: - Colors
     struct Colors {
         struct Accent {
