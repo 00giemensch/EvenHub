@@ -2,6 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>AirbnbCereal_Black.otf</string>
+		<string>AirbnbCereal_Bold.otf</string>
+		<string>AirbnbCereal_Book.otf</string>
+		<string>AirbnbCereal_ExtraBold.otf</string>
+		<string>AirbnbCereal_Light.otf</string>
+		<string>AirbnbCereal_Medium.otf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
