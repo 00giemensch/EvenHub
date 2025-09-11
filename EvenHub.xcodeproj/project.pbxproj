@@ -52,6 +52,14 @@
 		BEE372292E72EE1B002C9178 /* EventDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		6E5FE8412E73197900104B1A /* Authentication Module */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Authentication Module";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		676E2BE32E6F36470074641F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -90,6 +98,7 @@
 				676E2C132E7097B20074641F /* SceneDelegate.swift */,
 				676E2C142E7097B20074641F /* ViewController.swift */,
 				6E5FE8112E730E6C00104B1A /* Supporting FIles */,
+				6E5FE8412E73197900104B1A /* Authentication Module */,
 			);
 			path = EvenHub;
 			sourceTree = "<group>";
@@ -152,6 +161,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				6E5FE8412E73197900104B1A /* Authentication Module */,
 			);
 			name = EvenHub;
 			packageProductDependencies = (

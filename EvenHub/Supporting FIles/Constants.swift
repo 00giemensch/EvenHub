@@ -65,6 +65,7 @@ class Constants {
             static let favoriteAdd = UIImage(named: "Icons/Common/common_favorite_add")
             static let favoriteEmpty = UIImage(named: "Icons/Common/common_favorite_empty")
             static let favoriteSelected = UIImage(named: "Icons/Common/common_favorite_selected")
+            static let arrowWhiteRight = UIImage(named: "Icons/Common/common_arrow_white_right")
         }
         
         //MARK: EventDetails Icons
