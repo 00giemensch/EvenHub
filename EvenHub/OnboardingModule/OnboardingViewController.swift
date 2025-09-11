@@ -11,8 +11,10 @@ class OnboardingViewController : UIViewController {
     enum Constants {
         static let skipTitle = "Skip"
         static let nextTitle = "Next"
-        static let titleLabelText = "Explore Upcoming and\nNearby Events"
+        static let titleLabelText = ["Explore Upcoming and\nNearby Events"," Web Have Modern Events\nCalendar Feature","  To Look Up More Events or\nActivities Nearby By Map"]
         static let detailLabelText = "In publishing and graphic design, Lorem is\na placeholder text commonly"
+        static let iphoneImages = ["iPhoneOne","iPhoneTwo", "iPhoneThree"]
+        static let blurImage = "mask"
     }
     
     let numberOfPages = 3
@@ -32,7 +34,7 @@ class OnboardingViewController : UIViewController {
         label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 22, weight: .medium)
         label.textAlignment = .center
-        label.text = Constants.titleLabelText
+        label.text = Constants.titleLabelText[0]
         label.numberOfLines = 0
         return label
     }()
@@ -70,9 +72,22 @@ class OnboardingViewController : UIViewController {
         for i in 0...2 {
             let indicator = UIView()
             indicator.backgroundColor = UIColor.white.withAlphaComponent(0.1)
-            indicator.layer.cornerRadius = 5
+            indicator.layer.cornerRadius = 4
             view.addArrangedSubview(indicator)
         }
+        return view
+    }()
+    
+    let sampleImageView : UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: Constants.iphoneImages[0])
+        return view
+    }()
+    
+    let blurImageView : UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: Constants.blurImage)
+        view.contentMode = .scaleAspectFill
         return view
     }()
     
@@ -88,10 +103,24 @@ class OnboardingViewController : UIViewController {
         }
     }
     
+    private func updateUI() {
+        DispatchQueue.main.async { [self] in
+            let newImage = UIImage(named: Constants.iphoneImages[currentPage])
+            UIView.transition(with: sampleImageView, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                self.sampleImageView.image = newImage
+            })
+            UIView.transition(with: titleLabel, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                self.titleLabel.text = Constants.titleLabelText[self.currentPage]
+            })
+            updatePageIndicators()
+        }
+    }
+    
     @objc private func nextButtonTapped(sender: UIButton) {
+        sender.buttonTappedAnimate()
         if currentPage < numberOfPages - 1 {
             currentPage += 1
-            updatePageIndicators()
+            updateUI()
         }
     }
     
@@ -110,12 +139,14 @@ class OnboardingViewController : UIViewController {
     
     private func setupViews() {
         view.backgroundColor = .white
+        view.addSubview(sampleImageView)
         view.addSubview(bottomView)
         bottomView.addSubview(titleLabel)
         bottomView.addSubview(detailLabel)
         bottomView.addSubview(skipButton)
         bottomView.addSubview(nextButton)
         bottomView.addSubview(indicatorStackView)
+        view.addSubview(blurImageView)
     }
     
     //MARK: - setConstraints
@@ -163,6 +194,24 @@ class OnboardingViewController : UIViewController {
             nextButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -40),
             nextButton.heightAnchor.constraint(equalToConstant: 34),
             nextButton.widthAnchor.constraint(equalToConstant: 38)
+        ])
+        
+        sampleImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            sampleImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            sampleImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 35),
+            sampleImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 54),
+            sampleImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -54),
+            sampleImageView.heightAnchor.constraint(equalToConstant: 540)
+        ])
+        
+        blurImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            blurImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            blurImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            blurImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            blurImageView.bottomAnchor.constraint(equalTo: bottomView.topAnchor),
+            
         ])
     }
 }
