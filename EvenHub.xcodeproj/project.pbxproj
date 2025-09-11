@@ -13,6 +13,11 @@
 		676E2C192E7097B20074641F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E2C142E7097B20074641F /* ViewController.swift */; };
 		676E2C1A2E7097B20074641F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 676E2C0E2E7097B20074641F /* Assets.xcassets */; };
 		676E2C1C2E7097B20074641F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 676E2C122E7097B20074641F /* LaunchScreen.storyboard */; };
+		BEE372222E72EAAE002C9178 /* ListDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372212E72EAAE002C9178 /* ListDTO.swift */; };
+		BEE372242E72EBAA002C9178 /* MovieDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372232E72EBAA002C9178 /* MovieDTO.swift */; };
+		BEE372262E72EC7D002C9178 /* TodayEventDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372252E72EC7D002C9178 /* TodayEventDTO.swift */; };
+		BEE372282E72EDF8002C9178 /* SearchEventDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372272E72EDF8002C9178 /* SearchEventDTO.swift */; };
+		BEE3722A2E72EE1B002C9178 /* EventDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372292E72EE1B002C9178 /* EventDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,11 @@
 		676E2C112E7097B20074641F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		676E2C132E7097B20074641F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		676E2C142E7097B20074641F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BEE372212E72EAAE002C9178 /* ListDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDTO.swift; sourceTree = "<group>"; };
+		BEE372232E72EBAA002C9178 /* MovieDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDTO.swift; sourceTree = "<group>"; };
+		BEE372252E72EC7D002C9178 /* TodayEventDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayEventDTO.swift; sourceTree = "<group>"; };
+		BEE372272E72EDF8002C9178 /* SearchEventDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEventDTO.swift; sourceTree = "<group>"; };
+		BEE372292E72EE1B002C9178 /* EventDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +66,7 @@
 		676E2C152E7097B20074641F /* EvenHub */ = {
 			isa = PBXGroup;
 			children = (
+				BEE372202E72EA95002C9178 /* DTO */,
 				676E2C0D2E7097B20074641F /* AppDelegate.swift */,
 				676E2C0E2E7097B20074641F /* Assets.xcassets */,
 				676E2C1D2E7097B70074641F /* EventDetails */,
@@ -73,6 +84,18 @@
 				676E2C0F2E7097B20074641F /* EventDetailsVC.swift */,
 			);
 			path = EventDetails;
+			sourceTree = "<group>";
+		};
+		BEE372202E72EA95002C9178 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				BEE372212E72EAAE002C9178 /* ListDTO.swift */,
+				BEE372232E72EBAA002C9178 /* MovieDTO.swift */,
+				BEE372252E72EC7D002C9178 /* TodayEventDTO.swift */,
+				BEE372272E72EDF8002C9178 /* SearchEventDTO.swift */,
+				BEE372292E72EE1B002C9178 /* EventDTO.swift */,
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,7 +174,12 @@
 				676E2C162E7097B20074641F /* AppDelegate.swift in Sources */,
 				676E2C172E7097B20074641F /* EventDetailsVC.swift in Sources */,
 				676E2C182E7097B20074641F /* SceneDelegate.swift in Sources */,
+				BEE3722A2E72EE1B002C9178 /* EventDTO.swift in Sources */,
 				676E2C192E7097B20074641F /* ViewController.swift in Sources */,
+				BEE372242E72EBAA002C9178 /* MovieDTO.swift in Sources */,
+				BEE372222E72EAAE002C9178 /* ListDTO.swift in Sources */,
+				BEE372282E72EDF8002C9178 /* SearchEventDTO.swift in Sources */,
+				BEE372262E72EC7D002C9178 /* TodayEventDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
