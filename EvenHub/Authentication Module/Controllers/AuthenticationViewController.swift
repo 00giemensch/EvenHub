@@ -22,17 +22,32 @@ class AuthenticationViewController: UIViewController {
     private let appLabel: UILabel = {
         let appLabel = UILabel()
         appLabel.translatesAutoresizingMaskIntoConstraints = false
-        appLabel.font = UIFont(name: Constants.Fonts.bold, size: 50)
-        appLabel.text = Constants.appName
-//        appLabel.attributedText = Constants.Fonts.attributedString(for: Constants.appName, font: Constants.Fonts.bold, fontSize: 50, lineHeigh: 72)
+        appLabel.attributedText = Constants.Fonts.attributedString(for: Constants.appName, font: Constants.Fonts.medium, fontSize: 35)
         return appLabel
+    }()
+    
+    private let signInLabel: UILabel = {
+        let signInLabel = UILabel()
+        signInLabel.translatesAutoresizingMaskIntoConstraints = false
+        signInLabel.attributedText = Constants.Fonts.attributedString(for: "Sign in", font: Constants.Fonts.medium, fontSize: 24)
+        return signInLabel
     }()
     
     private let loginTextField: AuthenticationTextField = {
        let loginTextField = AuthenticationTextField()
-        loginTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: Constants.passwordPlaceholder, font: Constants.Fonts.book, fontSize: 14, lineHeigh: 23)
-        loginTextField.updateImage(image: Constants.Icons.Authentication.mail!)
+        loginTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: Constants.loginPlaceholder, font: Constants.Fonts.book, fontSize: 14)
+        loginTextField.updateLeftImage(image: Constants.Icons.Authentication.mail!)
+        loginTextField.keyboardType = .emailAddress
         return loginTextField
+    }()
+    
+    private let passwordTextField: AuthenticationSecureTextField = {
+       let passwordTextField = AuthenticationSecureTextField()
+        passwordTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: Constants.passwordPlaceholder, font: Constants.Fonts.book, fontSize: 14)
+//        passwordTextField.updateLeftImage(image: Constants.Icons.Authentication.password!)
+//        passwordTextField.isSecureTextEntry = true
+//        passwordTextField.rightViewMode = .always
+        return passwordTextField
     }()
     
     override func viewDidLoad() {
@@ -41,11 +56,12 @@ class AuthenticationViewController: UIViewController {
     }
     
     func setupUI() {
+        
         view.backgroundColor = Constants.Colors.PrimaryBlue.blue0
         view.addSubview(eventHubImage)
         NSLayoutConstraint.activate([
-            eventHubImage.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -77),
-            eventHubImage.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -296),
+            eventHubImage.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -view.bounds.width / 5),
+            eventHubImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             eventHubImage.widthAnchor.constraint(equalToConstant: 56),
             eventHubImage.heightAnchor.constraint(equalToConstant: 58)
         ])
@@ -53,9 +69,32 @@ class AuthenticationViewController: UIViewController {
         view.addSubview(appLabel)
         NSLayoutConstraint.activate([
             appLabel.centerXAnchor.constraint(equalTo: eventHubImage.centerXAnchor),
-            appLabel.centerYAnchor.constraint(equalTo: eventHubImage.centerYAnchor, constant: 61),
-            appLabel.widthAnchor.constraint(equalToConstant: 150),
-            appLabel.heightAnchor.constraint(equalToConstant: 48)
+            appLabel.heightAnchor.constraint(equalToConstant: 48),
+            appLabel.topAnchor.constraint(equalTo: eventHubImage.bottomAnchor)
         ])
+        
+        view.addSubview(signInLabel)
+        NSLayoutConstraint.activate([
+            signInLabel.topAnchor.constraint(equalTo: appLabel.bottomAnchor,constant: 29),
+            signInLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 29),
+            signInLabel.heightAnchor.constraint(equalToConstant: 29)
+        ])
+        
+        view.addSubview(loginTextField)
+        NSLayoutConstraint.activate([
+            loginTextField.topAnchor.constraint(equalTo: signInLabel.bottomAnchor,constant: 22),
+            loginTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
+            loginTextField.heightAnchor.constraint(equalToConstant: 56),
+            loginTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30)
+        ])
+        
+        view.addSubview(passwordTextField)
+        NSLayoutConstraint.activate([
+            passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor,constant: 22),
+            passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
+            passwordTextField.heightAnchor.constraint(equalToConstant: 56),
+            passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30)
+        ])
+        
     }
 }
