@@ -171,12 +171,12 @@ class Constants {
     
     // MARK: - Fonts
     struct Fonts {
-        static let book = "AirbnbCereal-Book"
-        static let bold = "AirbnbCereal-Bold"
-        static let black = "AirbnbCereal-Black"
-        static let extraBold = "AirbnbCereal-ExtraBold"
-        static let light = "AirbnbCereal-Light"
-        static let medium = "AirbnbCereal-Medium"
+        static let book = "AirbnbCereal_Book"
+        static let bold = "AirbnbCereal_Bold"
+        static let black = "AirbnbCereal_Black"
+        static let extraBold = "AirbnbCereal_ExtraBold"
+        static let light = "AirbnbCereal_Light"
+        static let medium = "AirbnbCereal_Medium"
         
         static func attributedString(for text: String, font: String, fontSize: CGFloat, lineHeigh: CGFloat, letterSpacing: CGFloat = 0) -> NSAttributedString {
             let paragraphStyle = NSMutableParagraphStyle()
@@ -185,7 +185,7 @@ class Constants {
             
             let attributes: [NSAttributedString.Key: Any] = [
                 .paragraphStyle: paragraphStyle,
-                .font: UIFont(name: font, size: fontSize) as Any,
+                .font: UIFont(name: font, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize),
                 .kern: letterSpacing
             ]
             
