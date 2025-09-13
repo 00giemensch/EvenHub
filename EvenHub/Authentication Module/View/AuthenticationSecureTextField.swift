@@ -20,15 +20,14 @@ class AuthenticationSecureTextField: AuthenticationTextField {
         toggleButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
         return toggleButton
     }()
-    
-    
+
     private func setup() {
         rightView = toggleButton
         rightViewMode = .always
         isSecureTextEntry = true
         updateLeftImage(image: Constants.Icons.Authentication.password!)
     }
-    //FIX: Если стоять в логине и нажимать кнопку - ничего не происходит
+    //FIXME: Если стоять в логине и нажимать кнопку - ничего не происходит
     
     @objc func togglePasswordVisibility(_ sender: UIButton) {
         isSecureTextEntry.toggle()

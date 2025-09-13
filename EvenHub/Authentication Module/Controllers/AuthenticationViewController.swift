@@ -44,10 +44,37 @@ class AuthenticationViewController: UIViewController {
     private let passwordTextField: AuthenticationSecureTextField = {
        let passwordTextField = AuthenticationSecureTextField()
         passwordTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: Constants.passwordPlaceholder, font: Constants.Fonts.book, fontSize: 14)
-//        passwordTextField.updateLeftImage(image: Constants.Icons.Authentication.password!)
-//        passwordTextField.isSecureTextEntry = true
-//        passwordTextField.rightViewMode = .always
         return passwordTextField
+    }()
+    
+    private let rememberMeSwitch: UISwitch = {
+        let rememberMeSwitch = UISwitch()
+        rememberMeSwitch.translatesAutoresizingMaskIntoConstraints = false
+        rememberMeSwitch.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        rememberMeSwitch.isOn = false
+        rememberMeSwitch.preferredStyle = .sliding
+        rememberMeSwitch.onTintColor = Constants.Colors.PrimaryBlue.blue40
+        return rememberMeSwitch
+    }()
+    
+    private let rememberMeLabel: UILabel = {
+        let rememberMeLabel = UILabel()
+        rememberMeLabel.translatesAutoresizingMaskIntoConstraints = false
+        rememberMeLabel.attributedText = Constants.Fonts.attributedString(for: "Remember Me", font: Constants.Fonts.book, fontSize: 14)
+        rememberMeLabel.textColor = Constants.Colors.TypographyColor.typographyColor50
+        return rememberMeLabel
+    }()
+    
+    private let recoverPasswordButton: UIButton = {
+        let recoverPasswordButton = UIButton()
+        recoverPasswordButton.translatesAutoresizingMaskIntoConstraints = false
+        recoverPasswordButton.setAttributedTitle(Constants.Fonts.attributedString(for: "Forgot Password?", font: Constants.Fonts.book, fontSize: 14), for: .normal)
+        return recoverPasswordButton
+    }()
+    
+    private let signInButton: AuthenticationButton = {
+        let signInButton = AuthenticationButton(config: .init(title: "SIGN IN", spacing: 14))
+        return signInButton
     }()
     
     override func viewDidLoad() {
@@ -96,5 +123,32 @@ class AuthenticationViewController: UIViewController {
             passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30)
         ])
         
+        view.addSubview(rememberMeSwitch)
+        NSLayoutConstraint.activate([
+            rememberMeSwitch.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
+            rememberMeSwitch.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 22)
+        ])
+        
+        view.addSubview(rememberMeLabel)
+        NSLayoutConstraint.activate([
+            rememberMeLabel.leadingAnchor.constraint(equalTo: rememberMeSwitch.trailingAnchor, constant: 25),
+            rememberMeLabel.centerYAnchor.constraint(equalTo: rememberMeSwitch.centerYAnchor),
+            rememberMeLabel.heightAnchor.constraint(equalToConstant: 20)
+        ])
+        
+        view.addSubview(recoverPasswordButton)
+        NSLayoutConstraint.activate([
+            recoverPasswordButton.centerYAnchor.constraint(equalTo: rememberMeSwitch.centerYAnchor),
+            recoverPasswordButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -29),
+            recoverPasswordButton.heightAnchor.constraint(equalToConstant: 20)
+        ])
+        
+        view.addSubview(signInButton)
+        NSLayoutConstraint.activate([
+            signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 52),
+            signInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 73),
+            signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -52),
+            signInButton.heightAnchor.constraint(equalToConstant: 58)
+        ])
     }
 }
