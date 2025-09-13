@@ -20,7 +20,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     //MARK: - UI Components
     private let eventImageView = UIImageView()
     private let favoriteButton = UIButton()
-    private let dateLabel = UILabel()
+    private let dateLabel = ExploreCellDateView()
     private let avatarsHStack = UIStackView()
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
@@ -38,7 +38,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         titleLabel.text = nil
         subtitleLabel.attributedText = nil
         eventImageView.image = UIImage(systemName: "photo.artframe")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
-        dateLabel.attributedText = nil
+        dateLabel.removeText()
         avatarsHStack.subviews.forEach { $0.removeFromSuperview() }
         isAddedInFavorite = false
     }
@@ -48,7 +48,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         let image = UIImage(systemName: "photo.artframe")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
         eventImageView.image = image
         titleLabel.text = "Title text fot testing textLabel"
-        dateLabel.attributedText = createDateAttributedString(day: "10", month: "june")
+        dateLabel.setDate(day: "10", month: "September")
         fillingHStack(URLs: ["person.circle","person.circle","person.circle","person.circle","person.circle"])
         subtitleLabel.attributedText = setupSubtitleAttributedString(place: "Subtitle text for subtitle lable")
     }
@@ -63,33 +63,17 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     }
     
     //MARK: - Support UI methods
-    private func createDateAttributedString(day: String, month: String) -> NSAttributedString {
-        let dateStr = NSMutableAttributedString()
-        let dayAttributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: 18),
-            .foregroundColor: UIColor.red
-        ]
-        let monthAttributes : [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: 12),
-            .foregroundColor: UIColor.blue,
-        ]
-        dateStr.append(NSAttributedString(string: day, attributes: dayAttributes))
-        dateStr.append(NSAttributedString("\n"))
-        dateStr.append(NSAttributedString(string: month.uppercased(), attributes: monthAttributes))
-        
-        return dateStr
-    }
     private func setupSubtitleAttributedString(place: String) -> NSAttributedString {
         let subtitleText = NSMutableAttributedString()
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: 14),
-            .foregroundColor: UIColor.lightGray
+            .font: UIFont(name: Constants.Fonts.light, size: 13) ?? .systemFont(ofSize: 13, weight: .light),
+            .foregroundColor: Constants.Colors.TypographyColor.typographyColor30 ?? .systemGray3
         ]
         let attachment = NSTextAttachment()
-        attachment.image = UIImage(systemName: "location.north.fill")?.applyingSymbolConfiguration(.init(pointSize: 15))?.withTintColor(.lightGray, renderingMode: .alwaysTemplate)
+        attachment.image = UIImage(resource: .mapEventLocation)
         let imageString = NSAttributedString(attachment: attachment)
         subtitleText.append(imageString)
-        subtitleText.append(NSAttributedString(string: place, attributes: attributes))
+        subtitleText.append(NSAttributedString(string: " " + place, attributes: attributes))
         
         return subtitleText
     }
@@ -122,9 +106,14 @@ class ExploreCollectionViewCell: UICollectionViewCell {
             }
             let count = URLs.count - 3
             let avatarsCountLabel = UILabel()
-            avatarsCountLabel.text = "+\(count) Going"
-            avatarsCountLabel.font = .systemFont(ofSize: 13, weight: .regular)
-            avatarsCountLabel.textColor = .systemBlue
+            let text = "+\(count) Going"
+            let countText = NSMutableAttributedString()
+            let attributes: [NSAttributedString.Key: Any] = [
+                .font: UIFont(name: Constants.Fonts.medium, size: 13) ?? UIFont.systemFont(ofSize: 13),
+                .foregroundColor: UIColor(resource: .blue50)
+            ]
+            countText.append(NSAttributedString(string: text, attributes: attributes))
+            avatarsCountLabel.attributedText = countText
             avatarsCountLabel.translatesAutoresizingMaskIntoConstraints = false
             avatarsHStack.addArrangedSubview(avatarsCountLabel)
             avatarsHStack.setCustomSpacing(10, after: avatarsHStack.subviews[2])
@@ -144,7 +133,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Setup Layout
     private func setupCell() {
-        contentView.backgroundColor = .systemGray3
+        contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 12
         setupEventImageView()
         setupTitleLabel()
@@ -154,7 +143,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         setupSubtitleLabel()
     }
     private func setupEventImageView() {
-        eventImageView.backgroundColor = .systemGray5
+        eventImageView.backgroundColor = .backgroundGray
         eventImageView.layer.cornerRadius = 16
         let image = UIImage(systemName: "photo.artframe")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
         eventImageView.image = image
@@ -179,7 +168,8 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     }
     private func setupTitleLabel() {
         contentView.addSubview(titleLabel)
-        titleLabel.font = .boldSystemFont(ofSize: 18)
+        titleLabel.font = UIFont(name: Constants.Fonts.bold, size: 18)
+        titleLabel.textColor = UIColor(resource: .color50)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -190,9 +180,9 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     }
     private func setupFavoriteButton() {
         contentView.addSubview(favoriteButton)
-        favoriteButton.backgroundColor = .white
+        favoriteButton.backgroundColor = .white.withAlphaComponent(0.7)
         favoriteButton.layer.cornerRadius = 7
-        let image = UIImage(systemName: "bookmark.fill")?.withRenderingMode(.alwaysTemplate)
+        let image = UIImage(resource: .favorite).withRenderingMode(.alwaysTemplate)
         favoriteButton.setImage(image, for: .normal)
         fillingBookmark()
         favoriteButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
@@ -208,8 +198,6 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(dateLabel)
         dateLabel.layer.backgroundColor = UIColor.white.cgColor
         dateLabel.layer.cornerRadius = 10
-        dateLabel.numberOfLines = 2
-        dateLabel.textAlignment = .center
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([

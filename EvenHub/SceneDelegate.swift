@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         
         self.window = UIWindow(windowScene: scene)
-        self.window?.rootViewController = EventDetailsVC() //Missing argument for parameter 'coder' in call
+        self.window?.rootViewController = ExploreViewController() //Missing argument for parameter 'coder' in call
         self.window?.makeKeyAndVisible()
     }
 

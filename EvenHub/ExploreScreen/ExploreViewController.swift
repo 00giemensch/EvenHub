@@ -25,8 +25,8 @@ class ExploreViewController: UIViewController {
     //MARK: - Lifecycle
     override func loadView() {
         super.loadView()
-        view.backgroundColor = .systemGray5
-        createBezier(on: view, withColor: .systemBlue)
+        view.backgroundColor = .backgroundGray
+        createBezier(on: view, withColor: Constants.Colors.Background.backgroundBlue)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,12 +121,12 @@ class ExploreViewController: UIViewController {
     
     private func setupCollectionView() {
         view.addSubview(exploreCollectionView)
+        exploreCollectionView.backgroundColor = .clear
         exploreCollectionView.delegate = self
         exploreCollectionView.showsHorizontalScrollIndicator = false
         exploreCollectionView.register(ExploreCollectionViewCell.self, forCellWithReuseIdentifier: ExploreCollectionViewCell.cellId)
         exploreCollectionView.register(ExploreCollectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ExploreCollectionHeader.reuseID)
         exploreCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        exploreCollectionView.backgroundColor = .systemGreen
         
         NSLayoutConstraint.activate([
             exploreCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: view.frame.height * 0.17),
