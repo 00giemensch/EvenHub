@@ -32,7 +32,8 @@ class ExploreCollectionHeader: UICollectionReusableView {
            action()
        }
     func setTitle(_ title: String) {
-        self.titleLabel.text = title
+        let text = Constants.Fonts.attributedString(for: title, font: Constants.Fonts.medium, fontSize: 18)
+        self.titleLabel.attributedText = text
     }
     //MARK: - Setup Layout
     private func setupLayout() {
@@ -41,8 +42,9 @@ class ExploreCollectionHeader: UICollectionReusableView {
     }
     private func setupSeeAllButton() {
         self.addSubview(seeAllButton)
-        seeAllButton.setTitle("SeeAll", for: .normal)
-        seeAllButton.setTitleColor(.gray, for: .normal)
+        let title = Constants.Fonts.attributedString(for: "SeeAll", font: Constants.Fonts.light, fontSize: 16)
+        seeAllButton.setAttributedTitle(title, for: .normal)
+        seeAllButton.setTitleColor(Constants.Colors.TypographyColor.typographyColor30, for: .normal)
         seeAllButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         seeAllButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -53,14 +55,11 @@ class ExploreCollectionHeader: UICollectionReusableView {
     }
     private func setupTitleLabel() {
         self.addSubview(titleLabel)
-        titleLabel.text = "ExploreCollectionHeader title "
+        titleLabel.textColor = Constants.Colors.TypographyColor.typographyColor50
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-//            titleLabel.topAnchor.constraint(equalTo: self.topAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-           // titleLabel.trailingAnchor.constraint(equalTo: seeAllButton.leadingAnchor),
-//            titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
 }
