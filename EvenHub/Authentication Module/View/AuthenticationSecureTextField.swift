@@ -17,7 +17,7 @@ class AuthenticationSecureTextField: AuthenticationTextField {
         toggleButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
         toggleButton.setImage(Constants.Icons.Authentication.passwordHidden, for: .normal)
         toggleButton.tintColor = Constants.Colors.TypographyColor.typographyColor10
-        toggleButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
+        
         return toggleButton
     }()
 
@@ -26,12 +26,12 @@ class AuthenticationSecureTextField: AuthenticationTextField {
         rightViewMode = .always
         isSecureTextEntry = true
         updateLeftImage(image: Constants.Icons.Authentication.password!)
+        toggleButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
     }
-    //FIXME: Если стоять в логине и нажимать кнопку - ничего не происходит
     
     @objc func togglePasswordVisibility(_ sender: UIButton) {
         isSecureTextEntry.toggle()
-        sender.setImage(isSecureTextEntry ? Constants.Icons.Authentication.passwordHidden : UIImage(systemName: "eye"), for: .normal)
+        sender.setImage(isSecureTextEntry ? Constants.Icons.Authentication.passwordHidden : Constants.Icons.Authentication.passwordNotHidden, for: .normal)
         let existingText = text
         text = nil
         text = existingText

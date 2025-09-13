@@ -11,7 +11,7 @@ class AuthenticationTextField: UITextField {
         setup()
     }
     
-    var textInsets = UIEdgeInsets(top: 20, left: 51, bottom: 20, right: 10)
+    var textInsets = UIEdgeInsets(top: 10, left: 51, bottom: 10, right: 10)
     var leftViewPadding: CGFloat = 16
     var rightViewPadding: CGFloat = 16
     
@@ -20,17 +20,7 @@ class AuthenticationTextField: UITextField {
         imageView.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
         return imageView
     }()
-    
-//    private let toggleButton: UIButton = {
-//        let toggleButton = UIButton()
-//        toggleButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
-//        toggleButton.setImage(Constants.Icons.Authentication.passwordHidden, for: .normal)
-//        toggleButton.tintColor = Constants.Colors.TypographyColor.typographyColor10
-//        toggleButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
-//        return toggleButton
-//    }()
-    
-    
+
     private func setup() {
         translatesAutoresizingMaskIntoConstraints = false
         borderStyle = .none
@@ -40,7 +30,6 @@ class AuthenticationTextField: UITextField {
         layer.borderColor = Constants.Colors.TypographyColor.typographyColor10?.cgColor
         
         leftView = imageView
-//        rightView = toggleButton
         leftViewMode = .always
     }
     
@@ -71,9 +60,4 @@ class AuthenticationTextField: UITextField {
         rect.origin.x -= rightViewPadding
         return rect
     }
-    
-//    @objc func togglePasswordVisibility(_ sender: UIButton) {
-//        isSecureTextEntry.toggle()
-//        sender.setImage(isSecureTextEntry ? Constants.Icons.Authentication.passwordHidden : UIImage(systemName: "eye"), for: .normal)
-//    }
 }

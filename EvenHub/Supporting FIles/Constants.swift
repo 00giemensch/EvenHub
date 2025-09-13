@@ -23,6 +23,7 @@ class Constants {
             static let black = UIColor(named: "background_black")
             static let gray = UIColor(named: "background_gray")
             static let secondBlack = UIColor(named: "background_secondBlack")
+            static let white: UIColor = .white
         }
         
         struct PrimaryBlue {
@@ -58,9 +59,12 @@ class Constants {
         
         //MARK: Autentication Icons
         struct Authentication {
+            static let arrowIcon = UIImage(named: "authentication_arrowIcon")
             static let eventHub = UIImage(named: "authentication_eventHubImage")
+            static let googleIcon = UIImage(named: "authentication_google")
             static let mail = UIImage(named: "authentication_mail")
             static let passwordHidden = UIImage(named: "authentication_password_hidden")
+            static let passwordNotHidden = UIImage(systemName: "eye")
             static let password = UIImage(named: "authentication_password")
             static let profile = UIImage(named: "authentication_profile")
         }
