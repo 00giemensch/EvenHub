@@ -65,9 +65,9 @@
 			path = OnboardingModule;
 			sourceTree = "<group>";
 		};
-		9FE3FA202E75F02A00344DEF /* Extentions */ = {
+		9FE3FA202E75F02A00344DEF /* Extension */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Extentions;
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -142,7 +142,7 @@
 			children = (
 				6E5FE80C2E730E6C00104B1A /* Fonts */,
 				6E5FE80D2E730E6C00104B1A /* Assets.xcassets */,
-				9FE3FA202E75F02A00344DEF /* Extentions */,
+				9FE3FA202E75F02A00344DEF /* Extension */,
 				6E5FE80E2E730E6C00104B1A /* Constants.swift */,
 				6E5FE8102E730E6C00104B1A /* LaunchScreen.storyboard */,
 			);
@@ -197,7 +197,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				1B540A1A2E730ED600E9C3F3 /* OnboardingModule */,
-				9FE3FA202E75F02A00344DEF /* Extentions */,
+				9FE3FA202E75F02A00344DEF /* Extension */,
 			);
 			name = EvenHub;
 			packageProductDependencies = (

@@ -23,6 +23,7 @@ class Constants {
             static let black = UIColor(named: "background_black")
             static let gray = UIColor(named: "background_gray")
             static let secondBlack = UIColor(named: "background_secondBlack")
+            static let backgroundBlue = UIColor().hex(0x4A43EC)
         }
         
         struct PrimaryBlue {
