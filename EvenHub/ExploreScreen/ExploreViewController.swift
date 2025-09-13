@@ -25,7 +25,7 @@ class ExploreViewController: UIViewController {
     //MARK: - Lifecycle
     override func loadView() {
         super.loadView()
-        view.backgroundColor = .backgroundGray
+        view.backgroundColor = Constants.Colors.Background.exploreBackground
         createBezier(on: view, withColor: Constants.Colors.Background.backgroundBlue)
     }
     override func viewDidLoad() {
@@ -97,9 +97,9 @@ class ExploreViewController: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
         section.contentInsets = NSDirectionalEdgeInsets(
-            top: 18,
+            top: 8,
             leading: 16,
-            bottom: 16,
+            bottom: 8,
             trailing: 16
         )
         section.interGroupSpacing = 16
