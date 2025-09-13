@@ -7,17 +7,24 @@
 
 import UIKit
 
+enum EventImage {
+    case local(name: String)
+    case remote(url: String)
+}
+
 struct Items: Identifiable {
     var id = UUID().uuidString
-    let image: String
+    let image: EventImage
     let title: String
     let subtitle: String
     
+    
+    
     static func mockData() -> [Items] {
         return [
-            Items(image: "", title: "14 December, 2021", subtitle: "Tuesday, 4:00PM - 9:00PM"), //Cannot convert return expression of type 'Items' to return type '[Items]'
-            Items(image: "", title: "Gala Convention Center", subtitle: "36 Guild Street London, UK "),
-            Items(image: "", title: "Ashfak Sayem", subtitle: "Organizer")
+            Items(image: .local(name: "eventDetails_date"), title: "14 December, 2021", subtitle: "Tuesday, 4:00PM - 9:00PM"),
+            Items(image: .local(name: "eventDetails_location"), title: "Gala Convention Center", subtitle: "36 Guild Street London, UK "),
+            Items(image: .local(name: ""), title: "Ashfak Sayem", subtitle: "Organizer")
         ]
     }
 }
@@ -54,6 +61,8 @@ class EventDetailsVC: UIViewController {
     lazy var scrollContentView: UIView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.addSubview(headerImg)
+        $0.addSubview(shareBtn)
+        $0.addSubview(favBtn)
         $0.addSubview(titleLbl)
         $0.addSubview(tableView)
         $0.addSubview(subtitleLbl)
@@ -70,7 +79,31 @@ class EventDetailsVC: UIViewController {
         return $0
     }(UIImageView())
     
-    lazy var titleLbl: UILabel = {
+    lazy var shareBtn: UIButton = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        $0.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        $0.contentMode = .scaleAspectFill
+        $0.backgroundColor = #colorLiteral(red: 0.3437280655, green: 0.3569303751, blue: 0.3902622461, alpha: 1)
+        $0.setImage(UIImage(named: "eventDetails_share"), for: .normal)
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 12
+        return $0
+    }(UIButton())
+    
+    lazy var favBtn: UIButton = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        $0.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        $0.contentMode = .scaleAspectFill
+        $0.backgroundColor = #colorLiteral(red: 0.3437280655, green: 0.3569303751, blue: 0.3902622461, alpha: 1)
+        $0.setImage(UIImage(named: "common_favorite_add"), for: .normal)
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 12
+        return $0
+    }(UIButton())
+    
+    let titleLbl: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "International Band Music Concert"
         $0.font = .systemFont(ofSize: 35, weight: .regular)
@@ -79,16 +112,16 @@ class EventDetailsVC: UIViewController {
         return $0
     }(UILabel())
     
-    lazy var subtitleLbl: UILabel = {
+    let subtitleLbl: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "About Event"
-        $0.font = .systemFont(ofSize: 20, weight: .regular)
+        $0.font = .systemFont(ofSize: 18, weight: .medium)
         $0.numberOfLines = 0
         $0.textColor = .black
         return $0
     }(UILabel())
     
-    lazy var subtitleContentLbl: UILabel = {
+    let subtitleContentLbl: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "Place eggs in a saucepan and cover with cold water. Bring water to a boil and immediately remove from heat. Cover and let eggs stand in hot water for 10 to 12 minutes. Remove from hot water, cool, peel, and chop.Place chopped eggs in a bowl.Add chopped tomatoes, corns, lettuce, and any other vegitable of your choice.Stir in mayonnaise, green onion, and mustard. Season with paprika, salt, and pepper.Stir and serve on your favorite bread or crackers."
         $0.font = .systemFont(ofSize: 16, weight: .regular)
@@ -102,7 +135,7 @@ class EventDetailsVC: UIViewController {
         $0.delegate = self
         $0.register(EventDetailsCell.self, forCellReuseIdentifier: "EventDetailsCell")
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.rowHeight = 90
+        $0.rowHeight = 80
         $0.separatorStyle = .none
         $0.isScrollEnabled = false
         $0.backgroundColor = .red
@@ -117,7 +150,7 @@ class EventDetailsVC: UIViewController {
         view.backgroundColor = .white
         view.addSubview(scrollView)
         setupConstr()
-        configureUI() //Thread 1: Fatal error: Unexpectedly found nil while implicitly unwrapping an Optional value
+        configureUI()
     }
     
     // MARK: - Configure
@@ -148,25 +181,28 @@ class EventDetailsVC: UIViewController {
                 headerImg.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor),
                 headerImg.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor),
                 
+                shareBtn.trailingAnchor.constraint(equalTo: headerImg.trailingAnchor, constant: -13),
+                shareBtn.bottomAnchor.constraint(equalTo: headerImg.bottomAnchor, constant: -13),
+                
+                favBtn.trailingAnchor.constraint(equalTo: headerImg.trailingAnchor, constant: -13),
+                favBtn.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor, constant: 13),
+                
+                
                 titleLbl.topAnchor.constraint(equalTo: headerImg.bottomAnchor, constant: 50),
                 titleLbl.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor, constant: 24),
                 titleLbl.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor, constant: -24),
-                
 
                 tableView.topAnchor.constraint(equalTo: titleLbl.bottomAnchor, constant: 8),
                 tableView.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor, constant: 16),
                 tableView.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor, constant: -16),
-//                tableView.bottomAnchor.constraint(equalTo: scrollContentView.bottomAnchor, constant: -115),
                 
                 subtitleLbl.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 21),
                 subtitleLbl.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor, constant: 24),
-//                subtitleLbl.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor, constant: -24),
-                
+
                 subtitleContentLbl.topAnchor.constraint(equalTo: subtitleLbl.bottomAnchor, constant: 21),
                 subtitleContentLbl.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor, constant: 24),
                 subtitleContentLbl.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor, constant: -24),
                 subtitleContentLbl.bottomAnchor.constraint(equalTo: scrollContentView.bottomAnchor, constant: -50),
-                
                 
             ])
         
@@ -184,15 +220,16 @@ extension EventDetailsVC: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        //
-        cell.configure(with: self.itemsData[indexPath.row])
+        
+        let item = itemsData[indexPath.row]
+        cell.configure(with: item)
         cell.selectionStyle = .none
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         itemsData.count
-        //recipe.extendedIngredients.count
     }
 }
 
