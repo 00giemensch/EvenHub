@@ -15,7 +15,7 @@ class AuthenticationGoogleLogin: UIButton {
     private func setupStyle() {
         var configuration = UIButton.Configuration.filled()
         configuration.title = "Login with Google"
-        configuration.baseBackgroundColor = Constants.Colors.Background.white
+        configuration.baseBackgroundColor = Constants.Colors.Background.googleButton
         configuration.baseForegroundColor =
         Constants.Colors.TypographyColor.typographyColor50
         if let icon = Constants.Icons.Authentication.googleIcon {

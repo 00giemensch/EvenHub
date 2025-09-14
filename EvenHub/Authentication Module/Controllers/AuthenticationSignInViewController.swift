@@ -1,13 +1,6 @@
-//
-//  AutenticationViewController.swift
-//  EvenHub
-//
-//  Created by Aliaksandr Zuyeu on 8.09.25.
-//
-
 import UIKit
 
-class AuthenticationViewController: UIViewController {
+class AuthenticationSignInViewController: UIViewController {
     
     var account: AuthenticationModel?
     
@@ -123,7 +116,7 @@ class AuthenticationViewController: UIViewController {
     //MARK: - Methods
     func setupUI() {
         
-        view.backgroundColor = Constants.Colors.Background.gray //PrimaryBlue.blue0
+        view.backgroundColor = Constants.Colors.Background.white
         
         view.addSubview(eventHubImage)
         NSLayoutConstraint.activate([
@@ -260,5 +253,7 @@ class AuthenticationViewController: UIViewController {
     
     @objc private func signUpPressed(_ sender: UIButton) {
         //Navigation to SignUp VC
+        print("pressed")
+        navigationController?.pushViewController(AutenticationSignUpViewController(), animated: true)
     }
 }
