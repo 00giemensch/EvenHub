@@ -85,11 +85,22 @@ class EventDetailsVC: UIViewController {
         $0.widthAnchor.constraint(equalToConstant: 40).isActive = true
         $0.contentMode = .scaleAspectFill
         $0.backgroundColor = #colorLiteral(red: 0.3437280655, green: 0.3569303751, blue: 0.3902622461, alpha: 1)
-        $0.setImage(UIImage(named: "eventDetails_share"), for: .normal)
+        $0.setImage(UIImage(named: "eventDetails_share")?.withRenderingMode(.alwaysOriginal), for: .normal)
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 12
         return $0
-    }(UIButton())
+    }(UIButton(primaryAction: action))
+    
+    lazy var action = UIAction { [weak self] _ in
+        let secondVC = ShareVC()
+        secondVC.modalPresentationStyle = .pageSheet
+        if let sheet = secondVC.sheetPresentationController {
+            sheet.detents = [.custom { _ in 350 }]
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 35
+        }
+        self?.present(secondVC, animated: true)
+    }
     
     lazy var favBtn: UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
