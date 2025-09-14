@@ -20,6 +20,10 @@
 		6E5FEA702E74666600104B1A /* AirbnbCereal_W_Blk.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6E5FEA692E74666600104B1A /* AirbnbCereal_W_Blk.otf */; };
 		6E5FEA712E74666600104B1A /* AirbnbCereal_W_Md.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6E5FEA6B2E74666600104B1A /* AirbnbCereal_W_Md.otf */; };
 		6E5FEA722E74666600104B1A /* AirbnbCereal_W_XBd.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6E5FEA6C2E74666600104B1A /* AirbnbCereal_W_XBd.otf */; };
+		9FE3F9D32E75C8C800344DEF /* ExploreCollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3F9CE2E75C8C800344DEF /* ExploreCollectionHeader.swift */; };
+		9FE3F9D42E75C8C800344DEF /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3F9D12E75C8C800344DEF /* ExploreViewController.swift */; };
+		9FE3F9D52E75C8C800344DEF /* ExploreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3F9CF2E75C8C800344DEF /* ExploreCollectionViewCell.swift */; };
+		9FE3FA3A2E75F81300344DEF /* ExploreCellDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3FA392E75F81300344DEF /* ExploreCellDateView.swift */; };
 		BEE372222E72EAAE002C9178 /* ListDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372212E72EAAE002C9178 /* ListDTO.swift */; };
 		BEE372242E72EBAA002C9178 /* MovieDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372232E72EBAA002C9178 /* MovieDTO.swift */; };
 		BEE372262E72EC7D002C9178 /* TodayEventDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372252E72EC7D002C9178 /* TodayEventDTO.swift */; };
@@ -35,12 +39,6 @@
 		676E2C132E7097B20074641F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		676E2C142E7097B20074641F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		67BFCC062E748562003B13A9 /* EventDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsCell.swift; sourceTree = "<group>"; };
-		6E5FE8062E730E6C00104B1A /* AirbnbCereal_Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCereal_Black.otf; sourceTree = "<group>"; };
-		6E5FE8072E730E6C00104B1A /* AirbnbCereal_Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCereal_Bold.otf; sourceTree = "<group>"; };
-		6E5FE8082E730E6C00104B1A /* AirbnbCereal_Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCereal_Book.otf; sourceTree = "<group>"; };
-		6E5FE8092E730E6C00104B1A /* AirbnbCereal_ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCereal_ExtraBold.otf; sourceTree = "<group>"; };
-		6E5FE80A2E730E6C00104B1A /* AirbnbCereal_Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCereal_Light.otf; sourceTree = "<group>"; };
-		6E5FE80B2E730E6C00104B1A /* AirbnbCereal_Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCereal_Medium.otf; sourceTree = "<group>"; };
 		6E5FE80D2E730E6C00104B1A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6E5FE80E2E730E6C00104B1A /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		6E5FE80F2E730E6C00104B1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -50,6 +48,10 @@
 		6E5FEA6A2E74666600104B1A /* AirbnbCereal_W_Lt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCereal_W_Lt.otf; sourceTree = "<group>"; };
 		6E5FEA6B2E74666600104B1A /* AirbnbCereal_W_Md.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCereal_W_Md.otf; sourceTree = "<group>"; };
 		6E5FEA6C2E74666600104B1A /* AirbnbCereal_W_XBd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCereal_W_XBd.otf; sourceTree = "<group>"; };
+		9FE3F9CE2E75C8C800344DEF /* ExploreCollectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCollectionHeader.swift; sourceTree = "<group>"; };
+		9FE3F9CF2E75C8C800344DEF /* ExploreCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewCell.swift; sourceTree = "<group>"; };
+		9FE3F9D12E75C8C800344DEF /* ExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
+		9FE3FA392E75F81300344DEF /* ExploreCellDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCellDateView.swift; sourceTree = "<group>"; };
 		BEE372212E72EAAE002C9178 /* ListDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDTO.swift; sourceTree = "<group>"; };
 		BEE372232E72EBAA002C9178 /* MovieDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDTO.swift; sourceTree = "<group>"; };
 		BEE372252E72EC7D002C9178 /* TodayEventDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayEventDTO.swift; sourceTree = "<group>"; };
@@ -61,6 +63,11 @@
 		1B540A1A2E730ED600E9C3F3 /* OnboardingModule */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = OnboardingModule;
+			sourceTree = "<group>";
+		};
+		9FE3FA202E75F02A00344DEF /* Extension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -101,6 +108,7 @@
 				676E2C1D2E7097B70074641F /* EventDetails */,
 				676E2C102E7097B20074641F /* Info.plist */,
 				676E2C132E7097B20074641F /* SceneDelegate.swift */,
+				9FE3F9D22E75C8C800344DEF /* ExploreScreen */,
 				676E2C142E7097B20074641F /* ViewController.swift */,
 				6E5FE8112E730E6C00104B1A /* Supporting FIles */,
 			);
@@ -134,10 +142,30 @@
 			children = (
 				6E5FE80C2E730E6C00104B1A /* Fonts */,
 				6E5FE80D2E730E6C00104B1A /* Assets.xcassets */,
+				9FE3FA202E75F02A00344DEF /* Extension */,
 				6E5FE80E2E730E6C00104B1A /* Constants.swift */,
 				6E5FE8102E730E6C00104B1A /* LaunchScreen.storyboard */,
 			);
 			path = "Supporting FIles";
+			sourceTree = "<group>";
+		};
+		9FE3F9D02E75C8C800344DEF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9FE3F9CE2E75C8C800344DEF /* ExploreCollectionHeader.swift */,
+				9FE3F9CF2E75C8C800344DEF /* ExploreCollectionViewCell.swift */,
+				9FE3FA392E75F81300344DEF /* ExploreCellDateView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9FE3F9D22E75C8C800344DEF /* ExploreScreen */ = {
+			isa = PBXGroup;
+			children = (
+				9FE3F9D02E75C8C800344DEF /* Views */,
+				9FE3F9D12E75C8C800344DEF /* ExploreViewController.swift */,
+			);
+			path = ExploreScreen;
 			sourceTree = "<group>";
 		};
 		BEE372202E72EA95002C9178 /* DTO */ = {
@@ -169,6 +197,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				1B540A1A2E730ED600E9C3F3 /* OnboardingModule */,
+				9FE3FA202E75F02A00344DEF /* Extension */,
 			);
 			name = EvenHub;
 			packageProductDependencies = (
@@ -242,7 +271,11 @@
 				6E5FE8122E730E6C00104B1A /* Constants.swift in Sources */,
 				BEE372242E72EBAA002C9178 /* MovieDTO.swift in Sources */,
 				BEE372222E72EAAE002C9178 /* ListDTO.swift in Sources */,
+				9FE3F9D32E75C8C800344DEF /* ExploreCollectionHeader.swift in Sources */,
+				9FE3F9D42E75C8C800344DEF /* ExploreViewController.swift in Sources */,
+				9FE3F9D52E75C8C800344DEF /* ExploreCollectionViewCell.swift in Sources */,
 				BEE372282E72EDF8002C9178 /* SearchEventDTO.swift in Sources */,
+				9FE3FA3A2E75F81300344DEF /* ExploreCellDateView.swift in Sources */,
 				BEE372262E72EC7D002C9178 /* TodayEventDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
