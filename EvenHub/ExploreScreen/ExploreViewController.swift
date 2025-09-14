@@ -72,6 +72,9 @@ class ExploreViewController: UIViewController {
     }
     private func setupSearchTextField() {
         view.addSubview(searchTextField)
+        searchTextField.action = { [weak self] in
+        print("filter button tup")
+        }
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -90,7 +93,9 @@ class ExploreViewController: UIViewController {
                 withReuseIdentifier: ExploreCollectionHeader.reuseID,
                 for: indexPath
             ) as! ExploreCollectionHeader
-            
+            header.action = { [weak self] in
+                print("seeAll button tup")
+            }
             if indexPath.section == 0 {
                 header.setTitle("Upcoming Events")
             } else {

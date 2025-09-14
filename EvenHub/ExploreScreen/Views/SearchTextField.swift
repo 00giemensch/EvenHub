@@ -14,7 +14,10 @@ class SearchTextField: UITextField {
         case blue
     }
     private let scheme: SearchScheme
+    var action: (() -> Void)?
+    
     //MARK: - UI Components
+    private let button = UIButton()
     
     //MARK: - Lifecycle
     init(scheme: SearchScheme) {
@@ -26,11 +29,16 @@ class SearchTextField: UITextField {
         fatalError("init(coder:) has not been implemented")
     }
     //MARK: - Methods
+    @objc private func buttonPressed() {
+           guard let action = self.action else { return }
+           action()
+       }
     
     //MARK: - Setup Layout
     private func setupLayout() {
         setupTextField()
         setupLeftView()
+        setupButton()
         setupRightView()
     }
     private func setupTextField() {
@@ -59,8 +67,23 @@ class SearchTextField: UITextField {
         self.leftView = leftPaddingView
         self.leftViewMode = .always
     }
+    private func setupButton() {
+        button.frame = CGRect(x: 0, y: 0, width: 75, height: 32)
+        button.setImage(UIImage(resource: .filterPic), for: .normal)
+        let subtitleText = NSMutableAttributedString()
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont(name: Constants.Fonts.book, size: 12) ?? .systemFont(ofSize: 12, weight: .light),
+            .foregroundColor: UIColor.white
+        ]
+        subtitleText.append(NSAttributedString(string: "Filters", attributes: attributes))
+        button.setAttributedTitle(subtitleText, for: .normal)
+        button.layer.backgroundColor = Constants.Colors.PrimaryBlue.buttonBlue.cgColor
+        button.layer.cornerRadius = 16
+        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+    }
     private func setupRightView() {
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: self.frame.height))
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 75, height: 32))
+        paddingView.addSubview(button)
         self.rightView = paddingView
         self.rightViewMode = .always
     }
