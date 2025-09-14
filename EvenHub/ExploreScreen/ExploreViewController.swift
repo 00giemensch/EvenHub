@@ -16,6 +16,7 @@ class ExploreViewController: UIViewController {
     }
     
     //MARK: - UI Components
+    private let searchTextField = SearchTextField(scheme: .gray)
     private lazy var exploreCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         
@@ -37,6 +38,7 @@ class ExploreViewController: UIViewController {
     
     //MARK: - Setup UI
     private func setupLayout() {
+        setupSearchTextField()
         setupCollectionView()
         setDataSource()
     }
@@ -44,7 +46,12 @@ class ExploreViewController: UIViewController {
         let shapeLayer = CAShapeLayer()
         view.layer.addSublayer(shapeLayer)
         shapeLayer.fillColor = color.cgColor
-        let rect = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height * 0.221)
+        let rect = CGRect(
+            x: 0,
+            y: 0,
+            width: view.frame.width,
+            height: view.frame.height * 0.221
+        )
         let path = UIBezierPath(
             roundedRect: rect,
             byRoundingCorners: [.bottomRight, .bottomLeft],
@@ -62,6 +69,19 @@ class ExploreViewController: UIViewController {
         snapshot.appendItems(Array(0...5), toSection: 1)
         snapshot.appendItems(Array(6...10), toSection: 2)
         dataSource.apply(snapshot)
+    }
+    private func setupSearchTextField() {
+        view.addSubview(searchTextField)
+        searchTextField.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            searchTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            searchTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+//            searchTextField.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+//            searchTextField.widthAnchor.constraint(equalToConstant: 100),
+            searchTextField.heightAnchor.constraint(equalToConstant: 30)
+        ])
     }
     private func setSectionHeader() {
         dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) in
