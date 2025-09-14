@@ -1,13 +1,6 @@
-//
-//  AutenticationSignUpViewController.swift
-//  EvenHub
-//
-//  Created by Aliaksandr Zuyeu on 14.09.25.
-//
-
 import UIKit
 
-class AutenticationSignUpViewController: UIViewController {
+class AuthenticationSignUpViewController: UIViewController {
     
     //MARK: - UI Components
     

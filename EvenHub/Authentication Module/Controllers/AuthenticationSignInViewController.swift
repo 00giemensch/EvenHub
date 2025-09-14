@@ -254,6 +254,6 @@ class AuthenticationSignInViewController: UIViewController {
     @objc private func signUpPressed(_ sender: UIButton) {
         //Navigation to SignUp VC
         print("pressed")
-        navigationController?.pushViewController(AutenticationSignUpViewController(), animated: true)
+        navigationController?.pushViewController(AuthenticationSignUpViewController(), animated: true)
     }
 }
