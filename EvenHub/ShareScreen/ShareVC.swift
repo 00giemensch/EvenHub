@@ -277,6 +277,7 @@ class ShareVC: UIViewController {
         $0.setTitleColor(.color50, for: .normal)
         $0.backgroundColor = .color0
         $0.layer.cornerRadius = 15
+        $0.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
         return $0
     }(UIButton())
     
@@ -297,6 +298,10 @@ class ShareVC: UIViewController {
     }
     
     // MARK: - Setup
+    
+    @objc private func cancelTapped() {
+        dismiss(animated: true)
+    }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
