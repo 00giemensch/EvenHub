@@ -46,7 +46,7 @@ class CustomTabBarController: UITabBarController {
         exploreVC.tabBarItem = UITabBarItem(title: "Explore", image: exploreVCNormalImage, selectedImage: exploreVCSelectedImage)
         exploreVC.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
         
-        let eventsVC = Events()
+        let eventsVC = EventDetailsVC()
         
         let eventsVCNormalImage = UIImage(named: "tabBar_calendar")?.withTintColor(btnTintColor, renderingMode: .alwaysOriginal)
         let eventsVCSelectedImage = UIImage(named: "tabBar_calendar")?.withTintColor(btnSelectedTintColor, renderingMode: .alwaysOriginal)
