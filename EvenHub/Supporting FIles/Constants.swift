@@ -6,7 +6,7 @@ class Constants {
     static let appName = "EventHub"
     static let loginPlaceholder = "abc@email.com"
     static let passwordPlaceholder = "Your password"
-    static let passwordConfirmationPlaceholder = "Confirm your password"
+    static let passwordConfirmationPlaceholder = "Confirm password"
     
     // MARK: - Colors
     struct Colors {
