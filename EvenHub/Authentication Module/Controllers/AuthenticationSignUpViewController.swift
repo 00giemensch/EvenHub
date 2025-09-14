@@ -1,4 +1,5 @@
 import UIKit
+import AuthenticationServices
 
 class AuthenticationSignUpViewController: UIViewController {
     
@@ -19,9 +20,23 @@ class AuthenticationSignUpViewController: UIViewController {
         return loginTextField
     }()
     
+    //FIXME: При Попытке ввода пароля вылетает "Cannot show Automatic Strong Passwords for app bundleID"
     private let passwordTextField: AuthenticationSecureTextField = {
        let passwordTextField = AuthenticationSecureTextField()
         passwordTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: Constants.passwordPlaceholder, font: Constants.Fonts.book, fontSize: 14)
+        ASCredentialIdentityStore.shared.getState { state in
+                DispatchQueue.main.async {
+                    // Включаем предложение паролей ТОЛЬКО если служба доступна и включена
+                    if state.isEnabled {
+                        // Разрешаем системе предлагать и сохранять пароли
+                        passwordTextField.textContentType = .newPassword
+                        // или .oneTimeCode для одноразовых кодов
+                    } else {
+                        // Отключаем предложение, если служба недоступна (как в симуляторе)
+                        passwordTextField.textContentType = .none
+                    }
+                }
+            }
         return passwordTextField
     }()
     
