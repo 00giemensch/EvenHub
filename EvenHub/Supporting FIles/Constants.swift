@@ -20,10 +20,11 @@ class Constants {
         }
         
         struct Background {
+            static let white = UIColor(named: "backgound_white")
             static let black = UIColor(named: "background_black")
+            static let googleButton = UIColor(named: "background_googleButton")
             static let gray = UIColor(named: "background_gray")
             static let secondBlack = UIColor(named: "background_secondBlack")
-            static let white: UIColor = .white
         }
         
         struct PrimaryBlue {
