@@ -27,7 +27,7 @@ class AuthenticationSignInViewController: UIViewController {
     }()
     
     private let loginTextField: AuthenticationTextField = {
-       let loginTextField = AuthenticationTextField()
+        let loginTextField = AuthenticationTextField()
         loginTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: Constants.loginPlaceholder, font: Constants.Fonts.book, fontSize: 14)
         loginTextField.updateLeftImage(image: Constants.Icons.Authentication.mail!)
         loginTextField.keyboardType = .emailAddress
@@ -35,7 +35,7 @@ class AuthenticationSignInViewController: UIViewController {
     }()
     
     private let passwordTextField: AuthenticationSecureTextField = {
-       let passwordTextField = AuthenticationSecureTextField()
+        let passwordTextField = AuthenticationSecureTextField()
         passwordTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: Constants.passwordPlaceholder, font: Constants.Fonts.book, fontSize: 14)
         return passwordTextField
     }()
@@ -58,11 +58,11 @@ class AuthenticationSignInViewController: UIViewController {
         return rememberMeLabel
     }()
     
-    private let recoverPasswordButton: UIButton = {
-        let recoverPasswordButton = UIButton()
-        recoverPasswordButton.translatesAutoresizingMaskIntoConstraints = false
-        recoverPasswordButton.setAttributedTitle(Constants.Fonts.attributedString(for: "Forgot Password?", font: Constants.Fonts.book, fontSize: 14), for: .normal)
-        return recoverPasswordButton
+    private let forgotPassword: UIButton = {
+        let forgotPassword = UIButton()
+        forgotPassword.translatesAutoresizingMaskIntoConstraints = false
+        forgotPassword.setAttributedTitle(Constants.Fonts.attributedString(for: "Forgot Password?", font: Constants.Fonts.book, fontSize: 14), for: .normal)
+        return forgotPassword
     }()
     
     private let signInButton: AuthenticationButton = {
@@ -111,6 +111,10 @@ class AuthenticationSignInViewController: UIViewController {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
         setupUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     //MARK: - Methods
@@ -170,12 +174,13 @@ class AuthenticationSignInViewController: UIViewController {
             rememberMeLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
         
-        view.addSubview(recoverPasswordButton)
+        view.addSubview(        forgotPassword)
         NSLayoutConstraint.activate([
-            recoverPasswordButton.centerYAnchor.constraint(equalTo: rememberMeSwitch.centerYAnchor),
-            recoverPasswordButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -29),
-            recoverPasswordButton.heightAnchor.constraint(equalToConstant: 20)
+            forgotPassword.centerYAnchor.constraint(equalTo: rememberMeSwitch.centerYAnchor),
+            forgotPassword.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -29),
+            forgotPassword.heightAnchor.constraint(equalToConstant: 20)
         ])
+        forgotPassword.addTarget(self, action: #selector(forgotPasswordPressed), for: .touchUpInside)
         
         view.addSubview(signInButton)
         NSLayoutConstraint.activate([
@@ -227,19 +232,20 @@ class AuthenticationSignInViewController: UIViewController {
         }
     }
     
-    @objc private func forgotPasswodPressed(_ sender: UIButton) {
+    @objc private func forgotPasswordPressed(_ sender: UIButton) {
         // Navigation to reset password screen
+        navigationController?.pushViewController(AuthenticationResetPasswordMainViewController(), animated: true)
     }
     
     @objc private func signInButtonPressed(_ sender: UIButton) {
         // Animation for tap on button
         UIView.animate(withDuration: 0.01, animations: {
             sender.alpha = 0.5
-                }) { _ in
-                    UIView.animate(withDuration: 0.01) {
-                        sender.alpha = 1.0
-                    }
-                }
+        }) { _ in
+            UIView.animate(withDuration: 0.01) {
+                sender.alpha = 1.0
+            }
+        }
         
         // Validation for username/password
         

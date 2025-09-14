@@ -35,8 +35,6 @@ class AuthenticationSecureTextField: AuthenticationTextField {
         let existingText = text
         text = nil
         text = existingText
-        DispatchQueue.main.async {
-            self.becomeFirstResponder()
-        }
+        if sender.isFirstResponder { self.becomeFirstResponder() }
     }
 }

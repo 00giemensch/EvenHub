@@ -46,13 +46,6 @@ class AuthenticationSignUpViewController: UIViewController {
         return confirmPasswordTextField
     }()
     
-    private let recoverPasswordButton: UIButton = {
-        let recoverPasswordButton = UIButton()
-        recoverPasswordButton.translatesAutoresizingMaskIntoConstraints = false
-        recoverPasswordButton.setAttributedTitle(Constants.Fonts.attributedString(for: "Forgot Password?", font: Constants.Fonts.book, fontSize: 14), for: .normal)
-        return recoverPasswordButton
-    }()
-    
     private let signUpButton: AuthenticationButton = {
         let signUpButton = AuthenticationButton(title: "SIGN UP")
         return signUpButton
@@ -130,6 +123,7 @@ class AuthenticationSignUpViewController: UIViewController {
             passwordTextField.heightAnchor.constraint(equalToConstant: 56),
             passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30)
         ])
+        passwordTextField.addTarget(self, action: #selector(textFieldsDidChange), for: .editingChanged)
         
         view.addSubview(confirmPasswordTextField)
         NSLayoutConstraint.activate([
@@ -138,6 +132,7 @@ class AuthenticationSignUpViewController: UIViewController {
             confirmPasswordTextField.heightAnchor.constraint(equalToConstant: 56),
             confirmPasswordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30)
         ])
+        confirmPasswordTextField.addTarget(self, action: #selector(textFieldsDidChange), for: .editingChanged)
         
         view.addSubview(signUpButton)
         NSLayoutConstraint.activate([
@@ -180,6 +175,34 @@ class AuthenticationSignUpViewController: UIViewController {
         signInButton.addTarget(self, action: #selector(signInPressed), for: .touchUpInside)
         
     }
+    
+    @objc private func textFieldsDidChange() {
+            validatePasswords()
+        }
+    
+    private func validatePasswords() {
+            guard
+                let newPass = passwordTextField.text,
+                let confirmPass = confirmPasswordTextField.text,
+                !newPass.isEmpty, !confirmPass.isEmpty
+            else {
+                signInButton.isEnabled = false
+                confirmPasswordTextField.layer.borderWidth = 0
+                return
+            }
+            
+            if newPass == confirmPass {
+                print("✅ Пароли совпадают")
+                confirmPasswordTextField.layer.borderColor = (Constants.Colors.Accent.green)?.cgColor
+                confirmPasswordTextField.layer.borderWidth = 1
+                signInButton.isEnabled = true
+            } else {
+                print("❌ Пароли не совпадают")
+                confirmPasswordTextField.layer.borderColor = (Constants.Colors.Accent.red)?.cgColor
+                confirmPasswordTextField.layer.borderWidth = 1
+                signInButton.isEnabled = false
+            }
+        }
     
     @objc private func signUpButtonPressed(_ sender: UIButton) {
         // Animation for tap on button

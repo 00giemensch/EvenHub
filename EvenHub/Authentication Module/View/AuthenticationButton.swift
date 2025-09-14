@@ -36,7 +36,7 @@ class AuthenticationButton: UIButton {
     private func setupStyle() {
         self.setAttributedTitle(Constants.Fonts.attributedString(
             for: self.title,
-            font: Constants.Fonts.medium.uppercased(),
+            font: Constants.Fonts.medium,
             fontSize: 16,
             letterSpacing: 1),
                                 for: .normal)
@@ -45,6 +45,8 @@ class AuthenticationButton: UIButton {
         self.layer.cornerRadius = 15
         self.layer.masksToBounds = true
         self.titleLabel?.textAlignment = .center
+        self.titleLabel?.lineBreakMode = .byWordWrapping
+        self.titleLabel?.numberOfLines = 2
     }
     
     private func setupUI() {
