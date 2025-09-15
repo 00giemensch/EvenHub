@@ -5,7 +5,7 @@ import FirebaseCore
 import FirebaseAuth
 import FirebaseStorage
 
-class AuthenticationResetPasswordSecondViewController: UIViewController {
+class ResetPasswordSecondViewController: UIViewController {
     
     private let passwordTextField: AuthenticationSecureTextField = {
         let passwordTextField = AuthenticationSecureTextField()
@@ -119,6 +119,6 @@ class AuthenticationResetPasswordSecondViewController: UIViewController {
     }
     
     @objc private func buttonPressed(_ sender: UIButton) {
-        navigationController?.pushViewController(AuthenticationSignInViewController(), animated: true)
+        navigationController?.pushViewController(SignInViewController(), animated: true)
     }
 }

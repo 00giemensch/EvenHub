@@ -4,7 +4,7 @@ import FirebaseCore
 import FirebaseAuth
 import FirebaseStorage
 
-class AuthenticationResetPasswordMainViewController: UIViewController {
+class ResetPasswordMainViewController: UIViewController {
     
     
     private let headerLabel: UILabel = {

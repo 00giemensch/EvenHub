@@ -5,7 +5,7 @@ import FirebaseCore
 import FirebaseAuth
 import FirebaseStorage
 
-class AuthenticationSignUpViewController: UIViewController {
+class SignUpViewController: UIViewController {
     
     //MARK: - UI Components
     
@@ -241,6 +241,6 @@ class AuthenticationSignUpViewController: UIViewController {
     
     @objc private func signInPressed(_ sender: UIButton) {
         //Navigation to SignIn VC
-        navigationController?.pushViewController(AuthenticationSignInViewController(), animated: true)
+        navigationController?.pushViewController(SignInViewController(), animated: true)
     }
 }

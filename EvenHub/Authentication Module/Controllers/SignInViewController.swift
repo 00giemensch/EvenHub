@@ -3,7 +3,7 @@ import FirebaseCore
 import FirebaseAuth
 import FirebaseStorage
 
-class AuthenticationSignInViewController: UIViewController {
+class SignInViewController: UIViewController {
     
     var account: AuthenticationModel?
     
@@ -237,7 +237,7 @@ class AuthenticationSignInViewController: UIViewController {
     
     @objc private func forgotPasswordPressed(_ sender: UIButton) {
         // Navigation to reset password screen
-        navigationController?.pushViewController(AuthenticationResetPasswordMainViewController(), animated: true)
+        navigationController?.pushViewController(ResetPasswordMainViewController(), animated: true)
     }
     
     @objc private func signInButtonPressed(_ sender: UIButton) {
@@ -274,6 +274,6 @@ class AuthenticationSignInViewController: UIViewController {
     @objc private func signUpPressed(_ sender: UIButton) {
         //Navigation to SignUp VC
         print("pressed")
-        navigationController?.pushViewController(AuthenticationSignUpViewController(), animated: true)
+        navigationController?.pushViewController(SignUpViewController(), animated: true)
     }
 }
