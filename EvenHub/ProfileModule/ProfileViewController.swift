@@ -12,10 +12,11 @@ class ProfileViewController: UIViewController {
     }
     
     private var isTextExpanded = false
+    private var isEditMode = false
     
     //MARK: - Create UI
     
-    let profileLabel: UILabel = {
+    let profileLabel : UILabel = {
         let label = UILabel()
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -25,7 +26,7 @@ class ProfileViewController: UIViewController {
         return label
     }()
     
-    let profileImageView: UIImageView = {
+    let profileImageView : UIImageView = {
         let view = UIImageView()
         view.layer.cornerRadius = 48
         view.image = UIImage(named: ProfileModel.Constants.profileImage)
@@ -34,7 +35,7 @@ class ProfileViewController: UIViewController {
         return view
     }()
     
-    let nameLabel: UILabel = {
+    let nameLabel : UILabel = {
         let label = UILabel()
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 24, weight: .regular)
@@ -44,15 +45,17 @@ class ProfileViewController: UIViewController {
         return label
     }()
     
-    let editButton: EditButtonView = {
+    let editButton : EditButtonView = {
         let button = EditButtonView(iconImage: ProfileModel.Constants.editIconImage, labelText: "Edit Profile")
         button.layer.borderColor = UIColor.blue50.cgColor
         button.layer.borderWidth = 2
         button.layer.cornerRadius = 10
+        button.isEnabled = true
+        button.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
         return button
     }()
     
-    let aboutLabel: UILabel = {
+    let aboutLabel : UILabel = {
         let label = UILabel()
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
@@ -62,7 +65,7 @@ class ProfileViewController: UIViewController {
         return label
     }()
     
-    let detailTextField: UITextView = {
+    let detailTextField : UITextView = {
         let view = UITextView()
         view.font = UIFont(name: ProfileModel.Constants.airBnbCerealBookFont, size: 18)
         view.isEditable = false
@@ -71,19 +74,23 @@ class ProfileViewController: UIViewController {
         return view
     }()
     
-    let editNameButton: UIButton = {
+    let editNameButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: ProfileModel.Constants.editIconImage), for: .normal)
+        button.isHidden = true
+        button.addTarget(self, action: #selector(editNameTapped), for: .touchUpInside)
         return button
     }()
     
-    let editDetailButton: UIButton = {
+    let editDetailButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: ProfileModel.Constants.editIconImage), for: .normal)
+        button.isHidden = true
+        button.addTarget(self, action: #selector(editDetailTapped), for: .touchUpInside)
         return button
     }()
     
-    let signoutButton: EditButtonView = {
+    let signoutButton : EditButtonView = {
         let button = EditButtonView(iconImage: ProfileModel.Constants.signoutIconImage, labelText: "Sign Out")
         button.editLabel.textColor = .black
         return button
@@ -97,6 +104,7 @@ class ProfileViewController: UIViewController {
         setConstraints()
         setupTextView()
         updateTextViewText()
+        updateEditButtonsVisibility()
     }
     
     private func setupViews() {
@@ -112,7 +120,7 @@ class ProfileViewController: UIViewController {
         view.addSubview(signoutButton)
     }
     
-    //MARK: - Func
+    //MARK: - Text Func
     
     private func setupTextView() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTextViewTap(_:)))
@@ -125,8 +133,8 @@ class ProfileViewController: UIViewController {
         guard let textPosition = detailTextField.closestPosition(to: location) else { return }
         let tapOffset = detailTextField.offset(from: detailTextField.beginningOfDocument, to: textPosition)
         let fullText = isTextExpanded ?
-            ProfileModel.Constants.fullText + "Show Less" :
-            ProfileModel.Constants.truncatedText + "Read More"
+        ProfileModel.Constants.fullText + "Show Less" :
+        ProfileModel.Constants.truncatedText + "Read More"
         let readMoreRange = (fullText as NSString).range(of: isTextExpanded ? "Show Less" : "Read More")
         if tapOffset >= readMoreRange.location && tapOffset < readMoreRange.location + readMoreRange.length {
             toggleTextExpansion()
@@ -148,6 +156,51 @@ class ProfileViewController: UIViewController {
         let actionRange = (fullText as NSString).range(of: actionText)
         attributedString.addAttribute(.foregroundColor, value: UIColor.blue, range: actionRange)
         detailTextField.attributedText = attributedString
+    }
+    
+    //MARK: - Buttons Func
+    
+    @objc private func editButtonTapped(sender: UIButton) {
+        sender.buttonTappedAnimate()
+        isEditMode.toggle()
+        updateEditButtonsVisibility()
+    }
+    
+    @objc private func editNameTapped() {
+        showEditAlert(for: nameLabel, title: "Edit Name", currentText: nameLabel.text ?? "") { [weak self] newText in
+            self?.nameLabel.text = newText
+        }
+    }
+    
+    @objc private func editDetailTapped() {
+        detailTextField.isEditable = isEditMode
+        showEditAlert(for: detailTextField, title: "Edit Description", currentText: detailTextField.text) { [weak self] newText in
+            self?.detailTextField.text = newText
+        }
+    }
+    
+    private func showEditAlert(for view: UIView, title: String, currentText: String, completion: @escaping (String) -> Void) {
+        let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        
+        alert.addTextField { textField in
+            textField.text = currentText
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+            if let newText = alert.textFields?.first?.text, !newText.isEmpty {
+                completion(newText)
+            }
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(saveAction)
+        present(alert, animated: true)
+    }
+    
+    private func updateEditButtonsVisibility() {
+        DispatchQueue.main.async {
+            self.editNameButton.isHidden = !self.isEditMode
+            self.editDetailButton.isHidden = !self.isEditMode
+        }
     }
     
     //MARK: - setConstraints
