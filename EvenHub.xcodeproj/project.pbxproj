@@ -55,6 +55,11 @@
 			path = OnboardingModule;
 			sourceTree = "<group>";
 		};
+		1B540AAC2E745EF800E9C3F3 /* ProfileModule */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ProfileModule;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +92,7 @@
 		676E2C152E7097B20074641F /* EvenHub */ = {
 			isa = PBXGroup;
 			children = (
+				1B540AAC2E745EF800E9C3F3 /* ProfileModule */,
 				1B540A1A2E730ED600E9C3F3 /* OnboardingModule */,
 				BEE372202E72EA95002C9178 /* DTO */,
 				676E2C0D2E7097B20074641F /* AppDelegate.swift */,
@@ -160,6 +166,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				1B540A1A2E730ED600E9C3F3 /* OnboardingModule */,
+				1B540AAC2E745EF800E9C3F3 /* ProfileModule */,
 			);
 			name = EvenHub;
 			packageProductDependencies = (
