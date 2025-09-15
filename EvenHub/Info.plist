@@ -4,12 +4,12 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>AirbnbCereal_W_Bd.otf</string>
-		<string>AirbnbCereal_W_Bk.otf</string>
-		<string>AirbnbCereal_W_Blk.otf</string>
-		<string>AirbnbCereal_W_Lt.otf</string>
-		<string>AirbnbCereal_W_Md.otf</string>
-		<string>AirbnbCereal_W_XBd.otf</string>
+		<string>AirbnbCereal_Black.otf</string>
+		<string>AirbnbCereal_Bold.otf</string>
+		<string>AirbnbCereal_Book.otf</string>
+		<string>AirbnbCereal_ExtraBold.otf</string>
+		<string>AirbnbCereal_Light.otf</string>
+		<string>AirbnbCereal_Medium.otf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
