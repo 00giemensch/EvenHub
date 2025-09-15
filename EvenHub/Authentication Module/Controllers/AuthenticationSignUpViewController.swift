@@ -1,19 +1,23 @@
 import UIKit
 import AuthenticationServices
+import UIKit
+import FirebaseCore
+import FirebaseAuth
+import FirebaseStorage
 
 class AuthenticationSignUpViewController: UIViewController {
     
     //MARK: - UI Components
     
     private let profileTextField: AuthenticationTextField = {
-       let profileTextField = AuthenticationTextField()
+        let profileTextField = AuthenticationTextField()
         profileTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: "Full name", font: Constants.Fonts.book, fontSize: 14)
         profileTextField.updateLeftImage(image: Constants.Icons.Authentication.profile!)
         return profileTextField
     }()
     
     private let loginTextField: AuthenticationTextField = {
-       let loginTextField = AuthenticationTextField()
+        let loginTextField = AuthenticationTextField()
         loginTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: Constants.loginPlaceholder, font: Constants.Fonts.book, fontSize: 14)
         loginTextField.updateLeftImage(image: Constants.Icons.Authentication.mail!)
         loginTextField.keyboardType = .emailAddress
@@ -22,32 +26,34 @@ class AuthenticationSignUpViewController: UIViewController {
     
     //FIXME: При Попытке ввода пароля вылетает "Cannot show Automatic Strong Passwords for app bundleID"
     private let passwordTextField: AuthenticationSecureTextField = {
-       let passwordTextField = AuthenticationSecureTextField()
+        let passwordTextField = AuthenticationSecureTextField()
         passwordTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: Constants.passwordPlaceholder, font: Constants.Fonts.book, fontSize: 14)
         ASCredentialIdentityStore.shared.getState { state in
-                DispatchQueue.main.async {
-                    // Включаем предложение паролей ТОЛЬКО если служба доступна и включена
-                    if state.isEnabled {
-                        // Разрешаем системе предлагать и сохранять пароли
-                        passwordTextField.textContentType = .newPassword
-                        // или .oneTimeCode для одноразовых кодов
-                    } else {
-                        // Отключаем предложение, если служба недоступна (как в симуляторе)
-                        passwordTextField.textContentType = .none
-                    }
+            DispatchQueue.main.async {
+                // Включаем предложение паролей ТОЛЬКО если служба доступна и включена
+                if state.isEnabled {
+                    // Разрешаем системе предлагать и сохранять пароли
+                    passwordTextField.textContentType = .newPassword
+                    // или .oneTimeCode для одноразовых кодов
+                } else {
+                    // Отключаем предложение, если служба недоступна (как в симуляторе)
+                    passwordTextField.textContentType = .none
                 }
             }
+        }
         return passwordTextField
     }()
     
     private let confirmPasswordTextField: AuthenticationSecureTextField = {
-       let confirmPasswordTextField = AuthenticationSecureTextField()
+        let confirmPasswordTextField = AuthenticationSecureTextField()
         confirmPasswordTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: Constants.passwordConfirmationPlaceholder, font: Constants.Fonts.book, fontSize: 14)
         return confirmPasswordTextField
     }()
     
     private let signUpButton: AuthenticationButton = {
         let signUpButton = AuthenticationButton(title: "SIGN UP")
+        signUpButton.alpha = 0.5
+        signUpButton.isEnabled = false
         return signUpButton
     }()
     
@@ -177,43 +183,56 @@ class AuthenticationSignUpViewController: UIViewController {
     }
     
     @objc private func textFieldsDidChange() {
-            validatePasswords()
-        }
+        validatePasswords()
+    }
     
     private func validatePasswords() {
-            guard
-                let newPass = passwordTextField.text,
-                let confirmPass = confirmPasswordTextField.text,
-                !newPass.isEmpty, !confirmPass.isEmpty
-            else {
-                signInButton.isEnabled = false
-                confirmPasswordTextField.layer.borderWidth = 0
-                return
-            }
-            
-            if newPass == confirmPass {
-                print("✅ Пароли совпадают")
-                confirmPasswordTextField.layer.borderColor = (Constants.Colors.Accent.green)?.cgColor
-                confirmPasswordTextField.layer.borderWidth = 1
-                signInButton.isEnabled = true
-            } else {
-                print("❌ Пароли не совпадают")
-                confirmPasswordTextField.layer.borderColor = (Constants.Colors.Accent.red)?.cgColor
-                confirmPasswordTextField.layer.borderWidth = 1
-                signInButton.isEnabled = false
-            }
+        guard
+            let newPass = passwordTextField.text,
+            let confirmPass = confirmPasswordTextField.text,
+            !newPass.isEmpty, !confirmPass.isEmpty
+        else {
+            signUpButton.isEnabled = false
+            signUpButton.alpha = 0.5
+            passwordTextField.layer.borderColor = Constants.Colors.TypographyColor.typographyColor10?.cgColor
+            return
         }
+        
+        if newPass == confirmPass {
+            confirmPasswordTextField.layer.borderColor = (Constants.Colors.Accent.green)?.cgColor
+            confirmPasswordTextField.layer.borderWidth = 1
+            signInButton.isEnabled = true
+        } else {
+            print("❌ Пароли не совпадают")
+            confirmPasswordTextField.layer.borderColor = (Constants.Colors.Accent.red)?.cgColor
+            confirmPasswordTextField.layer.borderWidth = 1
+            signInButton.isEnabled = false
+        }
+    }
     
     @objc private func signUpButtonPressed(_ sender: UIButton) {
         // Animation for tap on button
         UIView.animate(withDuration: 0.01, animations: {
             sender.alpha = 0.5
-                }) { _ in
-                    UIView.animate(withDuration: 0.01) {
-                        sender.alpha = 1.0
-                    }
-                }
-        // Navigation to Sign In VC
+        }) { _ in
+            UIView.animate(withDuration: 0.01) {
+                sender.alpha = 1.0
+            }
+        }
+        guard let email = loginTextField.text, let password = passwordTextField.text else { return }
+        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+            if error == nil {
+                //TODO: Navigation to Explore VC
+                print("Sign up is successful")
+            }
+            else {
+                let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                
+                alertController.addAction(defaultAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
+        }
     }
     
     @objc private func loginWithGooglePressed(_ sender: UIButton) {
