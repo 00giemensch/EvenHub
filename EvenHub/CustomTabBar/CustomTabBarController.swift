@@ -67,7 +67,7 @@ class CustomTabBarController: UITabBarController {
         mapVC.tabBarItem = UITabBarItem(title: "Map", image: mapVCNormalImage, selectedImage: mapVCSelectedImage)
         mapVC.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
         
-        let profileVC = Profile()
+        let profileVC = ProfileViewController()
         
         let profileVCNormalImage = UIImage(named: "tabBar_profile")?.withTintColor(btnTintColor, renderingMode: .alwaysOriginal)
         let profileVCSelectedImage = UIImage(named: "tabBar_profile")?.withTintColor(btnSelectedTintColor, renderingMode: .alwaysOriginal)
