@@ -50,7 +50,6 @@ class ProfileViewController: UIViewController {
         button.layer.borderColor = UIColor.blue50.cgColor
         button.layer.borderWidth = 2
         button.layer.cornerRadius = 10
-        button.isEnabled = true
         button.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -70,7 +69,6 @@ class ProfileViewController: UIViewController {
         view.font = UIFont(name: ProfileModel.Constants.airBnbCerealBookFont, size: 18)
         view.isEditable = false
         view.isScrollEnabled = true
-        view.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         return view
     }()
     
@@ -95,6 +93,15 @@ class ProfileViewController: UIViewController {
         button.editLabel.textColor = .black
         return button
     }()
+    
+    let readMoreButton: UIButton = {
+            let button = UIButton(type: .system)
+            button.setTitle("Read More", for: .normal)
+            button.titleLabel?.font = UIFont(name: ProfileModel.Constants.airBnbCerealBookFont, size: 16)
+            button.setTitleColor(.blue, for: .normal)
+        button.addTarget(self, action: #selector(toggleTextExpansion), for: .touchUpInside)
+            return button
+        }()
     
     //MARK: - Lifecycle
     
@@ -163,6 +170,7 @@ class ProfileViewController: UIViewController {
     @objc private func editButtonTapped(sender: UIButton) {
         sender.buttonTappedAnimate()
         isEditMode.toggle()
+        detailTextField.isEditable = isEditMode
         updateEditButtonsVisibility()
     }
     
@@ -174,9 +182,13 @@ class ProfileViewController: UIViewController {
     
     @objc private func editDetailTapped() {
         detailTextField.isEditable = isEditMode
-        showEditAlert(for: detailTextField, title: "Edit Description", currentText: detailTextField.text) { [weak self] newText in
-            self?.detailTextField.text = newText
-        }
+        UIView.animate(withDuration: 0.3) {
+                self.detailTextField.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+            } completion: { _ in
+                UIView.animate(withDuration: 0.3) {
+                    self.detailTextField.transform = .identity
+                }
+            }
     }
     
     private func showEditAlert(for view: UIView, title: String, currentText: String, completion: @escaping (String) -> Void) {
@@ -271,5 +283,11 @@ class ProfileViewController: UIViewController {
             signoutButton.heightAnchor.constraint(equalToConstant: 50),
             signoutButton.widthAnchor.constraint(equalToConstant: 154)
         ])
+    }
+}
+
+extension ProfileViewController : UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        ProfileModel.Constants.fullText = textView.text
     }
 }
