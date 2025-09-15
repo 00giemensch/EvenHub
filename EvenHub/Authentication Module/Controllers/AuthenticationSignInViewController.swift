@@ -1,4 +1,7 @@
 import UIKit
+import FirebaseCore
+import FirebaseAuth
+import FirebaseStorage
 
 class AuthenticationSignInViewController: UIViewController {
     
@@ -248,9 +251,20 @@ class AuthenticationSignInViewController: UIViewController {
         }
         
         // Validation for username/password
-        
-        // Navigation to Explore Screen VC
-        
+        guard let email = loginTextField.text, let password = passwordTextField.text else { return }
+        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+           if error == nil {
+//               navigationController?.pushViewController(ExploreVC, animated: true)
+               print("Success")
+                          }
+            else {
+             let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                
+             let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+              alertController.addAction(defaultAction)
+              self.present(alertController, animated: true, completion: nil)
+                 }
+        }
     }
     
     @objc private func loginWithGooglePressed(_ sender: UIButton) {
