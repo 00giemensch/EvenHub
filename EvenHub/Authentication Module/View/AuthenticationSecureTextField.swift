@@ -20,7 +20,7 @@ class AuthenticationSecureTextField: AuthenticationTextField {
         
         return toggleButton
     }()
-
+    
     private func setup() {
         rightView = toggleButton
         rightViewMode = .always
@@ -29,12 +29,13 @@ class AuthenticationSecureTextField: AuthenticationTextField {
         toggleButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
     }
     
+    //FIXME: Если я нахожусь в этом же поле и нажимаю на кнопку - клавиатура "прыгает"
     @objc func togglePasswordVisibility(_ sender: UIButton) {
-        isSecureTextEntry.toggle()
+        if !self.isFirstResponder { self.becomeFirstResponder() }
         sender.setImage(isSecureTextEntry ? Constants.Icons.Authentication.passwordHidden : Constants.Icons.Authentication.passwordNotHidden, for: .normal)
-        let existingText = text
-        text = nil
-        text = existingText
-        if sender.isFirstResponder { self.becomeFirstResponder() }
+        if let existingSelectedTextRange = selectedTextRange {
+            selectedTextRange = nil
+            selectedTextRange = existingSelectedTextRange
+        }
     }
 }
