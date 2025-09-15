@@ -6,14 +6,16 @@
 //
 import UIKit
 
-class ProfileViewController : UIViewController {
+class ProfileViewController: UIViewController {
     enum Constants {
         
     }
     
+    private var isTextExpanded = false
+    
     //MARK: - Create UI
     
-    let profileLabel : UILabel = {
+    let profileLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -23,7 +25,7 @@ class ProfileViewController : UIViewController {
         return label
     }()
     
-    let profileImageView : UIImageView = {
+    let profileImageView: UIImageView = {
         let view = UIImageView()
         view.layer.cornerRadius = 48
         view.image = UIImage(named: ProfileModel.Constants.profileImage)
@@ -32,7 +34,7 @@ class ProfileViewController : UIViewController {
         return view
     }()
     
-    let nameLabel : UILabel = {
+    let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 24, weight: .regular)
@@ -42,16 +44,15 @@ class ProfileViewController : UIViewController {
         return label
     }()
     
-    let editButton : EditButtonView = {
-        let button = EditButtonView()
+    let editButton: EditButtonView = {
+        let button = EditButtonView(iconImage: ProfileModel.Constants.editIconImage, labelText: "Edit Profile")
         button.layer.borderColor = UIColor.blue50.cgColor
         button.layer.borderWidth = 2
         button.layer.cornerRadius = 10
         return button
     }()
     
-    
-    let aboutLabel : UILabel = {
+    let aboutLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
@@ -61,23 +62,30 @@ class ProfileViewController : UIViewController {
         return label
     }()
     
-    let detailTextField : UITextView = {
+    let detailTextField: UITextView = {
         let view = UITextView()
-        view.font = UIFont(name: ProfileModel.Constants.airBnbCerealBookFont, size: 16)
-        view.text = "Enjoy your favorite dishe and a lovely your friends and family and have a great time. Food from local food trucks will be available for purchase. Read More"
+        view.font = UIFont(name: ProfileModel.Constants.airBnbCerealBookFont, size: 18)
         view.isEditable = false
+        view.isScrollEnabled = true
+        view.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         return view
     }()
     
-    let editNameButton : UIButton = {
+    let editNameButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: ProfileModel.Constants.editIconImage), for: .normal)
         return button
     }()
     
-    let editDetailButton : UIButton = {
+    let editDetailButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: ProfileModel.Constants.editIconImage), for: .normal)
+        return button
+    }()
+    
+    let signoutButton: EditButtonView = {
+        let button = EditButtonView(iconImage: ProfileModel.Constants.signoutIconImage, labelText: "Sign Out")
+        button.editLabel.textColor = .black
         return button
     }()
     
@@ -87,6 +95,8 @@ class ProfileViewController : UIViewController {
         super.viewDidLoad()
         setupViews()
         setConstraints()
+        setupTextView()
+        updateTextViewText()
     }
     
     private func setupViews() {
@@ -99,6 +109,45 @@ class ProfileViewController : UIViewController {
         view.addSubview(detailTextField)
         view.addSubview(editNameButton)
         view.addSubview(editDetailButton)
+        view.addSubview(signoutButton)
+    }
+    
+    //MARK: - Func
+    
+    private func setupTextView() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTextViewTap(_:)))
+        detailTextField.addGestureRecognizer(tapGesture)
+        detailTextField.isUserInteractionEnabled = true
+    }
+    
+    @objc private func handleTextViewTap(_ gesture: UITapGestureRecognizer) {
+        let location = gesture.location(in: detailTextField)
+        guard let textPosition = detailTextField.closestPosition(to: location) else { return }
+        let tapOffset = detailTextField.offset(from: detailTextField.beginningOfDocument, to: textPosition)
+        let fullText = isTextExpanded ?
+            ProfileModel.Constants.fullText + "Show Less" :
+            ProfileModel.Constants.truncatedText + "Read More"
+        let readMoreRange = (fullText as NSString).range(of: isTextExpanded ? "Show Less" : "Read More")
+        if tapOffset >= readMoreRange.location && tapOffset < readMoreRange.location + readMoreRange.length {
+            toggleTextExpansion()
+        }
+    }
+    
+    @objc private func toggleTextExpansion() {
+        isTextExpanded.toggle()
+        updateTextViewText()
+    }
+    
+    private func updateTextViewText() {
+        let baseText = isTextExpanded ? ProfileModel.Constants.fullText : ProfileModel.Constants.truncatedText
+        let actionText = isTextExpanded ? "Show Less" : "Read More"
+        let fullText = baseText + actionText
+        let attributedString = NSMutableAttributedString(string: fullText)
+        let mainFont = UIFont(name: ProfileModel.Constants.airBnbCerealBookFont, size: 16) ?? UIFont.systemFont(ofSize: 16)
+        attributedString.addAttribute(.font, value: mainFont, range: NSRange(location: 0, length: fullText.count))
+        let actionRange = (fullText as NSString).range(of: actionText)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.blue, range: actionRange)
+        detailTextField.attributedText = attributedString
     }
     
     //MARK: - setConstraints
@@ -134,7 +183,7 @@ class ProfileViewController : UIViewController {
         
         aboutLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            aboutLabel.topAnchor.constraint(equalTo: editButton.bottomAnchor, constant: 30),
+            aboutLabel.topAnchor.constraint(equalTo: editButton.bottomAnchor, constant: 35),
             aboutLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
         ])
         
@@ -143,7 +192,7 @@ class ProfileViewController : UIViewController {
             detailTextField.topAnchor.constraint(equalTo: aboutLabel.bottomAnchor, constant: 25),
             detailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             detailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -35),
-            detailTextField.heightAnchor.constraint(equalToConstant: 275)
+            detailTextField.heightAnchor.constraint(greaterThanOrEqualToConstant: 150)
         ])
         
         editNameButton.translatesAutoresizingMaskIntoConstraints = false
@@ -160,6 +209,14 @@ class ProfileViewController : UIViewController {
             editDetailButton.leadingAnchor.constraint(equalTo: aboutLabel.trailingAnchor, constant: 10),
             editDetailButton.heightAnchor.constraint(equalToConstant: 22),
             editDetailButton.widthAnchor.constraint(equalToConstant: 22)
+        ])
+        
+        signoutButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            signoutButton.topAnchor.constraint(equalTo: detailTextField.bottomAnchor, constant: 30),
+            signoutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            signoutButton.heightAnchor.constraint(equalToConstant: 50),
+            signoutButton.widthAnchor.constraint(equalToConstant: 154)
         ])
     }
 }

@@ -44,6 +44,16 @@ class EditButtonView : UIButton {
         setConstraints()
     }
     
+    convenience init(iconImage: String, labelText: String) {
+            self.init(frame: .zero)
+            configure(with: iconImage, labelText: labelText)
+        }
+    
+    func configure(with iconImage: String, labelText: String) {
+            editIconImageView.image = UIImage(named: iconImage)
+            editLabel.text = labelText
+        }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
