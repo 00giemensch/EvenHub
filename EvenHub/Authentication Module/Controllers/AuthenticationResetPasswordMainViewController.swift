@@ -1,4 +1,8 @@
 import UIKit
+import UIKit
+import FirebaseCore
+import FirebaseAuth
+import FirebaseStorage
 
 class AuthenticationResetPasswordMainViewController: UIViewController {
     
