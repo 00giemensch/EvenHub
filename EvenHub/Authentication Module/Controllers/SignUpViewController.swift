@@ -7,6 +7,8 @@ import FirebaseStorage
 
 class SignUpViewController: UIViewController {
     
+    private var authService = AuthService.shared
+    
     //MARK: - UI Components
     
     private let profileTextField: AuthenticationTextField = {
@@ -235,7 +237,22 @@ class SignUpViewController: UIViewController {
     }
     
     @objc private func loginWithGooglePressed(_ sender: UIButton) {
-        
+        authService.signInWithGoogle(presentingViewController: self) { [weak self] result in
+                switch result {
+                case .success(let user):
+                    print("Вошёл: \(user.email ?? "unknown")")
+//                    let exploreVC = ExploreViewController()
+//                    self?.navigationController?.pushViewController(exploreVC, animated: true)
+                case .failure(let error):
+                    self?.showErrorAlert(message: error.localizedDescription)
+                }
+            }
+    }
+    
+    private func showErrorAlert(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+        present(alert, animated: true)
     }
     
     @objc private func signInPressed(_ sender: UIButton) {
@@ -243,3 +260,4 @@ class SignUpViewController: UIViewController {
         navigationController?.pushViewController(SignInViewController(), animated: true)
     }
 }
+

@@ -5,7 +5,9 @@ import FirebaseStorage
 
 class SignInViewController: UIViewController {
     
-    var account: AuthenticationModel?
+    private var account: AuthenticationModel?
+    
+    private var authService = AuthService.shared
     
     //MARK: - UI Components
     private let eventHubImage: UIImageView = {
@@ -209,7 +211,8 @@ class SignInViewController: UIViewController {
             loginWithGoogleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 52),
             loginWithGoogleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -52)
         ])
-        
+        loginWithGoogleButton.addTarget(self, action: #selector(loginWithGooglePressed), for: .touchUpInside)
+
         view.addSubview(signUpLabel)
         NSLayoutConstraint.activate([
             signUpLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -20),
@@ -267,8 +270,23 @@ class SignInViewController: UIViewController {
         }
     }
     
-    @objc private func loginWithGooglePressed(_ sender: UIButton) {
-        
+    @objc private func loginWithGooglePressed() {
+        authService.signInWithGoogle(presentingViewController: self) { [weak self] result in
+                switch result {
+                case .success(let user):
+                    print("Enter: \(user.email ?? "unknown")")
+//                    let exploreVC = ExploreViewController()
+//                    self?.navigationController?.pushViewController(exploreVC, animated: true)
+                case .failure(let error):
+                    self?.showErrorAlert(message: error.localizedDescription)
+                }
+            }
+    }
+    
+    private func showErrorAlert(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+        present(alert, animated: true)
     }
     
     @objc private func signUpPressed(_ sender: UIButton) {
@@ -277,3 +295,4 @@ class SignInViewController: UIViewController {
         navigationController?.pushViewController(SignUpViewController(), animated: true)
     }
 }
+
