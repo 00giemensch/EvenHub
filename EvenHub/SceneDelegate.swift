@@ -52,6 +52,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
     
-    
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        guard let url = userActivity.webpageURL else { return }
+        handleFirebaseAuthLink(url)
+    }
+
+    private func handleFirebaseAuthLink(_ url: URL) {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+              let queryItems = components.queryItems else { return }
+        
+        let mode = queryItems.first(where: { $0.name == "mode" })?.value
+        let oobCode = queryItems.first(where: { $0.name == "oobCode" })?.value
+        
+        if mode == "resetPassword", let oobCode = oobCode {
+            if let nav = window?.rootViewController as? UINavigationController {
+                let vc = ResetPasswordSecondViewController(oobCode: oobCode)
+                nav.pushViewController(vc, animated: true)
+            }
+        }
+    }
 }
 

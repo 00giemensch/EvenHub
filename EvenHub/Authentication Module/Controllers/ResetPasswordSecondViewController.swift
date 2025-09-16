@@ -7,6 +7,17 @@ import FirebaseStorage
 
 class ResetPasswordSecondViewController: UIViewController {
     
+    private let oobCode: String
+    
+    init(oobCode: String) {
+            self.oobCode = oobCode
+            super.init(nibName: nil, bundle: nil)
+        }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private let passwordTextField: AuthenticationSecureTextField = {
         let passwordTextField = AuthenticationSecureTextField()
         passwordTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: Constants.passwordPlaceholder, font: Constants.Fonts.book, fontSize: 14)
@@ -42,7 +53,7 @@ class ResetPasswordSecondViewController: UIViewController {
         
 
         
-        //MARK: Adding UIElements
+        //MARK: Adding UI Elements
         view.addSubview(passwordTextField)
         NSLayoutConstraint.activate([
             passwordTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 75),
@@ -85,19 +96,8 @@ class ResetPasswordSecondViewController: UIViewController {
             return
         }
         
-        let errors = PasswordRules.validate(newPass)
-        
-        if errors.isEmpty {
-            passwordTextField.layer.borderColor = (Constants.Colors.Accent.green)?.cgColor
-            passwordTextField.layer.borderWidth = 1
-        } else {
-            passwordTextField.layer.borderColor = (Constants.Colors.Accent.red)?.cgColor
-            passwordTextField.layer.borderWidth = 1
-            changePasswordButton.isEnabled = false
-        }
-        
         // Confirm Password Validation
-        guard let confirmPass = confirmPasswordTextField.text, !confirmPass.isEmpty, errors.isEmpty
+        guard let confirmPass = confirmPasswordTextField.text, !confirmPass.isEmpty
         else {
             changePasswordButton.isEnabled = false
             changePasswordButton.alpha = 0.5
@@ -116,7 +116,39 @@ class ResetPasswordSecondViewController: UIViewController {
             changePasswordButton.alpha = 0.5
             changePasswordButton.isEnabled = false
         }
+        
+        Auth.auth().confirmPasswordReset(withCode: oobCode, newPassword: newPass) { [weak self] error in
+                guard let self = self else { return }
+                
+                if let error = error {
+                    self.showAlert("Ошибка", error.localizedDescription)
+                } else {
+                    // Успешная смена пароля
+                    let alert = UIAlertController(title: "Готово", message: "Пароль успешно изменён", preferredStyle: .alert)
+                    
+                    // В обработчике кнопки OK делаем переход
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+                        // Здесь переход на нужный VC
+                        let loginVC = SignInViewController() // например, экран логина
+                        if let nav = self.navigationController {
+                            nav.setViewControllers([loginVC], animated: true)
+                        } else {
+                            self.present(loginVC, animated: true)
+                        }
+                    }))
+                    
+                    self.present(alert, animated: true)
+                }
+            }
+        
+        
     }
+    
+    private func showAlert(_ title: String, _ message: String) {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+        }
     
     @objc private func buttonPressed(_ sender: UIButton) {
         navigationController?.pushViewController(SignInViewController(), animated: true)
