@@ -203,7 +203,6 @@ class SignUpViewController: UIViewController {
             confirmPasswordTextField.layer.borderWidth = 1
             signInButton.isEnabled = true
         } else {
-            print("❌ Пароли не совпадают")
             confirmPasswordTextField.layer.borderColor = (Constants.Colors.Accent.red)?.cgColor
             confirmPasswordTextField.layer.borderWidth = 1
             signInButton.isEnabled = false

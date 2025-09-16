@@ -76,5 +76,25 @@ class ResetPasswordMainViewController: UIViewController {
     
     @objc private func sendButtonPressed(_ sender: UIButton) {
         //Validation + Navigation
+        
+        let auth = Auth.auth()
+        let alertController = UIAlertController(title: "", message: "", preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        
+        guard let email = loginTextField.text else { return }
+        auth.sendPasswordReset(withEmail: email) { (error) in
+            if error == nil {
+                //TODO: Navigation to Explore VC
+                alertController.title = "Success!"
+                alertController.message = "Check email for password reset instructions."
+                alertController.addAction(defaultAction)
+                self.present(alertController, animated: true, completion: nil)
+            } else {
+                alertController.title = "Error"
+                alertController.message = error?.localizedDescription
+                alertController.addAction(defaultAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
+        }
     }
 }
