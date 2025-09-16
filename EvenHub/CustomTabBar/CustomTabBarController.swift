@@ -55,9 +55,9 @@ class CustomTabBarController: UITabBarController {
         eventsVC.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
         
         // Пустой контроллер для центральной кнопки
-        let emptyVC = Map()
+        let emptyVC = FavoritesViewController()
         emptyVC.tabBarItem = UITabBarItem(title: "", image: nil, tag: 2)
-        emptyVC.tabBarItem.isEnabled = false
+        emptyVC.tabBarItem.isEnabled = true
         
         let mapVC = Map()
         
