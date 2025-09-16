@@ -1,6 +1,9 @@
 import UIKit
+import GoogleSignIn
+import FirebaseAuth
 
 class AuthenticationGoogleLogin: UIButton {
+    
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -28,7 +31,6 @@ class AuthenticationGoogleLogin: UIButton {
         
         self.layer.cornerRadius = 15
         self.layer.masksToBounds = true
-        
         self.titleLabel?.font = UIFont(name: Constants.Fonts.medium, size: 16)
     }
 }
