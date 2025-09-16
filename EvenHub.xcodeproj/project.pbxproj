@@ -72,6 +72,11 @@
 			path = ProfileModule;
 			sourceTree = "<group>";
 		};
+		1B540B972E7977A300E9C3F3 /* FavoritesModule */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = FavoritesModule;
+			sourceTree = "<group>";
+		};
 		223640C32E7722EE0078BBC9 /* CustomTabBar */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = CustomTabBar;
@@ -114,6 +119,7 @@
 		676E2C152E7097B20074641F /* EvenHub */ = {
 			isa = PBXGroup;
 			children = (
+				1B540B972E7977A300E9C3F3 /* FavoritesModule */,
 				1B540B822E78501600E9C3F3 /* ProfileModule */,
 				67BFCCF12E759DA8003B13A9 /* ShareScreen */,
 				1B540A1A2E730ED600E9C3F3 /* OnboardingModule */,
@@ -221,6 +227,7 @@
 			fileSystemSynchronizedGroups = (
 				1B540A1A2E730ED600E9C3F3 /* OnboardingModule */,
 				1B540B822E78501600E9C3F3 /* ProfileModule */,
+				1B540B972E7977A300E9C3F3 /* FavoritesModule */,
 				223640C32E7722EE0078BBC9 /* CustomTabBar */,
 				9FE3FA202E75F02A00344DEF /* Extension */,
 			);

@@ -19,7 +19,4 @@ struct ProfileModel {
         static var fullText = "Enjoy your favorite dishe and a lovely your friends and family and have a great time. Food from local food trucks will be available for purchase. Enjoy your favorite dishe and a lovely your friends and family and have a great time. Food from local food trucks will be available for purchase."
         static let truncatedText = "Enjoy your favorite dishe and a lovely your friends and family and have a great time. Food from local food trucks will be available for purchase. "
     }
-    
-    let numberOfPages = 3
-    var currentPage = 0
 }
