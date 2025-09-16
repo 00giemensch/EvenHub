@@ -23,6 +23,7 @@ class ExploreViewController: UIViewController {
     private let locationButton = UIButton()
     private let locationLabel = UILabel()
     private let locationList = UITableView()
+    private let notificationButton = UIButton()
     private let searchTextField = SearchTextField(scheme: .gray)
     private lazy var exploreCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
@@ -109,6 +110,7 @@ class ExploreViewController: UIViewController {
         setupLocationButton()
         setupLocationLabel()
         setupLocationList()
+        setupLocationBatton()
     }
     private func setupLocationButton() {
         view.addSubview(locationButton)
@@ -124,8 +126,6 @@ class ExploreViewController: UIViewController {
         let imageString = NSAttributedString(attachment: attachment)
         
         titleText.append(imageString)
-        
-        
         locationButton.setAttributedTitle(titleText, for: .normal)
         locationButton.setTitleColor(.black, for: .normal)
         locationButton.contentHorizontalAlignment = .left
@@ -179,10 +179,23 @@ class ExploreViewController: UIViewController {
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            searchTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            searchTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height * 0.14),
             searchTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             searchTextField.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
+    private func setupLocationBatton() {
+        view.addSubview(notificationButton)
+        notificationButton.setImage(UIImage(resource: .navNotificationFill), for: .normal)
+        notificationButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            notificationButton.centerYAnchor.constraint(equalTo: locationLabel.topAnchor),
+            notificationButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            
+            notificationButton.widthAnchor.constraint(equalToConstant: 36),
+            notificationButton.heightAnchor.constraint(equalToConstant: 36)
         ])
     }
     private func setSectionHeader() {
