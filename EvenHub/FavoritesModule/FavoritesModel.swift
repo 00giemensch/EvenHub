@@ -12,5 +12,6 @@ struct FavoritesModel {
         static let airBnbCerealBookFont = "AirbnbCereal_Book"
         static let mapPointIcon = "map_event_location"
         static let favoriteIcon = "common_favorite_selected"
+        static let noFavImage = "noFavImage"
     }
 }
