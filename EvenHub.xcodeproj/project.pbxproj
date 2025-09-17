@@ -30,6 +30,9 @@
 		BEE372262E72EC7D002C9178 /* TodayEventDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372252E72EC7D002C9178 /* TodayEventDTO.swift */; };
 		BEE372282E72EDF8002C9178 /* SearchEventDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372272E72EDF8002C9178 /* SearchEventDTO.swift */; };
 		BEE3722A2E72EE1B002C9178 /* EventDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372292E72EE1B002C9178 /* EventDTO.swift */; };
+		BEE3736C2E7AE94B002C9178 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE3736B2E7AE94B002C9178 /* APIClient.swift */; };
+		BEE3736E2E7AE97E002C9178 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE3736D2E7AE97E002C9178 /* NetworkError.swift */; };
+		BEE373702E7AE9B1002C9178 /* EventAPISpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE3736F2E7AE9B1002C9178 /* EventAPISpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +62,9 @@
 		BEE372252E72EC7D002C9178 /* TodayEventDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayEventDTO.swift; sourceTree = "<group>"; };
 		BEE372272E72EDF8002C9178 /* SearchEventDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEventDTO.swift; sourceTree = "<group>"; };
 		BEE372292E72EE1B002C9178 /* EventDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDTO.swift; sourceTree = "<group>"; };
+		BEE3736B2E7AE94B002C9178 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		BEE3736D2E7AE97E002C9178 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		BEE3736F2E7AE9B1002C9178 /* EventAPISpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAPISpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -124,6 +130,7 @@
 		676E2C152E7097B20074641F /* EvenHub */ = {
 			isa = PBXGroup;
 			children = (
+				BEE373692E7AE8E3002C9178 /* Network */,
 				1B540D242E7AC89B00E9C3F3 /* SeeAllModule */,
 				1B540B972E7977A300E9C3F3 /* FavoritesModule */,
 				1B540B822E78501600E9C3F3 /* ProfileModule */,
@@ -215,6 +222,24 @@
 			path = DTO;
 			sourceTree = "<group>";
 		};
+		BEE373692E7AE8E3002C9178 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				BEE3736A2E7AE922002C9178 /* APIService */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		BEE3736A2E7AE922002C9178 /* APIService */ = {
+			isa = PBXGroup;
+			children = (
+				BEE3736B2E7AE94B002C9178 /* APIClient.swift */,
+				BEE3736D2E7AE97E002C9178 /* NetworkError.swift */,
+				BEE3736F2E7AE9B1002C9178 /* EventAPISpec.swift */,
+			);
+			path = APIService;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -304,6 +329,7 @@
 				676E2C162E7097B20074641F /* AppDelegate.swift in Sources */,
 				676E2C172E7097B20074641F /* EventDetailsVC.swift in Sources */,
 				676E2C182E7097B20074641F /* SceneDelegate.swift in Sources */,
+				BEE373702E7AE9B1002C9178 /* EventAPISpec.swift in Sources */,
 				BEE3722A2E72EE1B002C9178 /* EventDTO.swift in Sources */,
 				67BFCC072E748562003B13A9 /* EventDetailsCell.swift in Sources */,
 				676E2C192E7097B20074641F /* ViewController.swift in Sources */,
@@ -312,11 +338,13 @@
 				67BFCCF32E759DBC003B13A9 /* ShareVC.swift in Sources */,
 				BEE372222E72EAAE002C9178 /* ListDTO.swift in Sources */,
 				9FE3F9D32E75C8C800344DEF /* ExploreCollectionHeader.swift in Sources */,
+				BEE3736C2E7AE94B002C9178 /* APIClient.swift in Sources */,
 				9FE3F9D42E75C8C800344DEF /* ExploreViewController.swift in Sources */,
 				9FE3F9D52E75C8C800344DEF /* ExploreCollectionViewCell.swift in Sources */,
 				BEE372282E72EDF8002C9178 /* SearchEventDTO.swift in Sources */,
 				9FE3FA3A2E75F81300344DEF /* ExploreCellDateView.swift in Sources */,
 				BEE372262E72EC7D002C9178 /* TodayEventDTO.swift in Sources */,
+				BEE3736E2E7AE97E002C9178 /* NetworkError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
