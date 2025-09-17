@@ -7,24 +7,14 @@
 
 import UIKit
 
-enum CategoryType {
-    case art
-    case sport
-    case food
-    case music
-}
-
 class ExploreViewController: UIViewController {
     //MARK: - Properties
-    
-    let categoryes: [CategoryType] = [.sport, .music, .food, .art]
-    
+    private let viewModel = ExploreViewModel.shared
     private lazy var dataSource = UICollectionViewDiffableDataSource<Int, Int>(collectionView: exploreCollectionView) { collectionView, indexPath, itemIdentifier in
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExploreCollectionViewCell.cellId, for: indexPath) as! ExploreCollectionViewCell
         cell.configure()
         return cell
     }
-    private let options = ["Option 1", "Option 2", "Option 3", "Option 4"]
     private var isLocationListVisible = false
     private var locationListHeightConstraint = NSLayoutConstraint()
     private var tapOutsideGesture = UITapGestureRecognizer()
@@ -61,6 +51,13 @@ class ExploreViewController: UIViewController {
         super.viewDidLoad()
         setupLayout()
         setupTapGesture()
+        
+        viewModel.locationsIsLoaded = { [weak self] locationsPlaces in
+            DispatchQueue.main.async {
+                self?.locationLabel.text = locationsPlaces.first
+                self?.locationList.reloadData()
+            }
+        }
     }
     
     //MARK: - Methods
@@ -78,7 +75,8 @@ class ExploreViewController: UIViewController {
         } else {
             UIView.animate(withDuration: 0.3) {
                 self.locationList.isHidden = false
-                let offset = self.options.count * 38 < 300  ? CGFloat(self.options.count * 38) : 300
+                let locationsCount = self.viewModel.locationPlaces.count
+                let offset = locationsCount * 38 < 300  ? CGFloat(locationsCount * 38) : 300
                 self.locationListHeightConstraint.constant += offset
                 self.view.layoutIfNeeded()
             }
@@ -162,7 +160,7 @@ class ExploreViewController: UIViewController {
     }
     private func setupLocationLabel() {
         view.addSubview(locationLabel)
-        locationLabel.text = "City"
+        locationLabel.text = "Finding your location..."
         locationLabel.font = UIFont(name: Constants.Fonts.medium, size: 13)
         locationLabel.textColor = .white
         locationLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -316,11 +314,11 @@ extension ExploreViewController: UICollectionViewDelegate {
 //MARK: - CollectionView DataSource
 extension ExploreViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categoryes.count
+        return viewModel.category.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExploreCategoryCell.cellID, for: indexPath) as! ExploreCategoryCell
-        cell.setCategory(categoryes[indexPath.row])
+        cell.setCategory(viewModel.category[indexPath.row])
         cell.action = { [weak self] in
             print("categoty cell tup")
         }
@@ -331,17 +329,17 @@ extension ExploreViewController: UICollectionViewDataSource {
 //MARK: - TableView Delegate and DataSource
 extension ExploreViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return options.count
+        return viewModel.locationPlaces.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: ExploreTableViewCell.identifire, for: indexPath) as! ExploreTableViewCell
-        cell.configure(with: options[indexPath.row])
+        cell.configure(with: viewModel.locationPlaces[indexPath.row])
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("=\(options[indexPath.row])=")
-        locationLabel.text = options[indexPath.row]
+        print("=\(viewModel.locationPlaces[indexPath.row])=")
+        locationLabel.text = viewModel.locationPlaces[indexPath.row]
         isLocationListVisible = true
         changeLocationListVisible()
     }

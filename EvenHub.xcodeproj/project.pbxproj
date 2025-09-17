@@ -22,7 +22,6 @@
 		6E5FEA712E74666600104B1A /* AirbnbCereal_W_Md.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6E5FEA6B2E74666600104B1A /* AirbnbCereal_W_Md.otf */; };
 		6E5FEA722E74666600104B1A /* AirbnbCereal_W_XBd.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6E5FEA6C2E74666600104B1A /* AirbnbCereal_W_XBd.otf */; };
 		9FE3F9D32E75C8C800344DEF /* ExploreCollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3F9CE2E75C8C800344DEF /* ExploreCollectionHeader.swift */; };
-		9FE3F9D42E75C8C800344DEF /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3F9D12E75C8C800344DEF /* ExploreViewController.swift */; };
 		9FE3F9D52E75C8C800344DEF /* ExploreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3F9CF2E75C8C800344DEF /* ExploreCollectionViewCell.swift */; };
 		9FE3FA3A2E75F81300344DEF /* ExploreCellDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3FA392E75F81300344DEF /* ExploreCellDateView.swift */; };
 		9FE3FA4A2E76B06000344DEF /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3FA492E76B06000344DEF /* SearchTextField.swift */; };
@@ -55,7 +54,6 @@
 		6E5FEA6C2E74666600104B1A /* AirbnbCereal_W_XBd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCereal_W_XBd.otf; sourceTree = "<group>"; };
 		9FE3F9CE2E75C8C800344DEF /* ExploreCollectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCollectionHeader.swift; sourceTree = "<group>"; };
 		9FE3F9CF2E75C8C800344DEF /* ExploreCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewCell.swift; sourceTree = "<group>"; };
-		9FE3F9D12E75C8C800344DEF /* ExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
 		9FE3FA392E75F81300344DEF /* ExploreCellDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCellDateView.swift; sourceTree = "<group>"; };
 		9FE3FA492E76B06000344DEF /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		9FE3FAFA2E79644800344DEF /* ExploreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTableViewCell.swift; sourceTree = "<group>"; };
@@ -76,6 +74,16 @@
 		9FE3FA202E75F02A00344DEF /* Extension */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		9FE3FB0C2E7ADDC400344DEF /* Controllers */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		9FE3FB0D2E7ADDD200344DEF /* ViewModels */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -182,8 +190,9 @@
 		9FE3F9D22E75C8C800344DEF /* ExploreScreen */ = {
 			isa = PBXGroup;
 			children = (
+				9FE3FB0D2E7ADDD200344DEF /* ViewModels */,
 				9FE3F9D02E75C8C800344DEF /* Views */,
-				9FE3F9D12E75C8C800344DEF /* ExploreViewController.swift */,
+				9FE3FB0C2E7ADDC400344DEF /* Controllers */,
 			);
 			path = ExploreScreen;
 			sourceTree = "<group>";
@@ -218,6 +227,8 @@
 			fileSystemSynchronizedGroups = (
 				1B540A1A2E730ED600E9C3F3 /* OnboardingModule */,
 				9FE3FA202E75F02A00344DEF /* Extension */,
+				9FE3FB0C2E7ADDC400344DEF /* Controllers */,
+				9FE3FB0D2E7ADDD200344DEF /* ViewModels */,
 			);
 			name = EvenHub;
 			packageProductDependencies = (
@@ -295,7 +306,6 @@
 				9FE3FAFB2E79644800344DEF /* ExploreTableViewCell.swift in Sources */,
 				BEE372222E72EAAE002C9178 /* ListDTO.swift in Sources */,
 				9FE3F9D32E75C8C800344DEF /* ExploreCollectionHeader.swift in Sources */,
-				9FE3F9D42E75C8C800344DEF /* ExploreViewController.swift in Sources */,
 				9FE3F9D52E75C8C800344DEF /* ExploreCollectionViewCell.swift in Sources */,
 				BEE372282E72EDF8002C9178 /* SearchEventDTO.swift in Sources */,
 				9FE3FA3A2E75F81300344DEF /* ExploreCellDateView.swift in Sources */,
