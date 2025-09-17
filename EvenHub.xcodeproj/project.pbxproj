@@ -33,6 +33,8 @@
 		BEE3736C2E7AE94B002C9178 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE3736B2E7AE94B002C9178 /* APIClient.swift */; };
 		BEE3736E2E7AE97E002C9178 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE3736D2E7AE97E002C9178 /* NetworkError.swift */; };
 		BEE373702E7AE9B1002C9178 /* EventAPISpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE3736F2E7AE9B1002C9178 /* EventAPISpec.swift */; };
+		BEE373732E7AED21002C9178 /* EventAPIProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE373722E7AED21002C9178 /* EventAPIProtocols.swift */; };
+		BEE373752E7AF251002C9178 /* EventAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE373742E7AF251002C9178 /* EventAPIService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +67,8 @@
 		BEE3736B2E7AE94B002C9178 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		BEE3736D2E7AE97E002C9178 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		BEE3736F2E7AE9B1002C9178 /* EventAPISpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAPISpec.swift; sourceTree = "<group>"; };
+		BEE373722E7AED21002C9178 /* EventAPIProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAPIProtocols.swift; sourceTree = "<group>"; };
+		BEE373742E7AF251002C9178 /* EventAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAPIService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -225,6 +229,7 @@
 		BEE373692E7AE8E3002C9178 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				BEE373712E7AEA61002C9178 /* EventAPIService */,
 				BEE3736A2E7AE922002C9178 /* APIService */,
 			);
 			path = Network;
@@ -238,6 +243,15 @@
 				BEE3736F2E7AE9B1002C9178 /* EventAPISpec.swift */,
 			);
 			path = APIService;
+			sourceTree = "<group>";
+		};
+		BEE373712E7AEA61002C9178 /* EventAPIService */ = {
+			isa = PBXGroup;
+			children = (
+				BEE373722E7AED21002C9178 /* EventAPIProtocols.swift */,
+				BEE373742E7AF251002C9178 /* EventAPIService.swift */,
+			);
+			path = EventAPIService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -332,6 +346,7 @@
 				BEE373702E7AE9B1002C9178 /* EventAPISpec.swift in Sources */,
 				BEE3722A2E72EE1B002C9178 /* EventDTO.swift in Sources */,
 				67BFCC072E748562003B13A9 /* EventDetailsCell.swift in Sources */,
+				BEE373752E7AF251002C9178 /* EventAPIService.swift in Sources */,
 				676E2C192E7097B20074641F /* ViewController.swift in Sources */,
 				6E5FE8122E730E6C00104B1A /* Constants.swift in Sources */,
 				BEE372242E72EBAA002C9178 /* MovieDTO.swift in Sources */,
@@ -344,6 +359,7 @@
 				BEE372282E72EDF8002C9178 /* SearchEventDTO.swift in Sources */,
 				9FE3FA3A2E75F81300344DEF /* ExploreCellDateView.swift in Sources */,
 				BEE372262E72EC7D002C9178 /* TodayEventDTO.swift in Sources */,
+				BEE373732E7AED21002C9178 /* EventAPIProtocols.swift in Sources */,
 				BEE3736E2E7AE97E002C9178 /* NetworkError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
