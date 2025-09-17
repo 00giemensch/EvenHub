@@ -7,8 +7,18 @@
 
 import UIKit
 
+enum CategoryType {
+    case art
+    case sport
+    case food
+    case music
+}
+
 class ExploreViewController: UIViewController {
     //MARK: - Properties
+    
+    let categoryes: [CategoryType] = [.sport, .music, .food, .art]
+    
     private lazy var dataSource = UICollectionViewDiffableDataSource<Int, Int>(collectionView: exploreCollectionView) { collectionView, indexPath, itemIdentifier in
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExploreCollectionViewCell.cellId, for: indexPath) as! ExploreCollectionViewCell
         cell.configure()
@@ -30,6 +40,16 @@ class ExploreViewController: UIViewController {
         
         return collectionView
     }()
+    private lazy var categoryCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 11
+        layout.sectionInset = .init(top: 0, left: 16, bottom: 0, right: 16)
+        layout.itemSize = .init(width: 100, height: 39)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        return collectionView
+    }()
     
     //MARK: - Lifecycle
     override func loadView() {
@@ -42,6 +62,7 @@ class ExploreViewController: UIViewController {
         setupLayout()
         setupTapGesture()
     }
+    
     //MARK: - Methods
     private func setupTapGesture() {
         tapOutsideGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapOutside))
@@ -74,7 +95,8 @@ class ExploreViewController: UIViewController {
     //MARK: - Setup UI
     private func setupLayout() {
         setupSearchTextField()
-        setupCollectionView()
+        setupCategoryCollectionView()
+        setupExploreCollectionView()
         setDataSource()
         setupLocationBar()
     }
@@ -193,7 +215,6 @@ class ExploreViewController: UIViewController {
         NSLayoutConstraint.activate([
             notificationButton.centerYAnchor.constraint(equalTo: locationLabel.topAnchor),
             notificationButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
             notificationButton.widthAnchor.constraint(equalToConstant: 36),
             notificationButton.heightAnchor.constraint(equalToConstant: 36)
         ])
@@ -255,8 +276,7 @@ class ExploreViewController: UIViewController {
         
         return layout
     }
-    
-    private func setupCollectionView() {
+    private func setupExploreCollectionView() {
         view.addSubview(exploreCollectionView)
         exploreCollectionView.backgroundColor = .clear
         exploreCollectionView.delegate = self
@@ -266,11 +286,25 @@ class ExploreViewController: UIViewController {
         exploreCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            exploreCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: view.frame.height * 0.17),
+            exploreCollectionView.topAnchor.constraint(equalTo: categoryCollectionView.bottomAnchor, constant: 10),
             exploreCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             exploreCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            //            exploreCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.32)
             exploreCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.72)
+        ])
+    }
+    private func setupCategoryCollectionView() {
+        view.addSubview(categoryCollectionView)
+        categoryCollectionView.backgroundColor = .clear
+        categoryCollectionView.dataSource = self
+        categoryCollectionView.showsHorizontalScrollIndicator = false
+        categoryCollectionView.register(ExploreCategoryCell.self, forCellWithReuseIdentifier: ExploreCategoryCell.cellID)
+        categoryCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            categoryCollectionView.centerYAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height * 0.221),
+            categoryCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            categoryCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            categoryCollectionView.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
 }
@@ -278,6 +312,20 @@ class ExploreViewController: UIViewController {
 //MARK: - CollectionView Delegate
 extension ExploreViewController: UICollectionViewDelegate {
     
+}
+//MARK: - CollectionView DataSource
+extension ExploreViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return categoryes.count
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExploreCategoryCell.cellID, for: indexPath) as! ExploreCategoryCell
+        cell.setCategory(categoryes[indexPath.row])
+        cell.action = { [weak self] in
+            print("categoty cell tup")
+        }
+        return cell
+    }
 }
 
 //MARK: - TableView Delegate and DataSource
