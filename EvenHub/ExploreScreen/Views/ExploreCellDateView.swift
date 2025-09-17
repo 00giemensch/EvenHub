@@ -61,7 +61,8 @@ class ExploreCellDateView: UIView {
         NSLayoutConstraint.activate([
             monthLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 2),
             monthLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -2),
-            monthLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -6)
+            monthLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -6),
+            monthLabel.topAnchor.constraint(lessThanOrEqualTo: self.centerYAnchor)
         ])
     }
     private func setupDayLabel() {
