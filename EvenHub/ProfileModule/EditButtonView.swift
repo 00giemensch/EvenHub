@@ -63,6 +63,7 @@ class EditButtonView : UIButton {
     private func setupViews() {
         backgroundColor = .clear
         addSubview(stackView)
+        stackView.isUserInteractionEnabled = false
         stackView.addArrangedSubview(editIconImageView)
         stackView.addArrangedSubview(editLabel)
     }

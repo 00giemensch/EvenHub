@@ -34,6 +34,7 @@ class Constants {
             static let blue30 = UIColor(named: "blue30")
             static let blue40 = UIColor(named: "blue40")
             static let blue50 = UIColor(named: "blue50")
+            static let buttonBlue = UIColor().hex(0x5D56F3)
         }
         
         struct SecondaryCyan {
