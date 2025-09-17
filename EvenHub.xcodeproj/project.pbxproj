@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B540CFE2E7AC71000E9C3F3 /* SeeAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B540CFD2E7AC66600E9C3F3 /* SeeAllViewController.swift */; };
 		676E2C162E7097B20074641F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E2C0D2E7097B20074641F /* AppDelegate.swift */; };
 		676E2C172E7097B20074641F /* EventDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E2C0F2E7097B20074641F /* EventDetailsVC.swift */; };
 		676E2C182E7097B20074641F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E2C132E7097B20074641F /* SceneDelegate.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1B540CFD2E7AC66600E9C3F3 /* SeeAllViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllViewController.swift; sourceTree = "<group>"; };
 		676E2BE62E6F36470074641F /* EvenHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EvenHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		676E2C0D2E7097B20074641F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		676E2C0F2E7097B20074641F /* EventDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsVC.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 		676E2C152E7097B20074641F /* EvenHub */ = {
 			isa = PBXGroup;
 			children = (
+				1B540CFD2E7AC66600E9C3F3 /* SeeAllViewController.swift */,
 				1B540B972E7977A300E9C3F3 /* FavoritesModule */,
 				1B540B822E78501600E9C3F3 /* ProfileModule */,
 				67BFCCF12E759DA8003B13A9 /* ShareScreen */,
@@ -299,6 +302,7 @@
 				676E2C182E7097B20074641F /* SceneDelegate.swift in Sources */,
 				BEE3722A2E72EE1B002C9178 /* EventDTO.swift in Sources */,
 				67BFCC072E748562003B13A9 /* EventDetailsCell.swift in Sources */,
+				1B540CFE2E7AC71000E9C3F3 /* SeeAllViewController.swift in Sources */,
 				676E2C192E7097B20074641F /* ViewController.swift in Sources */,
 				6E5FE8122E730E6C00104B1A /* Constants.swift in Sources */,
 				BEE372242E72EBAA002C9178 /* MovieDTO.swift in Sources */,
