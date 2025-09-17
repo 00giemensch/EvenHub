@@ -35,6 +35,7 @@
 		BEE373702E7AE9B1002C9178 /* EventAPISpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE3736F2E7AE9B1002C9178 /* EventAPISpec.swift */; };
 		BEE373732E7AED21002C9178 /* EventAPIProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE373722E7AED21002C9178 /* EventAPIProtocols.swift */; };
 		BEE373752E7AF251002C9178 /* EventAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE373742E7AF251002C9178 /* EventAPIService.swift */; };
+		BEE373782E7B0201002C9178 /* APISmokeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE373772E7B0201002C9178 /* APISmokeVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +70,7 @@
 		BEE3736F2E7AE9B1002C9178 /* EventAPISpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAPISpec.swift; sourceTree = "<group>"; };
 		BEE373722E7AED21002C9178 /* EventAPIProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAPIProtocols.swift; sourceTree = "<group>"; };
 		BEE373742E7AF251002C9178 /* EventAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAPIService.swift; sourceTree = "<group>"; };
+		BEE373772E7B0201002C9178 /* APISmokeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APISmokeVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -134,6 +136,7 @@
 		676E2C152E7097B20074641F /* EvenHub */ = {
 			isa = PBXGroup;
 			children = (
+				BEE373762E7B01D4002C9178 /* Test */,
 				BEE373692E7AE8E3002C9178 /* Network */,
 				1B540D242E7AC89B00E9C3F3 /* SeeAllModule */,
 				1B540B972E7977A300E9C3F3 /* FavoritesModule */,
@@ -254,6 +257,14 @@
 			path = EventAPIService;
 			sourceTree = "<group>";
 		};
+		BEE373762E7B01D4002C9178 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				BEE373772E7B0201002C9178 /* APISmokeVC.swift */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -341,6 +352,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				676E2C162E7097B20074641F /* AppDelegate.swift in Sources */,
+				BEE373782E7B0201002C9178 /* APISmokeVC.swift in Sources */,
 				676E2C172E7097B20074641F /* EventDetailsVC.swift in Sources */,
 				676E2C182E7097B20074641F /* SceneDelegate.swift in Sources */,
 				BEE373702E7AE9B1002C9178 /* EventAPISpec.swift in Sources */,
