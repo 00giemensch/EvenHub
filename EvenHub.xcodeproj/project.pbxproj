@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2266857A2E7C1B7600BF6318 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E5FE8102E730E6C00104B1A /* LaunchScreen.storyboard */; };
 		676E2C162E7097B20074641F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E2C0D2E7097B20074641F /* AppDelegate.swift */; };
 		676E2C172E7097B20074641F /* EventDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E2C0F2E7097B20074641F /* EventDetailsVC.swift */; };
 		676E2C182E7097B20074641F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E2C132E7097B20074641F /* SceneDelegate.swift */; };
@@ -362,6 +363,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E5FE8142E730E6C00104B1A /* Assets.xcassets in Resources */,
+				2266857A2E7C1B7600BF6318 /* LaunchScreen.storyboard in Resources */,
 				6E5FEA6D2E74666600104B1A /* AirbnbCereal_W_Lt.otf in Resources */,
 				6E5FEA6E2E74666600104B1A /* AirbnbCereal_W_Bk.otf in Resources */,
 				6E5FEA6F2E74666600104B1A /* AirbnbCereal_W_Bd.otf in Resources */,
@@ -395,7 +397,6 @@
 				BEE372222E72EAAE002C9178 /* ListDTO.swift in Sources */,
 				9FE3F9D32E75C8C800344DEF /* ExploreCollectionHeader.swift in Sources */,
 				BEE3736C2E7AE94B002C9178 /* APIClient.swift in Sources */,
-				9FE3F9D42E75C8C800344DEF /* ExploreViewController.swift in Sources */,
 				9FE3F9D52E75C8C800344DEF /* ExploreCollectionViewCell.swift in Sources */,
 				BEE372282E72EDF8002C9178 /* SearchEventDTO.swift in Sources */,
 				9FE3FA3A2E75F81300344DEF /* ExploreCellDateView.swift in Sources */,
@@ -428,7 +429,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = W2TKN5Z766;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EvenHub/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -458,7 +459,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = W2TKN5Z766;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EvenHub/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
