@@ -1,23 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="24G84" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="AgentEntity" representedClassName="AgentEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ImagesEntity" inverseName="agent" inverseEntity="ImagesEntity"/>
+        <relationship name="participant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ParticipantEntity" inverseName="agent" inverseEntity="ParticipantEntity"/>
+    </entity>
+    <entity name="CoordinatesEntity" representedClassName="CoordinatesEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="lat" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="lon" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="place" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PlaceEntity" inverseName="coordinates" inverseEntity="PlaceEntity"/>
+    </entity>
+    <entity name="EventLocationEntity" representedClassName="EventLocationEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="slug" optional="YES" attributeType="String"/>
+        <relationship name="event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FavoriteEvent" inverseName="eventLocation" inverseEntity="FavoriteEvent"/>
+    </entity>
     <entity name="FavoriteEvent" representedClassName="FavoriteEvent" syncable="YES">
         <attribute name="bodyText" optional="YES" attributeType="String"/>
         <attribute name="endTime" optional="YES" attributeType="String"/>
         <attribute name="eventDescription" optional="YES" attributeType="String"/>
         <attribute name="favoritesCount" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="String"/>
-        <attribute name="imageURL" optional="YES" attributeType="String"/>
-        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="locationName" optional="YES" attributeType="String"/>
-        <attribute name="locationSlug" optional="YES" attributeType="String"/>
-        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="participantsJSON" optional="YES" attributeType="String"/>
-        <attribute name="placeAdress" optional="YES" attributeType="String"/>
-        <attribute name="placeSlug" optional="YES" attributeType="String"/>
-        <attribute name="placeTitle" optional="YES" attributeType="String"/>
         <attribute name="startDate" optional="YES" attributeType="String"/>
         <attribute name="startTime" optional="YES" attributeType="String"/>
-        <attribute name="test" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="eventLocation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EventLocationEntity" inverseName="event" inverseEntity="EventLocationEntity"/>
+        <relationship name="images" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ImagesEntity" inverseName="event" inverseEntity="ImagesEntity"/>
+        <relationship name="participants" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ParticipantEntity" inverseName="event" inverseEntity="ParticipantEntity"/>
+        <relationship name="place" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PlaceEntity" inverseName="event" inverseEntity="PlaceEntity"/>
+    </entity>
+    <entity name="ImagesEntity" representedClassName="ImagesEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="image" optional="YES" attributeType="String"/>
+        <relationship name="agent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AgentEntity" inverseName="images" inverseEntity="AgentEntity"/>
+        <relationship name="event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FavoriteEvent" inverseName="images" inverseEntity="FavoriteEvent"/>
+    </entity>
+    <entity name="ParticipantEntity" representedClassName="ParticipantEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="roleSlug" optional="YES"/>
+        <relationship name="agent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AgentEntity" inverseName="participant" inverseEntity="AgentEntity"/>
+        <relationship name="event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FavoriteEvent" inverseName="participants" inverseEntity="FavoriteEvent"/>
+    </entity>
+    <entity name="PlaceEntity" representedClassName="PlaceEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="address" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="location" optional="YES" attributeType="String"/>
+        <attribute name="slug" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="coordinates" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoordinatesEntity" inverseName="place" inverseEntity="CoordinatesEntity"/>
+        <relationship name="event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FavoriteEvent" inverseName="place" inverseEntity="FavoriteEvent"/>
     </entity>
 </model>
