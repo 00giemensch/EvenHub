@@ -35,6 +35,31 @@ class FavoritesViewController : UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.isHidden = true
+        return view
+    }()
+    
+    let noFavLabel : UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.textAlignment = .center
+        label.text = "NO FAVORITES"
+        label.numberOfLines = 0
+        label.isHidden = false
+        return label
+    }()
+    
+    let noFavContainer: UIView = {
+        let view = UIView()
+        view.isHidden = false
+        return view
+    }()
+    
+    let noFavImageView : UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: FavoritesModel.Constants.noFavImage)
+        view.isHidden = false
         return view
     }()
     
@@ -60,6 +85,9 @@ class FavoritesViewController : UIViewController {
         view.addSubview(favLabel)
         view.addSubview(searchButton)
         view.addSubview(favCollectionView)
+        view.addSubview(noFavContainer)
+        noFavContainer.addSubview(noFavLabel)
+        view.addSubview(noFavImageView)
     }
     
     //MARK: - setConstraints
@@ -86,6 +114,29 @@ class FavoritesViewController : UIViewController {
             favCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             favCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             favCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
+        ])
+        
+        noFavContainer.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            noFavContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noFavContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 72),
+            noFavContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -72),
+            noFavContainer.topAnchor.constraint(equalTo: favLabel.bottomAnchor, constant: 103),
+            noFavContainer.heightAnchor.constraint(equalToConstant: 240)
+        ])
+        
+        noFavLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            noFavLabel.centerXAnchor.constraint(equalTo: noFavContainer.centerXAnchor),
+            noFavLabel.centerYAnchor.constraint(equalTo: noFavContainer.centerYAnchor),
+        ])
+        
+        noFavImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            noFavImageView.centerXAnchor.constraint(equalTo: noFavContainer.centerXAnchor),
+            noFavImageView.topAnchor.constraint(equalTo: noFavContainer.bottomAnchor, constant: -34),
+            noFavImageView.widthAnchor.constraint(equalToConstant: 136),
+            noFavImageView.heightAnchor.constraint(equalToConstant: 450)
         ])
     }
 }

@@ -156,6 +156,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         shadowView.layer.shadowOffset = .init(width: 0, height: 0)
         shadowView.layer.cornerRadius = 20
         shadowView.frame = eventImageView.bounds
+        shadowView.layer.shadowPath = UIBezierPath(roundedRect: shadowView.bounds, cornerRadius: shadowView.layer.cornerRadius).cgPath
         contentView.addSubview(shadowView)
         shadowView.addSubview(eventImageView)
         
