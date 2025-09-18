@@ -60,7 +60,7 @@ class CustomTabBarController: UITabBarController {
         // Empty
         let emptyVC = Map()
         emptyVC.tabBarItem = UITabBarItem(title: "", image: nil, tag: 2)
-        emptyVC.tabBarItem.isEnabled = true
+        emptyVC.tabBarItem.isEnabled = false
         
         // Map
         let mapVC = Map()

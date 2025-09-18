@@ -82,6 +82,11 @@
 			path = CustomTabBar;
 			sourceTree = "<group>";
 		};
+		22E8C8CB2E79BCE4003A2717 /* Events */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Events;
+			sourceTree = "<group>";
+		};
 		9FE3FA202E75F02A00344DEF /* Extension */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Extension;
@@ -132,6 +137,7 @@
 				676E2C142E7097B20074641F /* ViewController.swift */,
 				6E5FE8112E730E6C00104B1A /* Supporting FIles */,
 				223640C32E7722EE0078BBC9 /* CustomTabBar */,
+				22E8C8CB2E79BCE4003A2717 /* Events */,
 			);
 			path = EvenHub;
 			sourceTree = "<group>";
@@ -229,6 +235,7 @@
 				1B540B822E78501600E9C3F3 /* ProfileModule */,
 				1B540B972E7977A300E9C3F3 /* FavoritesModule */,
 				223640C32E7722EE0078BBC9 /* CustomTabBar */,
+				22E8C8CB2E79BCE4003A2717 /* Events */,
 				9FE3FA202E75F02A00344DEF /* Extension */,
 			);
 			name = EvenHub;
