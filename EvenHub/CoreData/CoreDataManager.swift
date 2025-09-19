@@ -21,6 +21,169 @@ final class CoreDataManager {
     static let shared = CoreDataManager()
     private init() {}
     
+    //MARK: - Test
+    func comprehensiveTest() {
+        print("🧪 ЗАПУСК ПОЛНОГО ТЕСТА COREDATA")
+        
+        // 1. Тестовые данные с полными отношениями
+        let testEvent = EventDTO(
+            id: 1001,
+            title: "Полный тест CoreData",
+            images: [
+                ImageDTO(image: "https://test.com/image1.jpg"),
+                ImageDTO(image: "https://test.com/image2.jpg")
+            ],
+            description: "Тестовое описание события",
+            bodyText: "Полный текст события для тестирования",
+            favoritesCount: 5,
+            dates: [EventDate(
+                start: 1737225600,
+                end: 1737232800,
+                startDate: "2025-01-18",
+                startTime: "19:00",
+                endTime: "21:00"
+            )],
+            place: PlaceDTO(
+                id: 2001,
+                title: "Тестовое место",
+                slug: "test-place",
+                address: "ул. Тестовая, 123",
+                coords: Coordinates(lat: 55.7558, lon: 37.6173),
+                location: "Москва"
+            ),
+            location: EventLocation(slug: "msk", name: "Москва"),
+            participants: [
+                Participant(
+                    role: Role(slug: "speaker"),
+                    agent: Agent(
+                        id: 3001,
+                        title: "Иван Тестов",
+                        images: [
+                            ImageDTO(image: "https://test.com/speaker1.jpg"),
+                            ImageDTO(image: "https://test.com/speaker2.jpg")
+                        ]
+                    )
+                )
+            ]
+        )
+        
+        // 2. Тест кэширования
+        print("\n1. 📥 Тест кэширования...")
+        CoreDataManager.shared.cacheEvents([testEvent], cacheKey: "test_cache")
+        
+        // 3. Тест загрузки из кэша
+        print("\n2. 📤 Тест загрузки из кэша...")
+        let cachedEvents = CoreDataManager.shared.getCachedEvents(cacheKey: "test_cache")
+        print("   Найдено событий: \(cachedEvents.count)")
+        
+        // 4. Проверка отношений
+        if let event = cachedEvents.first {
+            print("\n3. 🔗 Проверка отношений:")
+            print("   • ID: \(event.id ?? "N/A")")
+            print("   • Заголовок: \(event.title ?? "N/A")")
+            print("   • Описание: \(event.eventDescription ?? "N/A")")
+            print("   • Дата: \(event.startDate ?? "N/A")")
+            
+            // Проверка места
+            if let place = event.place {
+                print("   • Место: \(place.title ?? "N/A")")
+                print("   • Адрес: \(place.address ?? "N/A")")
+                print("   • Координаты: lat=\(place.coordinates?.lat), lon=\(place.coordinates?.lon)")
+            } else {
+                print("   • Место: отсутствует")
+            }
+            
+            // Проверка локации
+            if let location = event.eventLocation {
+                print("   • Локация: \(location.name ?? "N/A")")
+            } else {
+                print("   • Локация: отсутствует")
+            }
+            
+            // Проверка изображений
+            print("   • Изображений: \(event.images?.count ?? 0)")
+            if let images = event.images?.allObjects as? [ImagesEntity] {
+                for (index, image) in images.prefix(2).enumerated() {
+                    print("     \(index + 1). \(image.image ?? "N/A")")
+                }
+            }
+            
+            // Проверка участников
+            print("   • Участников: \(event.participants?.count ?? 0)")
+            if let participants = event.participants?.allObjects as? [ParticipantEntity] {
+                for (index, participant) in participants.enumerated() {
+                    print("     Участник \(index + 1):")
+                    print("       • Роль: \(participant.roleSlug ?? "N/A")")
+                    if let agent = participant.agent {
+                        print("       • Агент: \(agent.title ?? "N/A")")
+                        print("       • Фото агента: \(agent.images?.count ?? 0)")
+                    }
+                }
+            }
+        }
+        
+        // 5. Тест избранного
+        print("\n4. ⭐ Тест избранного...")
+        let addedToFavorites = CoreDataManager.shared.addToFavorites(from: testEvent)
+        print("   Добавлено в избранное: \(addedToFavorites)")
+        
+        // 6. Проверка избранного
+        print("\n5. 📋 Проверка избранного...")
+        let isFavorite = CoreDataManager.shared.isEventFavorite(eventId: "1001")
+        print("   Событие в избранном: \(isFavorite)")
+        
+        let favorites = CoreDataManager.shared.getAllFavoriteEvents()
+        print("   Всего в избранном: \(favorites.count)")
+        
+        // 7. Тест поиска
+        print("\n6. 🔍 Тест поиска...")
+        let searchResults = CoreDataManager.shared.searchCachedEvents(
+            searchText: "Тест",
+            cacheKey: "test_cache"
+        )
+        print("   Результатов поиска: \(searchResults.count)")
+        
+        // 8. Статус базы
+        print("\n7. 📊 Статус базы данных:")
+        CoreDataManager.shared.checkDatabaseStatus()
+        
+        // 9. Очистка тестовых данных
+        print("\n8. 🧹 Очистка тестовых данных...")
+        CoreDataManager.shared.clearCachedEvents(cacheKey: "test_cache")
+        CoreDataManager.shared.removeFromFavorites(eventId: "1001")
+        
+        print("\n✅ ТЕСТ ЗАВЕРШЕН!")
+    }
+
+    func quickTest() {
+        let testEvent = EventDTO(
+            id: 999,
+            title: "Быстрый тест",
+            images: [ImageDTO(image: "test.jpg")],
+            description: "test description",
+            bodyText: "test body",
+            favoritesCount: 0,
+            dates: [EventDate(start: 1, end: 2, startDate: "2025-01-01", startTime: "10:00", endTime: "12:00")],
+            place: nil,
+            location: nil,
+            participants: nil
+        )
+        
+        CoreDataManager.shared.cacheEvents([testEvent], cacheKey: "quick_test")
+        
+        let events = CoreDataManager.shared.getCachedEvents(cacheKey: "quick_test")
+        print("✅ Быстрый тест завершен! Событий: \(events.count)")
+        
+        for event in events {
+            print("📍 \(event.title ?? "") - ID: \(event.id ?? "")")
+            print("   Описание: \(event.eventDescription ?? "")")
+            print("   Дата: \(event.startDate ?? "")")
+        }
+        
+        CoreDataManager.shared.clearCachedEvents(cacheKey: "quick_test")
+    }
+    
+    
     // MARK: - Core Data Stack
     
     private lazy var context: NSManagedObjectContext = {
@@ -335,78 +498,69 @@ extension CoreDataManager {
         event.startTime = dto.dates.first?.startTime
         event.endTime = dto.dates.first?.endTime
         
-//        // Место (Place)
-//        if let placeDTO = dto.place {
-//            let placeEntity = PlaceEntity(context: context)
-//            placeEntity.id = Int32(placeDTO.id)
-//            placeEntity.title = placeDTO.title
-//            placeEntity.slug = placeDTO.slug
-//            placeEntity.address = placeDTO.address
-//            placeEntity.location = placeDTO.location
-//            
-//            // Координаты
-//            let coordsEntity = CoordinatesEntity(context: context)
-//            coordsEntity.lat = placeDTO.coords.lat
-//            coordsEntity.lon = placeDTO.coords.lon
-//            placeEntity.coordinates = coordsEntity
-//            
-//            event.place = placeEntity
-//        }
-//        
-//        // Локация события
-//        if let locationDTO = dto.location {
-//            let locationEntity = EventLocationEntity(context: context)
-//            locationEntity.slug = locationDTO.slug
-//            locationEntity.name = locationDTO.name
-//            event.eventLocation = locationEntity
-//        }
-//        
-//        // Изображения - создаем mutable set для безопасного добавления
-//        if !dto.images.isEmpty {
-//            let imagesSet = NSMutableSet()
-//            for imageDTO in dto.images {
-//                if let imageUrl = imageDTO.image {
-//                    let imageEntity = ImagesEntity(context: context)
-//                    imageEntity.image = imageUrl
-//                    imagesSet.add(imageEntity)
-//                }
-//            }
-//            event.images = imagesSet
-//        }
-//        
-//        // Участники - создаем mutable set для безопасного добавления
-//        if let participantsDTO = dto.participants, !participantsDTO.isEmpty {
-//            let participantsSet = NSMutableSet()
-//            for participantDTO in participantsDTO {
-//                let participantEntity = ParticipantEntity(context: context)
-//                participantEntity.roleSlug = participantDTO.role?.slug
-//                
-//                // Агент участника
-//                if let agentDTO = participantDTO.agent {
-//                    let agentEntity = AgentEntity(context: context)
-//                    agentEntity.id = Int32(agentDTO.id)
-//                    agentEntity.title = agentDTO.title
-//                    
-//                    // Изображения агента
-//                    if let agentImages = agentDTO.images, !agentImages.isEmpty {
-//                        let agentImagesSet = NSMutableSet()
-//                        for agentImageDTO in agentImages {
-//                            if let agentImageUrl = agentImageDTO.image {
-//                                let agentImageEntity = ImagesEntity(context: context)
-//                                agentImageEntity.image = agentImageUrl
-//                                agentImagesSet.add(agentImageEntity)
-//                            }
-//                        }
-//                        agentEntity.images = agentImagesSet
-//                    }
-//                    
-//                    participantEntity.agent = agentEntity
-//                }
-//                
-//                participantsSet.add(participantEntity)
-//            }
-//            event.participants = participantsSet
-//        }
+        // Место (Place)
+        if let placeDTO = dto.place {
+            let placeEntity = PlaceEntity(context: context)
+            placeEntity.id = Int32(placeDTO.id)
+            placeEntity.title = placeDTO.title
+            placeEntity.slug = placeDTO.slug
+            placeEntity.address = placeDTO.address
+            placeEntity.location = placeDTO.location
+            // Координаты
+            let coordsEntity = CoordinatesEntity(context: context)
+            coordsEntity.lat = placeDTO.coords.lat
+            coordsEntity.lon = placeDTO.coords.lon
+            placeEntity.coordinates = coordsEntity
+            
+            event.place = placeEntity
+        }
+        
+        // Локация события
+        if let locationDTO = dto.location {
+            let locationEntity = EventLocationEntity(context: context)
+            locationEntity.slug = locationDTO.slug
+            locationEntity.name = locationDTO.name
+            event.eventLocation = locationEntity
+        }
+        
+        // Изображения - создаем mutable set для безопасного добавления
+        if !dto.images.isEmpty {
+            for imageDTO in dto.images {
+                if let imageUrl = imageDTO.image {
+                    let imageEntity = ImagesEntity(context: context)
+                    imageEntity.image = imageUrl
+                    event.addToImages(imageEntity)
+                }
+            }
+        }
+        
+        // Участники - создаем mutable set для безопасного добавления
+        if let participantsDTO = dto.participants, !participantsDTO.isEmpty {
+            for participantDTO in participantsDTO {
+                let participantEntity = ParticipantEntity(context: context)
+                participantEntity.roleSlug = participantDTO.role?.slug
+                
+                // Агент участника
+                if let agentDTO = participantDTO.agent {
+                    let agentEntity = AgentEntity(context: context)
+                    agentEntity.id = Int32(agentDTO.id)
+                    agentEntity.title = agentDTO.title
+                    
+                    // Изображения агента
+                    if let agentImages = agentDTO.images, !agentImages.isEmpty {
+                        for agentImageDTO in agentImages {
+                            if let agentImageUrl = agentImageDTO.image {
+                                let agentImageEntity = ImagesEntity(context: context)
+                                agentImageEntity.image = agentImageUrl
+                                agentEntity.addToImages(agentImageEntity)
+                            }
+                        }
+                    }
+                    participantEntity.agent = agentEntity
+                    event.addToParticipants(participantEntity)
+                }
+            }
+        }
     }
     
     /// Обновляет relationships существующего события
@@ -424,7 +578,6 @@ extension CoreDataManager {
             for image in images {
                 context.delete(image)
             }
-            event.images = nil
         }
         
         // Удаляем участников и их агентов
@@ -435,7 +588,6 @@ extension CoreDataManager {
                 }
                 context.delete(participant)
             }
-            event.participants = nil
         }
         
         // Создаем новые relationships

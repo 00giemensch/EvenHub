@@ -31,9 +31,9 @@
         <attribute name="startTime" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="eventLocation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EventLocationEntity" inverseName="event" inverseEntity="EventLocationEntity"/>
-        <relationship name="images" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ImagesEntity" inverseName="event" inverseEntity="ImagesEntity"/>
+        <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ImagesEntity" inverseName="event" inverseEntity="ImagesEntity"/>
         <relationship name="participants" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ParticipantEntity" inverseName="event" inverseEntity="ParticipantEntity"/>
-        <relationship name="place" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PlaceEntity" inverseName="event" inverseEntity="PlaceEntity"/>
+        <relationship name="place" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PlaceEntity" inverseName="event" inverseEntity="PlaceEntity"/>
     </entity>
     <entity name="ImagesEntity" representedClassName="ImagesEntity" syncable="YES">
         <attribute name="image" optional="YES" attributeType="String"/>
