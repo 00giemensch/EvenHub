@@ -395,7 +395,6 @@
 				BEE372222E72EAAE002C9178 /* ListDTO.swift in Sources */,
 				9FE3F9D32E75C8C800344DEF /* ExploreCollectionHeader.swift in Sources */,
 				BEE3736C2E7AE94B002C9178 /* APIClient.swift in Sources */,
-				9FE3F9D42E75C8C800344DEF /* ExploreViewController.swift in Sources */,
 				9FE3F9D52E75C8C800344DEF /* ExploreCollectionViewCell.swift in Sources */,
 				BEE372282E72EDF8002C9178 /* SearchEventDTO.swift in Sources */,
 				9FE3FA3A2E75F81300344DEF /* ExploreCellDateView.swift in Sources */,

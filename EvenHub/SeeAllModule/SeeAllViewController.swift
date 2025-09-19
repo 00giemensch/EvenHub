@@ -45,6 +45,33 @@ class SeeAllViewController : UIViewController {
         return view
     }()
     
+    // Добавь в AppDelegate или ViewController
+    func quickTest() {
+        let testEvent = EventDTO(
+            id: 999,
+            title: "ТЕСТ",
+            images: [ImageDTO(image: "test.jpg")],
+            description: "test",
+            bodyText: "test",
+            favoritesCount: 0,
+            dates: [EventDate(start: 1, end: 2, startDate: "test", startTime: "test", endTime: "test")],
+            place: nil,
+            location: nil,
+            participants: nil
+        )
+        
+        CoreDataManager.shared.cacheEvents([testEvent])
+        
+        let events = CoreDataManager.shared.getCachedEvents()
+        print("✅ Тест завершен! Событий: \(events.count)")
+        
+        for event in events {
+            print("📍 \(event.title ?? "") - \(event.id ?? "")")
+        }
+    }
+
+
+    
     //MARK: - SetDelegates
     
     func setDelegates() {
@@ -60,6 +87,7 @@ class SeeAllViewController : UIViewController {
         setupViews()
         setConstraints()
         setDelegates()
+        quickTest()
     }
     
     private func setupViews() {

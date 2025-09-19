@@ -38,15 +38,10 @@ class CoreDataManager {
     
     // MARK: - Event Cache Operations (для главного экрана)
     
-    // Сохранение массива событий из сети (кэширование)
     func cacheEvents(_ events: [EventDTO], cacheKey: String = "main_events") {
-        // Сначала удаляем старые закэшированные события
         clearCachedEvents(cacheKey: cacheKey)
-        
         for eventDTO in events {
             let cachedEvent = FavoriteEvent(context: context)
-            
-            // Основные данные
             cachedEvent.id = "\(eventDTO.id)"
             cachedEvent.title = eventDTO.title
             cachedEvent.eventDescription = eventDTO.description
@@ -55,14 +50,10 @@ class CoreDataManager {
             cachedEvent.startDate = eventDTO.dates.first?.startDate
             cachedEvent.startTime = eventDTO.dates.first?.startTime
             cachedEvent.endTime = eventDTO.dates.first?.endTime
-            
-            // Устанавливаем флаги
             cachedEvent.setValue(cacheKey, forKey: "cacheKey")
             cachedEvent.setValue(Date(), forKey: "cachedDate")
             cachedEvent.setValue(true, forKey: "isCached")
             cachedEvent.setValue(false, forKey: "isFavorite")
-            
-            // Обработка места (PlaceEntity)
             if let placeDTO = eventDTO.place {
                 let placeEntity = PlaceEntity(context: context)
                 placeEntity.id = Int32(placeDTO.id)
@@ -70,25 +61,18 @@ class CoreDataManager {
                 placeEntity.slug = placeDTO.slug
                 placeEntity.address = placeDTO.address
                 placeEntity.setValue(placeDTO.location, forKey: "location")
-                
-                // Координаты (CoordinatesEntity)
                 let coordsEntity = CoordinatesEntity(context: context)
                 coordsEntity.lat = placeDTO.coords.lat
                 coordsEntity.lon = placeDTO.coords.lon
                 placeEntity.coordinates = coordsEntity
-                
                 cachedEvent.place = placeEntity
             }
-            
-            // Обработка локации события (EventLocationEntity)
             if let locationDTO = eventDTO.location {
                 let locationEntity = EventLocationEntity(context: context)
                 locationEntity.slug = locationDTO.slug
                 locationEntity.name = locationDTO.name
                 cachedEvent.eventLocation = locationEntity
             }
-            
-            // Обработка изображений (ImagesEntity)
             for imageDTO in eventDTO.images {
                 if let imageUrl = imageDTO.image {
                     let imageEntity = ImagesEntity(context: context)
@@ -96,20 +80,14 @@ class CoreDataManager {
                     cachedEvent.addToImages(imageEntity)
                 }
             }
-            
-            // Обработка участников (ParticipantEntity)
             if let participantsDTO = eventDTO.participants {
                 for participantDTO in participantsDTO {
                     let participantEntity = ParticipantEntity(context: context)
                     participantEntity.roleSlug = participantDTO.role?.slug
-                    
-                    // Агент (AgentEntity)
                     if let agentDTO = participantDTO.agent {
                         let agentEntity = AgentEntity(context: context)
                         agentEntity.id = Int32(agentDTO.id)
                         agentEntity.title = agentDTO.title
-                        
-                        // Изображения агента
                         if let agentImages = agentDTO.images {
                             for agentImageDTO in agentImages {
                                 if let agentImageUrl = agentImageDTO.image {
@@ -132,12 +110,9 @@ class CoreDataManager {
         print("✅ Закэшировано событий: \(events.count) для ключа: \(cacheKey)")
     }
     
-    // Получение закэшированных событий
     func getCachedEvents(cacheKey: String = "main_events", limit: Int? = nil) -> [FavoriteEvent] {
         let request: NSFetchRequest<FavoriteEvent> = FavoriteEvent.fetchRequest()
         request.predicate = NSPredicate(format: "cacheKey == %@ AND isCached == true", cacheKey)
-        
-        // Сортировка по дате (новые сначала)
         let sortDescriptor = NSSortDescriptor(key: "cachedDate", ascending: false)
         request.sortDescriptors = [sortDescriptor]
         
@@ -155,7 +130,6 @@ class CoreDataManager {
         }
     }
     
-    // Проверка актуальности кэша
     func isCacheValid(cacheKey: String = "main_events", maxAge: TimeInterval = 3600) -> Bool {
         let request: NSFetchRequest<FavoriteEvent> = FavoriteEvent.fetchRequest()
         request.predicate = NSPredicate(format: "cacheKey == %@ AND isCached == true", cacheKey)
@@ -175,7 +149,6 @@ class CoreDataManager {
         }
     }
     
-    // Очистка кэша по ключу
     func clearCachedEvents(cacheKey: String) {
         let request: NSFetchRequest<FavoriteEvent> = FavoriteEvent.fetchRequest()
         request.predicate = NSPredicate(format: "cacheKey == %@ AND isCached == true", cacheKey)
@@ -183,9 +156,7 @@ class CoreDataManager {
         do {
             let eventsToDelete = try context.fetch(request)
             for event in eventsToDelete {
-                // Удаляем только если не в избранном
                 if !(event.value(forKey: "isFavorite") as? Bool ?? false) {
-                    // Удаляем связанные объекты
                     if let place = event.place {
                         context.delete(place)
                     }
@@ -207,7 +178,6 @@ class CoreDataManager {
                     }
                     context.delete(event)
                 } else {
-                    // Если в избранном, просто убираем флаг кэша
                     event.setValue(nil, forKey: "cacheKey")
                     event.setValue(false, forKey: "isCached")
                 }
@@ -219,7 +189,6 @@ class CoreDataManager {
         }
     }
     
-    // Получение количества закэшированных событий
     func getCachedEventsCount(cacheKey: String? = nil) -> Int {
         let request: NSFetchRequest<FavoriteEvent> = FavoriteEvent.fetchRequest()
         
@@ -242,7 +211,6 @@ class CoreDataManager {
     
     // MARK: - Favorite Operations (избранное)
     
-    // Добавление в избранное (из кэшированного события)
     func addToFavorites(cachedEvent: FavoriteEvent) -> Bool {
         guard let eventId = cachedEvent.id else { return false }
         
@@ -250,8 +218,6 @@ class CoreDataManager {
             print("⚠️ Событие уже в избранном: \(cachedEvent.title ?? "")")
             return false
         }
-        
-        // Меняем флаги
         cachedEvent.setValue(true, forKey: "isFavorite")
         cachedEvent.setValue(Date(), forKey: "addedDate")
         
@@ -260,7 +226,6 @@ class CoreDataManager {
         return true
     }
     
-    // Добавление в избранное (из EventDTO)
     func addToFavorites(from eventDTO: EventDTO) -> Bool {
         let eventId = "\(eventDTO.id)"
         
@@ -269,13 +234,10 @@ class CoreDataManager {
             return false
         }
         
-        // Сначала проверяем, есть ли такое событие в кэше
         if let cachedEvent = getCachedEvent(by: eventId) {
-            // Если есть в кэше, просто меняем флаги
             cachedEvent.setValue(true, forKey: "isFavorite")
             cachedEvent.setValue(Date(), forKey: "addedDate")
         } else {
-            // Если нет в кэше, создаем новое избранное событие
             let favoriteEvent = FavoriteEvent(context: context)
             favoriteEvent.id = eventId
             favoriteEvent.title = eventDTO.title
@@ -285,13 +247,9 @@ class CoreDataManager {
             favoriteEvent.startDate = eventDTO.dates.first?.startDate
             favoriteEvent.startTime = eventDTO.dates.first?.startTime
             favoriteEvent.endTime = eventDTO.dates.first?.endTime
-            
-            // Устанавливаем флаги
             favoriteEvent.setValue(Date(), forKey: "addedDate")
             favoriteEvent.setValue(true, forKey: "isFavorite")
             favoriteEvent.setValue(false, forKey: "isCached")
-            
-            // Обработка места
             if let placeDTO = eventDTO.place {
                 let placeEntity = PlaceEntity(context: context)
                 placeEntity.id = Int32(placeDTO.id)
@@ -307,16 +265,12 @@ class CoreDataManager {
                 
                 favoriteEvent.place = placeEntity
             }
-            
-            // Обработка локации
             if let locationDTO = eventDTO.location {
                 let locationEntity = EventLocationEntity(context: context)
                 locationEntity.slug = locationDTO.slug
                 locationEntity.name = locationDTO.name
                 favoriteEvent.eventLocation = locationEntity
             }
-            
-            // Обработка изображений
             for imageDTO in eventDTO.images {
                 if let imageUrl = imageDTO.image {
                     let imageEntity = ImagesEntity(context: context)
@@ -324,8 +278,6 @@ class CoreDataManager {
                     favoriteEvent.addToImages(imageEntity)
                 }
             }
-            
-            // Обработка участников
             if let participantsDTO = eventDTO.participants {
                 for participantDTO in participantsDTO {
                     let participantEntity = ParticipantEntity(context: context)
@@ -359,7 +311,6 @@ class CoreDataManager {
         return true
     }
     
-    // Удаление из избранного
     func removeFromFavorites(eventId: String) -> Bool {
         guard let favoriteEvent = getFavoriteEvent(by: eventId) else {
             print("❌ Событие не найдено в избранном: \(eventId)")
@@ -369,11 +320,9 @@ class CoreDataManager {
         let isCached = favoriteEvent.value(forKey: "isCached") as? Bool ?? false
         
         if isCached {
-            // Если было кэшировано, просто убираем флаг избранного
             favoriteEvent.setValue(false, forKey: "isFavorite")
             favoriteEvent.setValue(nil, forKey: "addedDate")
         } else {
-            // Если было только в избранном, удаляем полностью со всеми связанными объектами
             deleteEventWithRelations(favoriteEvent)
         }
         
@@ -382,7 +331,6 @@ class CoreDataManager {
         return true
     }
     
-    // Переключение избранного
     func toggleFavorite(from eventDTO: EventDTO) -> Bool {
         let eventId = "\(eventDTO.id)"
         
@@ -405,7 +353,6 @@ class CoreDataManager {
         }
     }
     
-    // Проверка, находится ли событие в избранном
     func isEventFavorite(eventId: String) -> Bool {
         let request: NSFetchRequest<FavoriteEvent> = FavoriteEvent.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@ AND isFavorite == true", eventId)
@@ -423,7 +370,6 @@ class CoreDataManager {
         return isEventFavorite(eventId: "\(eventDTO.id)")
     }
     
-    // Получение избранного события
     func getFavoriteEvent(by eventId: String) -> FavoriteEvent? {
         let request: NSFetchRequest<FavoriteEvent> = FavoriteEvent.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@ AND isFavorite == true", eventId)
@@ -437,7 +383,6 @@ class CoreDataManager {
         }
     }
     
-    // Получение кэшированного события
     func getCachedEvent(by eventId: String) -> FavoriteEvent? {
         let request: NSFetchRequest<FavoriteEvent> = FavoriteEvent.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@ AND isCached == true", eventId)
@@ -451,7 +396,6 @@ class CoreDataManager {
         }
     }
     
-    // Получение всех избранных событий
     func getAllFavoriteEvents() -> [FavoriteEvent] {
         let request: NSFetchRequest<FavoriteEvent> = FavoriteEvent.fetchRequest()
         request.predicate = NSPredicate(format: "isFavorite == true")
@@ -469,7 +413,6 @@ class CoreDataManager {
         }
     }
     
-    // Получение количества избранных событий
     func getFavoritesCount() -> Int {
         let request: NSFetchRequest<FavoriteEvent> = FavoriteEvent.fetchRequest()
         request.predicate = NSPredicate(format: "isFavorite == true")
@@ -482,7 +425,6 @@ class CoreDataManager {
         }
     }
     
-    // Очистка всех избранных событий
     func clearAllFavorites() {
         let request: NSFetchRequest<FavoriteEvent> = FavoriteEvent.fetchRequest()
         request.predicate = NSPredicate(format: "isFavorite == true")
@@ -493,11 +435,9 @@ class CoreDataManager {
                 let isCached = favorite.value(forKey: "isCached") as? Bool ?? false
                 
                 if isCached {
-                    // Если было кэшировано, просто убираем флаг избранного
                     favorite.setValue(false, forKey: "isFavorite")
                     favorite.setValue(nil, forKey: "addedDate")
                 } else {
-                    // Если было только в избранном, удаляем полностью
                     deleteEventWithRelations(favorite)
                 }
             }
@@ -510,7 +450,6 @@ class CoreDataManager {
     
     // MARK: - Вспомогательные методы
     
-    // Удаление события со всеми связанными объектами
     private func deleteEventWithRelations(_ event: FavoriteEvent) {
         if let place = event.place {
             context.delete(place)
@@ -534,7 +473,6 @@ class CoreDataManager {
         context.delete(event)
     }
     
-    // Поиск в кэшированных событиях
     func searchCachedEvents(searchText: String, cacheKey: String? = nil) -> [FavoriteEvent] {
         let request: NSFetchRequest<FavoriteEvent> = FavoriteEvent.fetchRequest()
         
