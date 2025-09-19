@@ -11,6 +11,7 @@ class CustomTabBarController: UITabBarController {
     
     private var btnSelectedTintColor: UIColor { UIColor(red: 86 / 255, green: 105 / 255, blue: 255 / 255, alpha: 1) }
     private var btnTintColor: UIColor { UIColor(red: 213 / 255, green: 215 / 255, blue: 220 / 255, alpha: 1) }
+    var onCenterTap: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +35,9 @@ class CustomTabBarController: UITabBarController {
     
     private func setupCustomTabBar() {
         let customTabBar = CustomTabBar()
+        customTabBar.onCenterTap = { [weak self] in
+            self?.onCenterTap?()
+        }
         self.setValue(customTabBar, forKey: "tabBar")
     }
     

@@ -28,6 +28,9 @@
 		9FE3FA4A2E76B06000344DEF /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3FA492E76B06000344DEF /* SearchTextField.swift */; };
 		9FE3FAFB2E79644800344DEF /* ExploreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3FAFA2E79644800344DEF /* ExploreTableViewCell.swift */; };
 		9FE3FAFD2E798B4600344DEF /* ExploreCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3FAFC2E798B4600344DEF /* ExploreCategoryCell.swift */; };
+		BEDECD0A2E7D8ACB00618361 /* AppAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDECD092E7D8ACB00618361 /* AppAssembly.swift */; };
+		BEDECD0C2E7D8E8200618361 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDECD0B2E7D8E8200618361 /* AppCoordinator.swift */; };
+		BEDECD0E2E7DADBB00618361 /* UDAppStateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDECD0D2E7DADBB00618361 /* UDAppStateStore.swift */; };
 		BEE372222E72EAAE002C9178 /* ListDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372212E72EAAE002C9178 /* ListDTO.swift */; };
 		BEE372242E72EBAA002C9178 /* MovieDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372232E72EBAA002C9178 /* MovieDTO.swift */; };
 		BEE372262E72EC7D002C9178 /* TodayEventDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE372252E72EC7D002C9178 /* TodayEventDTO.swift */; };
@@ -65,6 +68,9 @@
 		9FE3FA492E76B06000344DEF /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		9FE3FAFA2E79644800344DEF /* ExploreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTableViewCell.swift; sourceTree = "<group>"; };
 		9FE3FAFC2E798B4600344DEF /* ExploreCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCategoryCell.swift; sourceTree = "<group>"; };
+		BEDECD092E7D8ACB00618361 /* AppAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAssembly.swift; sourceTree = "<group>"; };
+		BEDECD0B2E7D8E8200618361 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		BEDECD0D2E7DADBB00618361 /* UDAppStateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UDAppStateStore.swift; sourceTree = "<group>"; };
 		BEE372212E72EAAE002C9178 /* ListDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDTO.swift; sourceTree = "<group>"; };
 		BEE372232E72EBAA002C9178 /* MovieDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDTO.swift; sourceTree = "<group>"; };
 		BEE372252E72EC7D002C9178 /* TodayEventDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayEventDTO.swift; sourceTree = "<group>"; };
@@ -161,6 +167,8 @@
 		676E2C152E7097B20074641F /* EvenHub */ = {
 			isa = PBXGroup;
 			children = (
+				BEDECD0F2E7DB37A00618361 /* UDStorage */,
+				BEDECD082E7D893300618361 /* Router */,
 				BEE373762E7B01D4002C9178 /* Test */,
 				BEE373692E7AE8E3002C9178 /* Network */,
 				1B540D242E7AC89B00E9C3F3 /* SeeAllModule */,
@@ -246,6 +254,23 @@
 				9FE3FB0C2E7ADDC400344DEF /* Controllers */,
 			);
 			path = ExploreScreen;
+			sourceTree = "<group>";
+		};
+		BEDECD082E7D893300618361 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				BEDECD092E7D8ACB00618361 /* AppAssembly.swift */,
+				BEDECD0B2E7D8E8200618361 /* AppCoordinator.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		BEDECD0F2E7DB37A00618361 /* UDStorage */ = {
+			isa = PBXGroup;
+			children = (
+				BEDECD0D2E7DADBB00618361 /* UDAppStateStore.swift */,
+			);
+			path = UDStorage;
 			sourceTree = "<group>";
 		};
 		BEE372202E72EA95002C9178 /* DTO */ = {
@@ -389,9 +414,12 @@
 			files = (
 				9FE3FA4A2E76B06000344DEF /* SearchTextField.swift in Sources */,
 				676E2C162E7097B20074641F /* AppDelegate.swift in Sources */,
+				BEDECD0C2E7D8E8200618361 /* AppCoordinator.swift in Sources */,
 				BEE373782E7B0201002C9178 /* APISmokeVC.swift in Sources */,
 				676E2C172E7097B20074641F /* EventDetailsVC.swift in Sources */,
 				676E2C182E7097B20074641F /* SceneDelegate.swift in Sources */,
+				BEDECD0A2E7D8ACB00618361 /* AppAssembly.swift in Sources */,
+				BEDECD0E2E7DADBB00618361 /* UDAppStateStore.swift in Sources */,
 				BEE373702E7AE9B1002C9178 /* EventAPISpec.swift in Sources */,
 				BEE3722A2E72EE1B002C9178 /* EventDTO.swift in Sources */,
 				67BFCC072E748562003B13A9 /* EventDetailsCell.swift in Sources */,

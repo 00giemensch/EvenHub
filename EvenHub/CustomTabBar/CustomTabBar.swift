@@ -15,6 +15,7 @@ class CustomTabBar: UITabBar {
             updateCenterButtonAppearance()
         }
     }
+    var onCenterTap: (() -> Void)?
     
     struct Constants {
 //        static var btnBackgroundColor: UIColor { UIColor(red: 86 / 255, green: 105 / 255, blue: 255 / 255, alpha: 1) }
@@ -125,6 +126,7 @@ class CustomTabBar: UITabBar {
     
     @objc private func centerButtonTapped() {
         print("Center button tapped")
+        onCenterTap?()
         isFavourite.toggle()
     }
     
