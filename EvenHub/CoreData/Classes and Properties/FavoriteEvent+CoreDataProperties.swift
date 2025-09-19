@@ -22,6 +22,11 @@ extension FavoriteEvent {
     @NSManaged public var startDate: String?
     @NSManaged public var startTime: String?
     @NSManaged public var endTime: String?
+    @NSManaged public var cacheKey: String?
+    @NSManaged public var isCached: Bool
+    @NSManaged public var cachedDate: Date?
+    @NSManaged public var isFavorite: Bool
+    @NSManaged public var addedDate: Date?
     
     // Relationships
     @NSManaged public var place: PlaceEntity?
