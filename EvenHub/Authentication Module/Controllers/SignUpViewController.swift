@@ -10,6 +10,20 @@ class SignUpViewController: UIViewController {
     private var authService = AuthService.shared
     
     //MARK: - UI Components
+    //Navigation Bar Items
+    private let backButton: UIButton = {
+        let backButton = UIButton()
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.setImage(Constants.Icons.NavigationBar.backBlack, for: .normal)
+        return backButton
+    }()
+    
+    private let navLabel: UILabel = {
+        let navLabel = UILabel()
+        navLabel.translatesAutoresizingMaskIntoConstraints = false
+        navLabel.attributedText = Constants.Fonts.attributedString(for: "Sing up", font: Constants.Fonts.medium, fontSize: 24)
+        return navLabel
+    }()
     
     private let profileTextField: AuthenticationTextField = {
         let profileTextField = AuthenticationTextField()
@@ -30,19 +44,7 @@ class SignUpViewController: UIViewController {
     private let passwordTextField: AuthenticationSecureTextField = {
         let passwordTextField = AuthenticationSecureTextField()
         passwordTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: Constants.passwordPlaceholder, font: Constants.Fonts.book, fontSize: 14)
-        ASCredentialIdentityStore.shared.getState { state in
-            DispatchQueue.main.async {
-                // Включаем предложение паролей ТОЛЬКО если служба доступна и включена
-                if state.isEnabled {
-                    // Разрешаем системе предлагать и сохранять пароли
-                    passwordTextField.textContentType = .newPassword
-                    // или .oneTimeCode для одноразовых кодов
-                } else {
-                    // Отключаем предложение, если служба недоступна (как в симуляторе)
-                    passwordTextField.textContentType = .none
-                }
-            }
-        }
+        
         return passwordTextField
     }()
     
@@ -102,11 +104,18 @@ class SignUpViewController: UIViewController {
         setupUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     //MARK: - Methods
     func setupUI() {
+        //TODO: Set navigation bar title
         
         view.backgroundColor = Constants.Colors.Background.white
-        
+        navigationItem.titleView = navLabel
+        backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         view.addSubview(profileTextField)
         NSLayoutConstraint.activate([
             profileTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -182,6 +191,10 @@ class SignUpViewController: UIViewController {
         ])
         signInButton.addTarget(self, action: #selector(signInPressed), for: .touchUpInside)
         
+    }
+    
+    @objc private func backButtonPressed(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
     
     @objc private func textFieldsDidChange() {

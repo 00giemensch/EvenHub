@@ -6,6 +6,21 @@ import FirebaseStorage
 
 class ResetPasswordMainViewController: UIViewController {
     
+    //MARK: - UI Components
+    //Navigation Bar Items
+    private let backButton: UIButton = {
+        let backButton = UIButton()
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.setImage(Constants.Icons.NavigationBar.backBlack, for: .normal)
+        return backButton
+    }()
+    
+    private let navLabel: UILabel = {
+        let navLabel = UILabel()
+        navLabel.translatesAutoresizingMaskIntoConstraints = false
+        navLabel.attributedText = Constants.Fonts.attributedString(for: "Reset Password", font: Constants.Fonts.medium, fontSize: 24)
+        return navLabel
+    }()
     
     private let headerLabel: UILabel = {
         let headerLabel = UILabel()
@@ -40,13 +55,15 @@ class ResetPasswordMainViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         navigationController?.isNavigationBarHidden = false
     }
     
     //MARK: - Methods
     private func setupUI() {
-        title = "Reset Password"
         view.backgroundColor = Constants.Colors.Background.white
+        navigationItem.titleView = navLabel
+        backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         
         view.addSubview(headerLabel)
         NSLayoutConstraint.activate([
@@ -72,6 +89,10 @@ class ResetPasswordMainViewController: UIViewController {
             sendButton.heightAnchor.constraint(equalToConstant: 58)
         ])
         sendButton.addTarget(self, action: #selector(sendButtonPressed), for: .touchUpInside)
+    }
+    
+    @objc private func backButtonPressed(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
     
     @objc private func sendButtonPressed(_ sender: UIButton) {

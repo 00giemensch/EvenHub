@@ -18,6 +18,22 @@ class ResetPasswordSecondViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - UI Components
+    //Navigation Bar Items
+    private let backButton: UIButton = {
+        let backButton = UIButton()
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.setImage(Constants.Icons.NavigationBar.backBlack, for: .normal)
+        return backButton
+    }()
+    
+    private let navLabel: UILabel = {
+        let navLabel = UILabel()
+        navLabel.translatesAutoresizingMaskIntoConstraints = false
+        navLabel.attributedText = Constants.Fonts.attributedString(for: "Reset Password", font: Constants.Fonts.medium, fontSize: 24)
+        return navLabel
+    }()
+    
     private let passwordTextField: AuthenticationSecureTextField = {
         let passwordTextField = AuthenticationSecureTextField()
         passwordTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: Constants.passwordPlaceholder, font: Constants.Fonts.book, fontSize: 14)
@@ -44,16 +60,18 @@ class ResetPasswordSecondViewController: UIViewController {
         setupUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+    }
+    
     private func setupUI() {
         
         view.backgroundColor = Constants.Colors.Background.white
+        navigationItem.titleView = navLabel
+        backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         
-        //MARK: Navigation Bar Items
-        title = "Reset Password"
+        //MARK: Navigation Bar
         
-
-        
-        //MARK: Adding UI Elements
         view.addSubview(passwordTextField)
         NSLayoutConstraint.activate([
             passwordTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 75),
@@ -142,6 +160,10 @@ class ResetPasswordSecondViewController: UIViewController {
             }
         
         
+    }
+    
+    @objc private func backButtonPressed(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
     
     private func showAlert(_ title: String, _ message: String) {

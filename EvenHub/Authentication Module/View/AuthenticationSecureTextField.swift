@@ -1,4 +1,5 @@
 import UIKit
+import AuthenticationServices
 
 class AuthenticationSecureTextField: AuthenticationTextField {
     
@@ -25,11 +26,25 @@ class AuthenticationSecureTextField: AuthenticationTextField {
         rightView = toggleButton
         rightViewMode = .always
         isSecureTextEntry = true
+        textContentType = .none
         updateLeftImage(image: Constants.Icons.Authentication.password!)
         toggleButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
     }
     
     //FIXME: Если я нахожусь в этом же поле и нажимаю на кнопку - клавиатура "прыгает"
+//    @objc func togglePasswordVisibility(_ sender: UIButton) {
+//        let wasFirstResponder = isFirstResponder
+//        isSecureTextEntry.toggle()
+//        sender.setImage(isSecureTextEntry ? Constants.Icons.Authentication.passwordHidden : Constants.Icons.Authentication.passwordNotHidden, for: .normal)
+//        
+//        if wasFirstResponder {
+//            becomeFirstResponder()
+//            if let existingSelectedTextRange = selectedTextRange {
+//                selectedTextRange = nil
+//                selectedTextRange = existingSelectedTextRange
+//            }
+//        }
+//    }
     @objc func togglePasswordVisibility(_ sender: UIButton) {
         if !self.isFirstResponder { self.becomeFirstResponder() }
         sender.setImage(isSecureTextEntry ? Constants.Icons.Authentication.passwordHidden : Constants.Icons.Authentication.passwordNotHidden, for: .normal)

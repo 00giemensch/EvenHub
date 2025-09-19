@@ -240,7 +240,7 @@
 				CODE_SIGN_ENTITLEMENTS = EvenHub/EvenHub.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = VWV6Q5L768;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EvenHub/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -269,7 +269,7 @@
 				CODE_SIGN_ENTITLEMENTS = EvenHub/EvenHub.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = VWV6Q5L768;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EvenHub/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
