@@ -11,6 +11,7 @@ class OnboardingViewController: UIViewController {
     
     private var model = OnboardingModel()
     private let onboardingView = OnboardingView()
+    var onFinish: (() -> Void)?
     
     //MARK: - Lifecycle
     
@@ -65,6 +66,8 @@ class OnboardingViewController: UIViewController {
         if model.currentPage < model.numberOfPages - 1 {
             model.currentPage += 1
             updateUI()
+        } else {
+            onFinish?()
         }
     }
 }
