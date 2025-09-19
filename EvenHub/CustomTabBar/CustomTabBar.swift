@@ -126,9 +126,6 @@ class CustomTabBar: UITabBar {
     @objc private func centerButtonTapped() {
         print("Center button tapped")
         isFavourite.toggle()
-        if let tabBarController = self.window?.rootViewController as? UITabBarController {
-                tabBarController.selectedIndex = 2
-            }
     }
     
     private func updateCenterButtonAppearance() {
