@@ -105,6 +105,11 @@
 			path = SeeAllModule;
 			sourceTree = "<group>";
 		};
+		1B540D582E7AEFDD00E9C3F3 /* CoreData */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		223640C32E7722EE0078BBC9 /* CustomTabBar */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = CustomTabBar;
@@ -180,6 +185,7 @@
 				676E2C142E7097B20074641F /* ViewController.swift */,
 				6E5FE8112E730E6C00104B1A /* Supporting FIles */,
 				223640C32E7722EE0078BBC9 /* CustomTabBar */,
+				1B540D582E7AEFDD00E9C3F3 /* CoreData */,
 				22E8C8CB2E79BCE4003A2717 /* Events */,
 			);
 			path = EvenHub;
@@ -335,6 +341,7 @@
 				1B540B822E78501600E9C3F3 /* ProfileModule */,
 				1B540B972E7977A300E9C3F3 /* FavoritesModule */,
 				1B540D242E7AC89B00E9C3F3 /* SeeAllModule */,
+				1B540D582E7AEFDD00E9C3F3 /* CoreData */,
 				223640C32E7722EE0078BBC9 /* CustomTabBar */,
 				22E8C8CB2E79BCE4003A2717 /* Events */,
 				9FE3FA202E75F02A00344DEF /* Extension */,
