@@ -17,11 +17,16 @@
         <relationship name="event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FavoriteEvent" inverseName="eventLocation" inverseEntity="FavoriteEvent"/>
     </entity>
     <entity name="FavoriteEvent" representedClassName="FavoriteEvent" syncable="YES">
+        <attribute name="addedDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="bodyText" optional="YES" attributeType="String"/>
+        <attribute name="cachedDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="cacheKey" optional="YES" attributeType="String"/>
         <attribute name="endTime" optional="YES" attributeType="String"/>
         <attribute name="eventDescription" optional="YES" attributeType="String"/>
         <attribute name="favoritesCount" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="isCached" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="startDate" optional="YES" attributeType="String"/>
         <attribute name="startTime" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
