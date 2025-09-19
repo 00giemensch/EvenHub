@@ -45,6 +45,9 @@ class SeeAllViewController : UIViewController {
         return view
     }()
     
+
+
+    
     //MARK: - SetDelegates
     
     func setDelegates() {

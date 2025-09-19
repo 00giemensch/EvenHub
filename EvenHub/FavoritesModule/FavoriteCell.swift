@@ -7,11 +7,15 @@
 import UIKit
 
 class FavoriteCell: UICollectionViewCell {
+    static let cellID = "eventCell"
     
     let leftImageView : UIImageView = {
         let view = UIImageView()
         view.layer.cornerRadius = 12
-        view.backgroundColor = .backgroundBlack
+        view.backgroundColor = Constants.Colors.Background.gray
+        view.image = UIImage(resource: .underConstruction3)
+        view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
         return view
     }()
     

@@ -11,6 +11,7 @@ class CustomTabBarController: UITabBarController {
     
     private var btnSelectedTintColor: UIColor { UIColor(red: 86 / 255, green: 105 / 255, blue: 255 / 255, alpha: 1) }
     private var btnTintColor: UIColor { UIColor(red: 213 / 255, green: 215 / 255, blue: 220 / 255, alpha: 1) }
+    var onCenterTap: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,10 +35,15 @@ class CustomTabBarController: UITabBarController {
     
     private func setupCustomTabBar() {
         let customTabBar = CustomTabBar()
+        customTabBar.onCenterTap = { [weak self] in
+            self?.onCenterTap?()
+        }
         self.setValue(customTabBar, forKey: "tabBar")
     }
     
     private func setupViewControllers() {
+        
+        // Explore
         let exploreVC = UINavigationController(rootViewController: ExploreViewController())
         
         let exploreVCNormalImage = UIImage(named: "tabBar_explore")?.withTintColor(btnTintColor, renderingMode: .alwaysOriginal)
@@ -46,29 +52,30 @@ class CustomTabBarController: UITabBarController {
         exploreVC.tabBarItem = UITabBarItem(title: "Explore", image: exploreVCNormalImage, selectedImage: exploreVCSelectedImage)
         exploreVC.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
         
-        let eventsVC = EventDetailsVC()
         
+        // Events
+        let eventsVC = Events()
         let eventsVCNormalImage = UIImage(named: "tabBar_calendar")?.withTintColor(btnTintColor, renderingMode: .alwaysOriginal)
         let eventsVCSelectedImage = UIImage(named: "tabBar_calendar")?.withTintColor(btnSelectedTintColor, renderingMode: .alwaysOriginal)
         
         eventsVC.tabBarItem = UITabBarItem(title: "Events", image: eventsVCNormalImage, selectedImage: eventsVCSelectedImage)
         eventsVC.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
         
-        // Пустой контроллер для центральной кнопки
-        let emptyVC = FavoritesViewController()
+        // Empty
+        let emptyVC = Map()
         emptyVC.tabBarItem = UITabBarItem(title: "", image: nil, tag: 2)
-        emptyVC.tabBarItem.isEnabled = true
+        emptyVC.tabBarItem.isEnabled = false
         
+        // Map
         let mapVC = Map()
-        
         let mapVCNormalImage = UIImage(named: "tabBar_location")?.withTintColor(btnTintColor, renderingMode: .alwaysOriginal)
         let mapVCSelectedImage = UIImage(named: "tabBar_location")?.withTintColor(btnSelectedTintColor, renderingMode: .alwaysOriginal)
         
         mapVC.tabBarItem = UITabBarItem(title: "Map", image: mapVCNormalImage, selectedImage: mapVCSelectedImage)
         mapVC.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
         
+        // Profile
         let profileVC = ProfileViewController()
-        
         let profileVCNormalImage = UIImage(named: "tabBar_profile")?.withTintColor(btnTintColor, renderingMode: .alwaysOriginal)
         let profileVCSelectedImage = UIImage(named: "tabBar_profile")?.withTintColor(btnSelectedTintColor, renderingMode: .alwaysOriginal)
         
