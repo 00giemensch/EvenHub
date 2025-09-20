@@ -31,7 +31,7 @@ final class AppAssembly {
     }
     
     func makeMapModule() -> UIViewController {
-        let vc = Map()
+        let vc = MapViewController()
         return vc
     }
     

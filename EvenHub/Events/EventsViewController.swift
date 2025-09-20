@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Events: UIViewController {
+class EventsViewController: UIViewController {
     
     //MARK: - Constants
     private let exploreButtonTitle = NSAttributedString(string: "EXPLORE EVENTS", attributes: [.kern: 1.0])
@@ -127,7 +127,7 @@ class Events: UIViewController {
 }
 
 //MARK: - Setup constraints and set views
-extension Events {
+extension EventsViewController {
     private func setViews() {
         
         view.addSubview(titleLabel)
@@ -188,7 +188,7 @@ extension Events {
 }
 
 //MARK: - Extension UICollectionViewDelegate & UICollectionViewDataSource
-extension Events: UICollectionViewDelegate, UICollectionViewDataSource {
+extension EventsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         1
         //        return CoreDataManager.shared.getCachedEventsCount()

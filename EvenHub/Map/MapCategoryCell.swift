@@ -32,16 +32,29 @@ class MapCategoryCell: UICollectionViewCell {
         self.category = category
     }
     
-    private func createAttributedString(from text: String, imageName: String ) -> NSAttributedString {
+    private func createAttributedString(from text: String, imageName: String) -> NSAttributedString {
         let titleText = NSMutableAttributedString()
         let attachment = NSTextAttachment()
-        attachment.image = UIImage(named: imageName)?.withTintColor(UIColor(resource: .blue0), renderingMode: .alwaysTemplate)
+        
+        switch text {
+        case "Sports":
+            attachment.image = UIImage(named: imageName)?.withTintColor(UIColor(resource: .accentRed), renderingMode: .alwaysTemplate)
+        case "Art":
+            attachment.image = UIImage(named: imageName)?.withTintColor(UIColor(resource: .accentDarkCyan), renderingMode: .alwaysTemplate)
+        case "Food":
+            attachment.image = UIImage(named: imageName)?.withTintColor(UIColor(resource: .accentGreen), renderingMode: .alwaysTemplate)
+        case "Music":
+            attachment.image = UIImage(named: imageName)?.withTintColor(UIColor(resource: .blue50), renderingMode: .alwaysTemplate)
+        default:
+            attachment.image = UIImage(named: imageName)?.withTintColor(UIColor(resource: .blue0), renderingMode: .alwaysTemplate)
+        }
+        
         attachment.bounds = CGRect(x: 0, y: 0, width: 17.73, height: 17.73)
         let imageString = NSAttributedString(attachment: attachment)
         titleText.append(imageString)
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont(name: Constants.Fonts.book, size: 15) ?? .systemFont(ofSize: 15, weight: .light),
-            .foregroundColor: UIColor.white
+            .foregroundColor: UIColor.color30
         ]
         titleText.append(NSAttributedString(string: " " + text, attributes: attributes))
         
@@ -54,29 +67,18 @@ class MapCategoryCell: UICollectionViewCell {
     }
     //MARK: - Setup Layout
     private func setupLayout() {
-        setupBackgroundView()
+        self.layer.cornerRadius = 20
+        self.backgroundColor = UIColor.white
         setupButton()
     }
-    private func setupBackgroundView() {
-        self.layer.cornerRadius = 20
-        switch category {
-        case .art:
-            self.backgroundColor = UIColor.gray
-        case .sport:
-            self.backgroundColor = UIColor.gray
-        case .food:
-            self.backgroundColor = UIColor.gray
-        case .music:
-            self.backgroundColor = UIColor.gray
-        }
-    }
+    
     private func setupButton() {
         addSubview(button)
         switch category {
         case .art:
             button.setAttributedTitle(createAttributedString(from: "Art", imageName: "artPic"), for: .normal)
         case .sport:
-            button.setAttributedTitle(createAttributedString(from: "Sport", imageName: "sportPic"), for: .normal)
+            button.setAttributedTitle(createAttributedString(from: "Sports", imageName: "sportPic"), for: .normal)
         case .food:
             button.setAttributedTitle(createAttributedString(from: "Food", imageName: "foodPic"), for: .normal)
         case .music:
@@ -92,5 +94,4 @@ class MapCategoryCell: UICollectionViewCell {
             button.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
-    
 }
