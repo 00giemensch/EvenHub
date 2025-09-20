@@ -14,6 +14,9 @@ class Events: UIViewController {
     private let segmented = CapsuleSegmentedControl(items: ["UPCOMING", "PAST EVENTS"])
     private let topFadeView = UIView()
     private let bottomFadeView = UIView()
+    private let coreDM = CoreDataManager.shared
+    
+    
     
     //MARK: - UI
     private lazy var titleLabel: UILabel = {
@@ -187,10 +190,13 @@ extension Events {
 //MARK: - Extension UICollectionViewDelegate & UICollectionViewDataSource
 extension Events: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 7
-    }
+        1
+        //        return CoreDataManager.shared.getCachedEventsCount()
+}
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteCell.cellID, for: indexPath) as! FavoriteCell
+        let events = coreDM.getCachedEvents(cacheKey: "title")
+        print(events)
         return cell
     }
 }

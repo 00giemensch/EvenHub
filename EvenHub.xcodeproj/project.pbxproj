@@ -115,6 +115,11 @@
 			path = CustomTabBar;
 			sourceTree = "<group>";
 		};
+		22A194D22E7E7CF400A936DA /* Map */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Map;
+			sourceTree = "<group>";
+		};
 		22E8C8CB2E79BCE4003A2717 /* Events */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Events;
@@ -187,6 +192,7 @@
 				223640C32E7722EE0078BBC9 /* CustomTabBar */,
 				1B540D582E7AEFDD00E9C3F3 /* CoreData */,
 				22E8C8CB2E79BCE4003A2717 /* Events */,
+				22A194D22E7E7CF400A936DA /* Map */,
 			);
 			path = EvenHub;
 			sourceTree = "<group>";
@@ -343,6 +349,7 @@
 				1B540D242E7AC89B00E9C3F3 /* SeeAllModule */,
 				1B540D582E7AEFDD00E9C3F3 /* CoreData */,
 				223640C32E7722EE0078BBC9 /* CustomTabBar */,
+				22A194D22E7E7CF400A936DA /* Map */,
 				22E8C8CB2E79BCE4003A2717 /* Events */,
 				9FE3FA202E75F02A00344DEF /* Extension */,
 				9FE3FB0C2E7ADDC400344DEF /* Controllers */,
