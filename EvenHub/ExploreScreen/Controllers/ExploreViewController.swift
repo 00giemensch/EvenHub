@@ -75,7 +75,7 @@ class ExploreViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.isHidden = false
     }
     
     //MARK: - Methods
@@ -219,6 +219,7 @@ class ExploreViewController: UIViewController {
     }
     private func setupSearchTextField() {
         view.addSubview(searchTextField)
+        searchTextField.delegate = self
         searchTextField.action = { [weak self] in
             print("filter button tup")
         }
@@ -337,6 +338,7 @@ class ExploreViewController: UIViewController {
 extension ExploreViewController: UICollectionViewDelegate {
     
 }
+
 //MARK: - CollectionView DataSource
 extension ExploreViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -375,5 +377,15 @@ extension ExploreViewController: UITableViewDelegate, UITableViewDataSource {
         
         isLocationListVisible = true
         changeLocationListVisible()
+    }
+}
+
+
+extension ExploreViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+           let newVC = SearchViewController()
+        
+        textField.endEditing(true)
+        navigationController?.pushViewController(newVC, animated: true)
     }
 }
