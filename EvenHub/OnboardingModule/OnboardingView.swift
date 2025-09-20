@@ -109,7 +109,7 @@ class OnboardingView: UIView {
     private func setConstraints() {
         bottomView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            bottomView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            bottomView.bottomAnchor.constraint(equalTo: bottomAnchor,constant: 55),
             bottomView.leadingAnchor.constraint(equalTo: leadingAnchor),
             bottomView.trailingAnchor.constraint(equalTo: trailingAnchor),
             bottomView.topAnchor.constraint(equalTo: topAnchor, constant: 624)
