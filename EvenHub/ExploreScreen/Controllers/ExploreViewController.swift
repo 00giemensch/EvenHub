@@ -10,9 +10,9 @@ import UIKit
 class ExploreViewController: UIViewController {
     //MARK: - Properties
     private let viewModel = ExploreViewModel.shared
-    private lazy var dataSource = UICollectionViewDiffableDataSource<Int, Int>(collectionView: exploreCollectionView) { collectionView, indexPath, itemIdentifier in
+    private lazy var dataSource = UICollectionViewDiffableDataSource<Int, EventDTO>(collectionView: exploreCollectionView) { collectionView, indexPath, itemIdentifier in
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExploreCollectionViewCell.cellId, for: indexPath) as! ExploreCollectionViewCell
-        cell.configure()
+        cell.configure(with: itemIdentifier)
         return cell
     }
     private var isLocationListVisible = false
@@ -52,12 +52,25 @@ class ExploreViewController: UIViewController {
         setupLayout()
         setupTapGesture()
         
+        Task {
+            await viewModel.fetchLocations()
+            await viewModel.fetchUpcomingEvents()
+            
+        }
         viewModel.locationsIsLoaded = { [weak self] locationsPlaces in
             DispatchQueue.main.async {
                 self?.locationLabel.text = locationsPlaces.first
                 self?.locationList.reloadData()
             }
         }
+        
+        viewModel.eventsIsLoaded = { [weak self] in
+            DispatchQueue.main.async {
+                self?.setDataSourceSnapshots()
+                self?.exploreCollectionView.reloadData()
+            }
+        }
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -126,14 +139,16 @@ class ExploreViewController: UIViewController {
         shapeLayer.path = path.cgPath
     }
     private func setDataSource() {
-        setDataSourceSnapshots()
+//        setDataSourceSnapshots()
         setSectionHeader()
     }
     private func setDataSourceSnapshots() {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
+        var snapshot = NSDiffableDataSourceSnapshot<Int, EventDTO>()
         snapshot.appendSections([1,2])
-        snapshot.appendItems(Array(0...5), toSection: 1)
-        snapshot.appendItems(Array(6...10), toSection: 2)
+        let count = viewModel.upcomingEvents.count
+        let half = count / 2
+        snapshot.appendItems(Array(viewModel.upcomingEvents[0..<half]), toSection: 1)
+        snapshot.appendItems(Array(viewModel.upcomingEvents[half..<count]), toSection: 2)
         dataSource.apply(snapshot)
     }
     private func setupLocationBar() {
