@@ -12,12 +12,25 @@ final class ExploreViewModel {
     
     //MARK: - Properties
     private let apiService = EventAPIService()
-    var locationsIsLoaded: (([String]) -> Void)?
+    var locationsIsLoaded: ((EventLocation) -> Void)?
     var eventsIsLoaded: (() -> Void)?
-    private(set)var category = CategoryType.allCases
-    private(set)var locationPlaces = [String]() {
+    var nearbyIsLoaded: (() -> Void)?
+    var currentLocationDidChange: (() -> Void)?
+    private(set)var currentLocation: EventLocation? {
         didSet {
-            locationsIsLoaded?(locationPlaces)
+            currentLocationDidChange?()
+        }
+    }
+    private(set)var category = CategoryType.allCases
+    private(set)var locationPlaces = [EventLocation]() {
+        didSet {
+            setCurrentLocation(to: locationPlaces[0])
+            locationsIsLoaded?(locationPlaces[0])
+        }
+    }
+    private(set)var nearbyEvents = [EventDTO]() {
+        didSet {
+            nearbyIsLoaded?()
         }
     }
     private(set)var upcomingEvents = [EventDTO]() {
@@ -35,7 +48,7 @@ final class ExploreViewModel {
             let locationsResponse = try await apiService.getLocations(with: .en)
             locationPlaces = locationsResponse.compactMap {
                 guard $0.name?.lowercased() != "interesting" else { return nil }
-                return $0.name
+                return $0
             }
         }
         catch {
@@ -50,6 +63,20 @@ final class ExploreViewModel {
         catch {
             print("ExploreViewModel: \(#function)\nОшибка: \(error.localizedDescription)")
         }
+    }
+    func fetchNearby() async {
+        guard let currentSlug = currentLocation?.slug else { return }
+        do {
+            let eventsResponse = try await apiService.getNearbyYouEvents(with: .en, currentSlug, .none, .none)
+            nearbyEvents = eventsResponse
+        }
+        catch {
+            print("ExploreViewModel: \(#function)\nОшибка: \(error.localizedDescription)")
+        }
+    }
+    
+    func setCurrentLocation(to place: EventLocation) {
+        currentLocation = place
     }
 }
 

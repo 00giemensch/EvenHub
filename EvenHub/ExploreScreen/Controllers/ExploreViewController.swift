@@ -54,23 +54,18 @@ class ExploreViewController: UIViewController {
         
         Task {
             await viewModel.fetchLocations()
-            await viewModel.fetchUpcomingEvents()
+            async let upcoming: () = viewModel.fetchUpcomingEvents()
+            async let nearby: () = viewModel.fetchNearby()
+
+            await upcoming
+            await nearby
             
+            locationLabel.text = viewModel.currentLocation?.name
+            locationList.reloadData()
+            
+            setDataSourceSnapshots()
+            exploreCollectionView.reloadData()
         }
-        viewModel.locationsIsLoaded = { [weak self] locationsPlaces in
-            DispatchQueue.main.async {
-                self?.locationLabel.text = locationsPlaces.first
-                self?.locationList.reloadData()
-            }
-        }
-        
-        viewModel.eventsIsLoaded = { [weak self] in
-            DispatchQueue.main.async {
-                self?.setDataSourceSnapshots()
-                self?.exploreCollectionView.reloadData()
-            }
-        }
-        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -145,11 +140,17 @@ class ExploreViewController: UIViewController {
     private func setDataSourceSnapshots() {
         var snapshot = NSDiffableDataSourceSnapshot<Int, EventDTO>()
         snapshot.appendSections([1,2])
-        let count = viewModel.upcomingEvents.count
-        let half = count / 2
-        snapshot.appendItems(Array(viewModel.upcomingEvents[0..<half]), toSection: 1)
-        snapshot.appendItems(Array(viewModel.upcomingEvents[half..<count]), toSection: 2)
+        snapshot.appendItems(Array(viewModel.upcomingEvents), toSection: 1)
+        snapshot.appendItems(Array(viewModel.nearbyEvents), toSection: 2)
         dataSource.apply(snapshot)
+    }
+    private func updateNearbyDataSource() {
+        var snapshot = dataSource.snapshot()
+        let oldItems = snapshot.itemIdentifiers(inSection: 2)
+        snapshot.deleteItems(oldItems)
+        snapshot.appendItems(Array(viewModel.nearbyEvents), toSection: 2)
+        snapshot.reloadSections([1,2])
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
     private func setupLocationBar() {
         setupLocationButton()
@@ -359,12 +360,19 @@ extension ExploreViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: ExploreTableViewCell.identifire, for: indexPath) as! ExploreTableViewCell
-        cell.configure(with: viewModel.locationPlaces[indexPath.row])
+        cell.configure(with: viewModel.locationPlaces[indexPath.row].name)
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("=\(viewModel.locationPlaces[indexPath.row])=")
-        locationLabel.text = viewModel.locationPlaces[indexPath.row]
+        let newPlace = viewModel.locationPlaces[indexPath.row]
+        viewModel.setCurrentLocation(to: newPlace)
+        locationLabel.text = viewModel.currentLocation?.name
+        Task {
+            await viewModel.fetchNearby()
+            self.updateNearbyDataSource()
+        }
+        
         isLocationListVisible = true
         changeLocationListVisible()
     }
