@@ -50,7 +50,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         titleLabel.text = event.title.capitalized
         let date = getStartDate(date: event.dates.first)
         dateLabel.setDate(day: date.day, month: date.month)
-        fillingHStack(URLs: Array(repeating: "person.circle", count: event.favoritesCount ?? Int.random(in: 0...2)))
+        fillingHStack(userCount: event.favoritesCount ?? Int.random(in: 0...2))
         subtitleLabel.attributedText = setupSubtitleAttributedString(place: event.place?.address ?? event.place?.location ?? event.location?.name ?? "Coming soon" )
     }
     //MARK: - Private methods
@@ -118,15 +118,17 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         
         return avatarImageView
     }
-    private func fillingHStack(URLs: [String]) {
-        guard URLs.count > 0 else { return }
-        if URLs.count <= 3 {
-            URLs.forEach { avatarsHStack.addArrangedSubview(createAvatarImageView(avatarURL: $0)) }
+    private func fillingHStack(userCount: Int) {
+        guard userCount > 0 else { return }
+        if userCount <= 3 {
+            for _ in 0..<userCount {
+                avatarsHStack.addArrangedSubview(createAvatarImageView(avatarURL: "person.circle"))
+            }
         } else {
             for i in 0..<3 {
-                avatarsHStack.addArrangedSubview(createAvatarImageView(avatarURL: URLs[i]))
+                avatarsHStack.addArrangedSubview(createAvatarImageView(avatarURL: "person.circle"))
             }
-            let count = URLs.count - 3
+            let count = userCount - 3
             let avatarsCountLabel = UILabel()
             let text = "+\(count) Going"
             let countText = NSMutableAttributedString()
