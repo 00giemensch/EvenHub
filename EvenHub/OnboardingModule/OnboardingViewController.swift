@@ -70,4 +70,9 @@ class OnboardingViewController: UIViewController {
             onFinish?()
         }
     }
+    
+    @objc private func skipButtonTapped(sender: UIButton) {
+        sender.buttonTappedAnimate()
+        onFinish?()
+    }
 }
