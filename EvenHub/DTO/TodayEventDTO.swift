@@ -12,9 +12,12 @@ struct TodayEventsDTO: Codable, Sendable {
 }
 
 struct TodayEventDTO: Codable, Sendable {
-    let date, location: String
-    let object: Object
+//    let date, location: String
+//    let object: Object
+//    let title: String
+    let id: Int
     let title: String
+    let slug: String
 }
 
 struct Object: Codable, Sendable {

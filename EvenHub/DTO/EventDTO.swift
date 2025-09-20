@@ -12,7 +12,7 @@ struct APIResponseDTO: Codable, Sendable {
     let results: [EventDTO]
 }
 
-struct EventDTO: Codable, Identifiable, Sendable {
+struct EventDTO: Codable, Identifiable, Sendable, Hashable {
     let id: Int
     let title: String
     let images: [ImageDTO]
@@ -31,7 +31,7 @@ struct CategoryDTO: Codable, Identifiable, Sendable {
     let name: String
 }
 
-struct EventDate: Codable, Sendable {
+struct EventDate: Codable, Sendable, Hashable {
     let start:Int?
     let end: Int?
     let startDate: String?
@@ -39,7 +39,7 @@ struct EventDate: Codable, Sendable {
     let endTime: String?
 }
 
-struct PlaceDTO: Codable, Sendable {
+struct PlaceDTO: Codable, Sendable, Hashable {
     let id: Int
     let title: String?
     let slug: String
@@ -48,7 +48,7 @@ struct PlaceDTO: Codable, Sendable {
     let location: String
 }
 
-struct Coordinates: Codable, Sendable {
+struct Coordinates: Codable, Sendable, Hashable {
     let lat: Double
     let lon: Double
     var toCLLocationCoordinate2D: CLLocationCoordinate2D {
@@ -56,21 +56,21 @@ struct Coordinates: Codable, Sendable {
     }
 }
 
-struct EventLocation: Codable, Sendable {
+struct EventLocation: Codable, Sendable, Hashable {
     let slug: String
     let name: String?
 }
 
-struct Participant: Codable, Sendable {
+struct Participant: Codable, Sendable, Hashable {
     let role: Role?
     let agent: Agent?
 }
 
-struct Role: Codable, Sendable {
+struct Role: Codable, Sendable, Hashable {
     let slug: String?
 }
 
-struct Agent: Codable, Sendable {
+struct Agent: Codable, Sendable, Hashable {
     let id: Int
     let title: String?
     let images: [ImageDTO]?
@@ -80,6 +80,6 @@ enum Language: String, Codable {
     case ru, en
 }
 
-struct ImageDTO: Codable, Sendable {
+struct ImageDTO: Codable, Sendable, Hashable {
     let image: String?
 }
