@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class SearchCollectionViewCell: UICollectionViewCell {
     //MARK: - Properties
@@ -29,21 +30,26 @@ class SearchCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         titleLabel.text = nil
         dateLabel.attributedText = nil
-        eventImageView.image = UIImage(systemName: "photo.artframe")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
+        eventImageView.image = nil
     }
     
     //MARK: - Methods
     func configure(with event: FavoriteEvent) {
-        let image = UIImage(systemName: "photo.artframe")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
-        eventImageView.image = image
         let dateString = getStringDate(date: event.startDate, time: event.startTime)
         titleLabel.text = event.title?.capitalized
         dateLabel.attributedText = setupSubtitleAttributedString(date: dateString)
+        loadImage(eventImages: event.images)
     }
-    //MARK: - Private methods
-    
     
     //MARK: - Support UI methods
+    private func loadImage(eventImages: NSSet?) {
+        guard let images = eventImages?.allObjects as? [ImagesEntity],
+              let strUrl = images[0].image,
+              let url = URL(string: strUrl) else { return }
+        let placeholderImage = UIImage(systemName: "photo.circle")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
+        eventImageView.kf.setImage(with: url, placeholder: placeholderImage)
+        eventImageView.kf.indicatorType = .activity
+    }
     private func setupSubtitleAttributedString(date: String) -> NSAttributedString {
         let subtitleText = NSMutableAttributedString()
         let attributes: [NSAttributedString.Key: Any] = [
@@ -118,8 +124,6 @@ class SearchCollectionViewCell: UICollectionViewCell {
         whiteView.layer.shadowOpacity = 0.1
         whiteView.layer.shadowRadius = 0.5
         whiteView.layer.shadowOffset = .init(width: 0, height: 0)
-        //whiteView.layer.shadowPath = UIBezierPath(roundedRect: whiteView.bounds, cornerRadius: whiteView.layer.cornerRadius).cgPath
-//        contentView.addSubview(shadowView)
         whiteView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -133,9 +137,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
         whiteView.addSubview(eventImageView)
         eventImageView.backgroundColor = .backgroundGray
         eventImageView.layer.cornerRadius = 16
-        let image = UIImage(systemName: "photo.artframe")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
-        eventImageView.image = image
-        eventImageView.contentMode = .scaleAspectFit
+        eventImageView.contentMode = .scaleAspectFill
         eventImageView.layer.masksToBounds = true
         eventImageView.translatesAutoresizingMaskIntoConstraints = false
         
