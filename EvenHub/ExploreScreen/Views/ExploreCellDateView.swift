@@ -26,7 +26,7 @@ class ExploreCellDateView: UIView {
     private func createDayAttributedString(day: String) -> NSAttributedString {
         let dateStr = NSMutableAttributedString()
         let dayAttributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont(name: Constants.Fonts.light, size: 26) ?? UIFont.systemFont(ofSize: 18),
+            .font: UIFont(name: Constants.Fonts.light, size: 22) ?? UIFont.systemFont(ofSize: 18),
             .foregroundColor: UIColor(resource: .accentRed),
             .kern: 2,
             .expansion: -0.75,

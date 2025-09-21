@@ -43,10 +43,16 @@ class SearchTextField: UITextField {
     }
     private func setupTextField() {
         self.font = UIFont(name: Constants.Fonts.book, size: 20)
-        let attributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor(resource: .blue0).withAlphaComponent(0.3),
+        var attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont(name: Constants.Fonts.book, size: 20) ?? .systemFont(ofSize: 20)
         ]
+        switch scheme {
+        case .gray:
+            attributes[.foregroundColor] = UIColor(resource: .blue0).withAlphaComponent(0.3)
+        case .blue:
+            attributes[.foregroundColor] = UIColor(resource: .color30).withAlphaComponent(0.3)
+        }
+        
         self.attributedPlaceholder = NSAttributedString(string: "Search...", attributes: attributes)
     }
     private func setupLeftView() {

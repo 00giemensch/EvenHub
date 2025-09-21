@@ -120,6 +120,11 @@
 			path = Events;
 			sourceTree = "<group>";
 		};
+		9F7CF2F52E7F2F1A0022A1C2 /* SearchScreen */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SearchScreen;
+			sourceTree = "<group>";
+		};
 		9FE3FA202E75F02A00344DEF /* Extension */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Extension;
@@ -183,6 +188,7 @@
 				676E2C132E7097B20074641F /* SceneDelegate.swift */,
 				9FE3F9D22E75C8C800344DEF /* ExploreScreen */,
 				676E2C142E7097B20074641F /* ViewController.swift */,
+				9F7CF2F52E7F2F1A0022A1C2 /* SearchScreen */,
 				6E5FE8112E730E6C00104B1A /* Supporting FIles */,
 				223640C32E7722EE0078BBC9 /* CustomTabBar */,
 				1B540D582E7AEFDD00E9C3F3 /* CoreData */,
@@ -344,6 +350,7 @@
 				1B540D582E7AEFDD00E9C3F3 /* CoreData */,
 				223640C32E7722EE0078BBC9 /* CustomTabBar */,
 				22E8C8CB2E79BCE4003A2717 /* Events */,
+				9F7CF2F52E7F2F1A0022A1C2 /* SearchScreen */,
 				9FE3FA202E75F02A00344DEF /* Extension */,
 				9FE3FB0C2E7ADDC400344DEF /* Controllers */,
 				9FE3FB0D2E7ADDD200344DEF /* ViewModels */,

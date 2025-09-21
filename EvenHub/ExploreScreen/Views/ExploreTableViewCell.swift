@@ -28,7 +28,8 @@ class ExploreTableViewCell: UITableViewCell {
     }
     
     //MARK: - Methods
-    public func configure(with city: String) {
+    public func configure(with city: String?) {
+        guard let city else { return }
         titleLabel.attributedText = createAttributedTitle(city)
     }
     private func createAttributedTitle(_ title: String) -> NSAttributedString {

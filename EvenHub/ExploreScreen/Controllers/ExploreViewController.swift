@@ -10,9 +10,9 @@ import UIKit
 class ExploreViewController: UIViewController {
     //MARK: - Properties
     private let viewModel = ExploreViewModel.shared
-    private lazy var dataSource = UICollectionViewDiffableDataSource<Int, Int>(collectionView: exploreCollectionView) { collectionView, indexPath, itemIdentifier in
+    private lazy var dataSource = UICollectionViewDiffableDataSource<Int, EventDTO>(collectionView: exploreCollectionView) { collectionView, indexPath, itemIdentifier in
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExploreCollectionViewCell.cellId, for: indexPath) as! ExploreCollectionViewCell
-        cell.configure()
+        cell.configure(with: itemIdentifier)
         return cell
     }
     private var isLocationListVisible = false
@@ -52,11 +52,19 @@ class ExploreViewController: UIViewController {
         setupLayout()
         setupTapGesture()
         
-        viewModel.locationsIsLoaded = { [weak self] locationsPlaces in
-            DispatchQueue.main.async {
-                self?.locationLabel.text = locationsPlaces.first
-                self?.locationList.reloadData()
-            }
+        Task {
+            await viewModel.fetchLocations()
+            async let upcoming: () = viewModel.fetchUpcomingEvents()
+            async let nearby: () = viewModel.fetchNearby()
+
+            await upcoming
+            await nearby
+            
+            locationLabel.text = viewModel.currentLocation?.name
+            locationList.reloadData()
+            
+            setDataSourceSnapshots()
+            exploreCollectionView.reloadData()
         }
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -67,7 +75,7 @@ class ExploreViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.isHidden = false
     }
     
     //MARK: - Methods
@@ -126,15 +134,23 @@ class ExploreViewController: UIViewController {
         shapeLayer.path = path.cgPath
     }
     private func setDataSource() {
-        setDataSourceSnapshots()
+//        setDataSourceSnapshots()
         setSectionHeader()
     }
     private func setDataSourceSnapshots() {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
+        var snapshot = NSDiffableDataSourceSnapshot<Int, EventDTO>()
         snapshot.appendSections([1,2])
-        snapshot.appendItems(Array(0...5), toSection: 1)
-        snapshot.appendItems(Array(6...10), toSection: 2)
+        snapshot.appendItems(Array(viewModel.upcomingEvents), toSection: 1)
+        snapshot.appendItems(Array(viewModel.nearbyEvents), toSection: 2)
         dataSource.apply(snapshot)
+    }
+    private func updateNearbyDataSource() {
+        var snapshot = dataSource.snapshot()
+        let oldItems = snapshot.itemIdentifiers(inSection: 2)
+        snapshot.deleteItems(oldItems)
+        snapshot.appendItems(Array(viewModel.nearbyEvents), toSection: 2)
+        snapshot.reloadSections([1,2])
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
     private func setupLocationBar() {
         setupLocationButton()
@@ -203,6 +219,7 @@ class ExploreViewController: UIViewController {
     }
     private func setupSearchTextField() {
         view.addSubview(searchTextField)
+        searchTextField.delegate = self
         searchTextField.action = { [weak self] in
             print("filter button tup")
         }
@@ -321,6 +338,7 @@ class ExploreViewController: UIViewController {
 extension ExploreViewController: UICollectionViewDelegate {
     
 }
+
 //MARK: - CollectionView DataSource
 extension ExploreViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -344,13 +362,30 @@ extension ExploreViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: ExploreTableViewCell.identifire, for: indexPath) as! ExploreTableViewCell
-        cell.configure(with: viewModel.locationPlaces[indexPath.row])
+        cell.configure(with: viewModel.locationPlaces[indexPath.row].name)
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("=\(viewModel.locationPlaces[indexPath.row])=")
-        locationLabel.text = viewModel.locationPlaces[indexPath.row]
+        let newPlace = viewModel.locationPlaces[indexPath.row]
+        viewModel.setCurrentLocation(to: newPlace)
+        locationLabel.text = viewModel.currentLocation?.name
+        Task {
+            await viewModel.fetchNearby()
+            self.updateNearbyDataSource()
+        }
+        
         isLocationListVisible = true
         changeLocationListVisible()
+    }
+}
+
+
+extension ExploreViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+           let newVC = SearchViewController()
+        
+        textField.endEditing(true)
+        navigationController?.pushViewController(newVC, animated: true)
     }
 }

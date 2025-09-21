@@ -44,13 +44,14 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     }
     
     //MARK: - Methods
-    func configure() {
+    func configure(with event: EventDTO) {
         let image = UIImage(systemName: "photo.artframe")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
         eventImageView.image = image
-        titleLabel.text = "Title text fot testing textLabel"
-        dateLabel.setDate(day: "10", month: "September")
-        fillingHStack(URLs: ["person.circle","person.circle","person.circle","person.circle","person.circle"])
-        subtitleLabel.attributedText = setupSubtitleAttributedString(place: "Subtitle text for subtitle lable")
+        titleLabel.text = event.title.capitalized
+        let date = getStartDate(date: event.dates.first)
+        dateLabel.setDate(day: date.day, month: date.month)
+        fillingHStack(userCount: event.favoritesCount ?? Int.random(in: 0...2))
+        subtitleLabel.attributedText = setupSubtitleAttributedString(place: event.place?.address ?? event.place?.location ?? event.location?.name ?? "Coming soon" )
     }
     //MARK: - Private methods
     @objc private func buttonPressed() {
@@ -60,6 +61,27 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     }
     private func fillingBookmark() {
         favoriteButton.tintColor = isAddedInFavorite ? .systemRed : .gray
+    }
+    private func getStartDate(date: EventDate?) -> (day: String, month: String) {
+        guard let startDate = date?.startDate else {
+            return makeTodayDateString()
+        }
+        let date = startDate.split(separator: "-").map { String($0) }
+        var day = date[2]
+        if day.hasPrefix(("0")) {
+            day.remove(at: day.startIndex)
+        }
+        let month = DateFormatter().monthSymbols[Int(date[1])!-1]
+        
+        return (day: day, month: month)
+    }
+    private func makeTodayDateString() -> (day: String, month: String) {
+        let now = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "mm LLLL"
+        let todayDate = dateFormatter.string(from: now)
+        let res = todayDate.split(separator: " ")
+        return ("\(res[0])", "\(res[1])")
     }
     
     //MARK: - Support UI methods
@@ -96,15 +118,17 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         
         return avatarImageView
     }
-    private func fillingHStack(URLs: [String]) {
-        guard URLs.count > 0 else { return }
-        if URLs.count <= 3 {
-            URLs.forEach { avatarsHStack.addArrangedSubview(createAvatarImageView(avatarURL: $0)) }
+    private func fillingHStack(userCount: Int) {
+        guard userCount > 0 else { return }
+        if userCount <= 3 {
+            for _ in 0..<userCount {
+                avatarsHStack.addArrangedSubview(createAvatarImageView(avatarURL: "person.circle"))
+            }
         } else {
             for i in 0..<3 {
-                avatarsHStack.addArrangedSubview(createAvatarImageView(avatarURL: URLs[i]))
+                avatarsHStack.addArrangedSubview(createAvatarImageView(avatarURL: "person.circle"))
             }
-            let count = URLs.count - 3
+            let count = userCount - 3
             let avatarsCountLabel = UILabel()
             let text = "+\(count) Going"
             let countText = NSMutableAttributedString()
