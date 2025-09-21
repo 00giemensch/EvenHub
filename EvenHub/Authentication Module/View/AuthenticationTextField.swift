@@ -11,7 +11,7 @@ class AuthenticationTextField: UITextField {
         setup()
     }
     
-    var textInsets = UIEdgeInsets(top: 10, left: 51, bottom: 10, right: 10)
+    var textInsets = UIEdgeInsets(top: 10, left: 51, bottom: 10, right: 40)
     var leftViewPadding: CGFloat = 16
     var rightViewPadding: CGFloat = 16
     
