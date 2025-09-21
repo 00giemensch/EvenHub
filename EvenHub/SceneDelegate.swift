@@ -16,7 +16,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
-        
+//        var mainVC: UIViewController
+//                if AuthService.shared.shouldSkipLogin() {
+//                    mainVC = ResetPasswordMainViewController()
+//                } else {
+//                    mainVC = SignInViewController()
+//                }
         let assembly = AppAssembly()
         appCoordinator = AppCoordinator(window: window, assembly: assembly)
         appCoordinator.start()
