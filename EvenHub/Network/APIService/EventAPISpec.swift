@@ -94,7 +94,7 @@ enum EventAPISpec {
         return [
             URLQueryItem(name: "page_size", value: "30"),
             URLQueryItem(name: "expand", value: "location,place,dates,participants"),
-            URLQueryItem(name: "fields", value: "id,title,description,body_text,favorites_count,place,location,dates,participants,images,site_url")
+            URLQueryItem(name: "fields", value: "id,title,description,body_text,favorites_count,place,location,dates,participants,categories,images,site_url")
         ]
     }
     

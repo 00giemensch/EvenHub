@@ -64,7 +64,7 @@ final class CoreDataManager {
                         ]
                     )
                 )
-            ]
+            ], categories: ["Кабак"]
         )
         
         // 2. Тест кэширования
@@ -166,7 +166,8 @@ final class CoreDataManager {
             dates: [EventDate(start: 1, end: 2, startDate: "2025-01-01", startTime: "10:00", endTime: "12:00")],
             place: nil,
             location: nil,
-            participants: nil
+            participants: nil,
+            categories: ["Кабак"]
         )
         
         CoreDataManager.shared.cacheEvents([testEvent], cacheKey: "quick_test")
@@ -497,7 +498,6 @@ extension CoreDataManager {
         event.startDate = dto.dates.first?.startDate
         event.startTime = dto.dates.first?.startTime
         event.endTime = dto.dates.first?.endTime
-        
         // Место (Place)
         if let placeDTO = dto.place {
             let placeEntity = PlaceEntity(context: context)

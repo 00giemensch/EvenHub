@@ -20,11 +20,16 @@ final class AppAssembly {
         return vc
     }
     
+    func makeSignUp() -> UIViewController {
+        let vc = SignUpViewController()
+        return vc
+    }
+    
     ///добавляем параметр testClosure
-    func makeExploreModule(testClosure: @escaping () -> Void) -> UIViewController {
+    func makeExploreModule(openSearchScene: @escaping () -> Void) -> UIViewController {
         let exploreVC = ExploreViewController()
         ///присваеваем кложур
-        exploreVC.testClousure = testClosure
+        exploreVC.openSearchScene = openSearchScene
         return exploreVC
     }
     
@@ -52,15 +57,15 @@ final class AppAssembly {
         let tab = CustomTabBarController()
         tab.onCenterTap = onCenterTap
         ///создание exploreVC
-        tab.exploreTestProvider = { [weak self] in
+        tab.exploreProvider = { [weak self] in
             guard let self else { return UIViewController() }
             /// дергаем метод выше для создания exploreVC
             let exploreVC = self.makeExploreModule {
                 /// обращаемся к навигаторконтролеру у exploreVC
                 if let nav = tab.exploreNavigationController {
                     /// говорим че делать
-                    let testNewVC = SearchViewController()
-                    nav.pushViewController(testNewVC, animated: true)
+                    let searchVC = SearchViewController()
+                    nav.pushViewController(searchVC, animated: true)
                 }
             }
             return exploreVC

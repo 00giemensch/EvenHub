@@ -5,6 +5,8 @@
 //  Created by Евгений Васильев on 15.09.2025.
 //
 import UIKit
+import FirebaseCore
+import FirebaseAuth
 
 class ProfileViewController: UIViewController {
     enum Constants {
@@ -91,6 +93,7 @@ class ProfileViewController: UIViewController {
     let signoutButton : EditButtonView = {
         let button = EditButtonView(iconImage: ProfileModel.Constants.signoutIconImage, labelText: "Sign Out")
         button.editLabel.textColor = .black
+        button.addTarget(self, action: #selector(signOutButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -166,6 +169,12 @@ class ProfileViewController: UIViewController {
     }
     
     //MARK: - Buttons Func
+    
+    @objc private func signOutButtonTapped(sender: UIButton) {
+        sender.buttonTappedAnimate()
+        AuthService.shared.signOut()
+        
+    }
     
     @objc private func editButtonTapped(sender: UIButton) {
         sender.buttonTappedAnimate()
