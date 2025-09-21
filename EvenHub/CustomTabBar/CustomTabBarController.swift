@@ -13,7 +13,7 @@ class CustomTabBarController: UITabBarController {
     private var btnTintColor: UIColor { UIColor(red: 213 / 255, green: 215 / 255, blue: 220 / 255, alpha: 1) }
     var onCenterTap: (() -> Void)?
     /// кложура в которой будет настройка exploreVC
-    var exploreTestProvider: (() -> UIViewController)?
+    var exploreProvider: (() -> UIViewController)?
     /// навигатор контроллер для exploreVC
     private(set) var exploreNavigationController: UINavigationController?
     
@@ -51,7 +51,7 @@ class CustomTabBarController: UITabBarController {
         // Explore
         /// настройка UINavigationController exploreTestProvider вернет либо то, что настроили в func makeMainTabBar(onCenterTap: ) либо пустой контроллер
         /// если что-то пошло не так мб можно сделать краше без опционалов, но щас надо другие задачи доделать
-        let exploreVC = UINavigationController(rootViewController: exploreTestProvider?() ?? UIViewController())
+        let exploreVC = UINavigationController(rootViewController: exploreProvider?() ?? UIViewController())
         /// присваеваем UINavigationController наш exploreVC 👆
         exploreNavigationController = exploreVC
         

@@ -20,7 +20,7 @@ class ExploreViewController: UIViewController {
     private var tapOutsideGesture = UITapGestureRecognizer()
     
     ///тут наш метод который будет вызывать все то, что делали в AppAssembly и CustomTabBarController
-    var testClousure: (() -> Void)?
+    var openSearchScene: (() -> Void)?
     
     //MARK: - UI Components
     private let locationButton = UIButton()
@@ -388,6 +388,6 @@ extension ExploreViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.endEditing(true)
         /// и вот тут мы его вызвали
-        testClousure?()
+        openSearchScene?()
     }
 }
