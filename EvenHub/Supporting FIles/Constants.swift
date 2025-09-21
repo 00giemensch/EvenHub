@@ -148,8 +148,10 @@ class Constants {
             static let copyLink = UIImage(named: "share_copy_link")
             static let facebook = UIImage(named: "share_facebook")
             static let instagram = UIImage(named: "share_instagram")
+            static let max = UIImage(named: "share_max")
             static let message = UIImage(named: "share_message")
             static let messenger = UIImage(named: "share_messenger")
+            static let telegram = UIImage(named: "share_telegram")
             static let whatsApp = UIImage(named: "share_whatsApp")
         }
         
