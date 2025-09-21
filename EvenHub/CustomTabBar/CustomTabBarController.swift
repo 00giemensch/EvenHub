@@ -12,12 +12,17 @@ class CustomTabBarController: UITabBarController {
     private var btnSelectedTintColor: UIColor { UIColor(red: 86 / 255, green: 105 / 255, blue: 255 / 255, alpha: 1) }
     private var btnTintColor: UIColor { UIColor(red: 213 / 255, green: 215 / 255, blue: 220 / 255, alpha: 1) }
     var onCenterTap: (() -> Void)?
+    /// кложура в которой будет настройка exploreVC
+    var exploreTestProvider: (() -> UIViewController)?
+    /// навигатор контроллер для exploreVC
+    private(set) var exploreNavigationController: UINavigationController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .green
         setupCustomTabBar()
-        setupViewControllers()
+        /// вызываем в ручную т.к. viewDidLoad вызывается позже и мы получим nil
+        //        setupViewControllers()
         setupCustomTabBarAppearance()
     }
     
@@ -41,10 +46,14 @@ class CustomTabBarController: UITabBarController {
         self.setValue(customTabBar, forKey: "tabBar")
     }
     
-    private func setupViewControllers() {
+    func setupViewControllers() {
         
         // Explore
-        let exploreVC = UINavigationController(rootViewController: ExploreViewController())
+        /// настройка UINavigationController exploreTestProvider вернет либо то, что настроили в func makeMainTabBar(onCenterTap: ) либо пустой контроллер
+        /// если что-то пошло не так мб можно сделать краше без опционалов, но щас надо другие задачи доделать
+        let exploreVC = UINavigationController(rootViewController: exploreTestProvider?() ?? UIViewController())
+        /// присваеваем UINavigationController наш exploreVC 👆
+        exploreNavigationController = exploreVC
         
         let exploreVCNormalImage = UIImage(named: "tabBar_explore")?.withTintColor(btnTintColor, renderingMode: .alwaysOriginal)
         let exploreVCSelectedImage = UIImage(named: "tabBar_explore")?.withTintColor(btnSelectedTintColor, renderingMode: .alwaysOriginal)

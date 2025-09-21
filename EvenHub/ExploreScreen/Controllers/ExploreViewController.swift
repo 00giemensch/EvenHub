@@ -19,6 +19,9 @@ class ExploreViewController: UIViewController {
     private var locationListHeightConstraint = NSLayoutConstraint()
     private var tapOutsideGesture = UITapGestureRecognizer()
     
+    ///тут наш метод который будет вызывать все то, что делали в AppAssembly и CustomTabBarController
+    var testClousure: (() -> Void)?
+    
     //MARK: - UI Components
     private let locationButton = UIButton()
     private let locationLabel = UILabel()
@@ -383,9 +386,8 @@ extension ExploreViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension ExploreViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-           let newVC = SearchViewController()
-        
         textField.endEditing(true)
-        navigationController?.pushViewController(newVC, animated: true)
+        /// и вот тут мы его вызвали
+        testClousure?()
     }
 }
