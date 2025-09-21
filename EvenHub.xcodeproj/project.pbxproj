@@ -22,6 +22,12 @@
 		6E5FEA702E74666600104B1A /* AirbnbCereal_W_Blk.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6E5FEA692E74666600104B1A /* AirbnbCereal_W_Blk.otf */; };
 		6E5FEA712E74666600104B1A /* AirbnbCereal_W_Md.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6E5FEA6B2E74666600104B1A /* AirbnbCereal_W_Md.otf */; };
 		6E5FEA722E74666600104B1A /* AirbnbCereal_W_XBd.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6E5FEA6C2E74666600104B1A /* AirbnbCereal_W_XBd.otf */; };
+		6EC0D1C42E802E0E00D37E99 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EC0D1C32E802E0E00D37E99 /* GoogleService-Info.plist */; };
+		6EC0D1C72E802FF500D37E99 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 6EC0D1C62E802FF500D37E99 /* GoogleSignIn */; };
+		6EC0D1C92E802FF500D37E99 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6EC0D1C82E802FF500D37E99 /* GoogleSignInSwift */; };
+		6EC0D1CC2E80303C00D37E99 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6EC0D1CB2E80303C00D37E99 /* FirebaseAuth */; };
+		6EC0D1CE2E80303C00D37E99 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6EC0D1CD2E80303C00D37E99 /* FirebaseCore */; };
+		6EC0D1D02E80303C00D37E99 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 6EC0D1CF2E80303C00D37E99 /* FirebaseStorage */; };
 		9FE3F9D32E75C8C800344DEF /* ExploreCollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3F9CE2E75C8C800344DEF /* ExploreCollectionHeader.swift */; };
 		9FE3F9D52E75C8C800344DEF /* ExploreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3F9CF2E75C8C800344DEF /* ExploreCollectionViewCell.swift */; };
 		9FE3FA3A2E75F81300344DEF /* ExploreCellDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3FA392E75F81300344DEF /* ExploreCellDateView.swift */; };
@@ -62,6 +68,8 @@
 		6E5FEA6A2E74666600104B1A /* AirbnbCereal_W_Lt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCereal_W_Lt.otf; sourceTree = "<group>"; };
 		6E5FEA6B2E74666600104B1A /* AirbnbCereal_W_Md.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCereal_W_Md.otf; sourceTree = "<group>"; };
 		6E5FEA6C2E74666600104B1A /* AirbnbCereal_W_XBd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AirbnbCereal_W_XBd.otf; sourceTree = "<group>"; };
+		6EC0D1C22E802E0000D37E99 /* EvenHub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EvenHub.entitlements; sourceTree = "<group>"; };
+		6EC0D1C32E802E0E00D37E99 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9FE3F9CE2E75C8C800344DEF /* ExploreCollectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCollectionHeader.swift; sourceTree = "<group>"; };
 		9FE3F9CF2E75C8C800344DEF /* ExploreCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCollectionViewCell.swift; sourceTree = "<group>"; };
 		9FE3FA392E75F81300344DEF /* ExploreCellDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCellDateView.swift; sourceTree = "<group>"; };
@@ -120,6 +128,11 @@
 			path = Events;
 			sourceTree = "<group>";
 		};
+		6EC0D1B62E802DEB00D37E99 /* Authentication Module */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Authentication Module";
+			sourceTree = "<group>";
+		};
 		9F7CF2F52E7F2F1A0022A1C2 /* SearchScreen */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = SearchScreen;
@@ -147,6 +160,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EC0D1C72E802FF500D37E99 /* GoogleSignIn in Frameworks */,
+				6EC0D1CC2E80303C00D37E99 /* FirebaseAuth in Frameworks */,
+				6EC0D1CE2E80303C00D37E99 /* FirebaseCore in Frameworks */,
+				6EC0D1D02E80303C00D37E99 /* FirebaseStorage in Frameworks */,
+				6EC0D1C92E802FF500D37E99 /* GoogleSignInSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,6 +211,9 @@
 				223640C32E7722EE0078BBC9 /* CustomTabBar */,
 				1B540D582E7AEFDD00E9C3F3 /* CoreData */,
 				22E8C8CB2E79BCE4003A2717 /* Events */,
+				6EC0D1B62E802DEB00D37E99 /* Authentication Module */,
+				6EC0D1C22E802E0000D37E99 /* EvenHub.entitlements */,
+				6EC0D1C32E802E0E00D37E99 /* GoogleService-Info.plist */,
 			);
 			path = EvenHub;
 			sourceTree = "<group>";
@@ -350,6 +371,7 @@
 				1B540D582E7AEFDD00E9C3F3 /* CoreData */,
 				223640C32E7722EE0078BBC9 /* CustomTabBar */,
 				22E8C8CB2E79BCE4003A2717 /* Events */,
+				6EC0D1B62E802DEB00D37E99 /* Authentication Module */,
 				9F7CF2F52E7F2F1A0022A1C2 /* SearchScreen */,
 				9FE3FA202E75F02A00344DEF /* Extension */,
 				9FE3FB0C2E7ADDC400344DEF /* Controllers */,
@@ -357,6 +379,11 @@
 			);
 			name = EvenHub;
 			packageProductDependencies = (
+				6EC0D1C62E802FF500D37E99 /* GoogleSignIn */,
+				6EC0D1C82E802FF500D37E99 /* GoogleSignInSwift */,
+				6EC0D1CB2E80303C00D37E99 /* FirebaseAuth */,
+				6EC0D1CD2E80303C00D37E99 /* FirebaseCore */,
+				6EC0D1CF2E80303C00D37E99 /* FirebaseStorage */,
 			);
 			productName = EvenHub;
 			productReference = 676E2BE62E6F36470074641F /* EvenHub.app */;
@@ -386,6 +413,10 @@
 			);
 			mainGroup = 676E2BDD2E6F36470074641F;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				6EC0D1C52E802FF500D37E99 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				6EC0D1CA2E80303C00D37E99 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 676E2BE72E6F36470074641F /* Products */;
 			projectDirPath = "";
@@ -403,6 +434,7 @@
 			files = (
 				6E5FE8142E730E6C00104B1A /* Assets.xcassets in Resources */,
 				2266857A2E7C1B7600BF6318 /* LaunchScreen.storyboard in Resources */,
+				6EC0D1C42E802E0E00D37E99 /* GoogleService-Info.plist in Resources */,
 				6E5FEA6D2E74666600104B1A /* AirbnbCereal_W_Lt.otf in Resources */,
 				6E5FEA6E2E74666600104B1A /* AirbnbCereal_W_Bk.otf in Resources */,
 				6E5FEA6F2E74666600104B1A /* AirbnbCereal_W_Bd.otf in Resources */,
@@ -468,6 +500,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = EvenHub/EvenHub.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -498,6 +531,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = EvenHub/EvenHub.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -664,6 +698,53 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6EC0D1C52E802FF500D37E99 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+		6EC0D1CA2E80303C00D37E99 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6EC0D1C62E802FF500D37E99 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6EC0D1C52E802FF500D37E99 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		6EC0D1C82E802FF500D37E99 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6EC0D1C52E802FF500D37E99 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+		6EC0D1CB2E80303C00D37E99 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6EC0D1CA2E80303C00D37E99 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		6EC0D1CD2E80303C00D37E99 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6EC0D1CA2E80303C00D37E99 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		6EC0D1CF2E80303C00D37E99 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6EC0D1CA2E80303C00D37E99 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 676E2BDE2E6F36470074641F /* Project object */;
 }

@@ -58,10 +58,8 @@ final class AppCoordinator {
                 self.transition(to: self.reduce(.onboardingCompleted))
             }
         case .auth:
-            // заглушка
-            let vc = UIViewController()
-            vc.view.backgroundColor = .systemOrange
-            rootVC = vc
+            rootVC = assembly.makeSignUp()
+            self.transition(to: self.reduce(.userLoggedOut))
         case .main:
             rootVC = assembly.makeMainTabBar { [weak self] in
                 self?.presentShareFromRoot()
