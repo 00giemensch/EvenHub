@@ -64,6 +64,7 @@ class SearchViewModel {
     }
     func clearSavedEvents() {
         dataManager.clearCachedEvents(cacheKey: key)
+        searchedEvents.removeAll()
     }
     func filterByCategory(category: String?) {
         

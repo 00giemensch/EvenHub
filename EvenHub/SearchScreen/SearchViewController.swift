@@ -14,10 +14,11 @@ class SearchViewController: UIViewController {
     //MARK: - UI Components
     private lazy var searchTextField = SearchTextField(scheme: .blue)
     private lazy var loader = UIActivityIndicatorView(style: .large)
+    private lazy var noResultLabel = UILabel()
     private lazy var searchCollectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.itemSize = .init(width: view.frame.width, height: view.frame.height / 8)
+        layout.itemSize = .init(width: view.frame.width - 32 , height: view.frame.height / 8)
         let collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         return collectionView
@@ -32,15 +33,16 @@ class SearchViewController: UIViewController {
             self?.hideLoader()
             DispatchQueue.main.async {
                 self?.searchCollectionView.reloadData()
+                if let result = self?.viewModel.filtredEvents {
+                    self?.noResultLabel.isHidden = !result.isEmpty
+                }
             }
         }
     }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        viewModel.clearSavedEvents()
-        DispatchQueue.main.async {
-            self.searchCollectionView.reloadData()
-        }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        searchTextField.becomeFirstResponder()
     }
     
     //MARK: - Methods
@@ -51,6 +53,7 @@ class SearchViewController: UIViewController {
     }
     private func showLoader() {
         DispatchQueue.main.async {
+            self.noResultLabel.isHidden = true
             self.loader.startAnimating()
             self.loader.isHidden = false
         }
@@ -62,12 +65,21 @@ class SearchViewController: UIViewController {
             
         }
     }
+    @objc private func backButtonTapped() {
+        viewModel.clearSavedEvents()
+        DispatchQueue.main.async {
+            self.searchCollectionView.reloadData()
+        }
+        navigationController?.popViewController(animated: true)
+    }
+    
     //MARK: - Setup Layout
     private func setupLayout() {
         view.backgroundColor = .white
         setupNavigationBar()
         setupSearchTextField()
         setupSearchCollectionView()
+        setupNoResultLabel()
         setupLoaderView()
     }
     private func setupNavigationBar() {
@@ -77,8 +89,8 @@ class SearchViewController: UIViewController {
         
         let backButtonItem = UIBarButtonItem(image: backImage,
                                              style: .plain,
-                                             target: navigationController,
-                                             action: #selector(navigationController?.popViewController(animated:)))
+                                             target: self,
+                                             action: #selector(backButtonTapped))
         navigationItem.leftBarButtonItem = backButtonItem
         navigationItem.leftBarButtonItem?.tintColor = .black
     }
@@ -100,28 +112,40 @@ class SearchViewController: UIViewController {
     }
     private func setupSearchCollectionView() {
         view.addSubview(searchCollectionView)
-        searchCollectionView.register(FavoriteCell.self, forCellWithReuseIdentifier: FavoriteCell.cellID)
+        searchCollectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.cellId)
         searchCollectionView.delegate = self
         searchCollectionView.dataSource = self
+        searchCollectionView.showsVerticalScrollIndicator = false
         searchCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             searchCollectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 28),
-            searchCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            searchCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            searchCollectionView.leadingAnchor.constraint(equalTo: searchTextField.leadingAnchor),
+            searchCollectionView.trailingAnchor.constraint(equalTo: searchTextField.trailingAnchor),
             searchCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    private func setupNoResultLabel() {
+        view.addSubview(noResultLabel)
+        let text = Constants.Fonts.attributedString(for: "NO RESULTS", font: Constants.Fonts.bold, fontSize: 24)
+        noResultLabel.attributedText = text
+        noResultLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            noResultLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noResultLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
     private func setupLoaderView() {
-            view.addSubview(loader)
-            loader.isHidden = true
-            loader.translatesAutoresizingMaskIntoConstraints = false
-            
-            NSLayoutConstraint.activate([
-                loader.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                loader.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-            ])
-        }
+        view.addSubview(loader)
+        loader.isHidden = true
+        loader.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            loader.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loader.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
 }
 
 //MARK: - CollectionView Delegate and DataSource
@@ -131,7 +155,10 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteCell.cellID, for: indexPath) as! FavoriteCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.cellId, for: indexPath) as! SearchCollectionViewCell
+        
+        let event = viewModel.filtredEvents[indexPath.row]
+        cell.configure(with: event)
         return cell
     }
 }
@@ -142,6 +169,7 @@ extension SearchViewController: UITextFieldDelegate {
             textField.resignFirstResponder()
             return false
         }
+        showLoader()
         searchEvents(with: query)
         textField.resignFirstResponder()
         return true
