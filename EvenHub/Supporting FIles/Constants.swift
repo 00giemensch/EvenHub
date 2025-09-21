@@ -6,7 +6,7 @@ class Constants {
     static let appName = "EventHub"
     static let loginPlaceholder = "abc@email.com"
     static let passwordPlaceholder = "Your password"
-    static let passwordConfirmationPlaceholder = "Confirm your password"
+    static let passwordConfirmationPlaceholder = "Confirm password"
     
     // MARK: - Colors
     struct Colors {
@@ -20,7 +20,9 @@ class Constants {
         }
         
         struct Background {
+            static let white = UIColor(named: "backgound_white")
             static let black = UIColor(named: "background_black")
+            static let googleButton = UIColor(named: "background_googleButton")
             static let gray = UIColor(named: "background_gray")
             static let secondBlack = UIColor(named: "background_secondBlack")
             static let backgroundBlue = UIColor().hex(0x4A43EC)
@@ -61,9 +63,12 @@ class Constants {
         
         //MARK: Autentication Icons
         struct Authentication {
+            static let arrowIcon = UIImage(named: "authentication_arrowIcon")
             static let eventHub = UIImage(named: "authentication_eventHubImage")
+            static let googleIcon = UIImage(named: "authentication_google")
             static let mail = UIImage(named: "authentication_mail")
             static let passwordHidden = UIImage(named: "authentication_password_hidden")
+            static let passwordNotHidden = UIImage(systemName: "eye")
             static let password = UIImage(named: "authentication_password")
             static let profile = UIImage(named: "authentication_profile")
         }
@@ -148,8 +153,10 @@ class Constants {
             static let copyLink = UIImage(named: "share_copy_link")
             static let facebook = UIImage(named: "share_facebook")
             static let instagram = UIImage(named: "share_instagram")
+            static let max = UIImage(named: "share_max")
             static let message = UIImage(named: "share_message")
             static let messenger = UIImage(named: "share_messenger")
+            static let telegram = UIImage(named: "share_telegram")
             static let whatsApp = UIImage(named: "share_whatsApp")
         }
         
