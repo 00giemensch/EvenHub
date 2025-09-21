@@ -22,7 +22,7 @@ class ResetPasswordSecondViewController: UIViewController, UITextFieldDelegate {
     
     private let passwordTextField: AuthenticationSecureTextField = {
         let tf = AuthenticationSecureTextField()
-        tf.attributedPlaceholder = Constants.Fonts.attributedString(for: Constants.passwordPlaceholder, font: Constants.Fonts.book, fontSize: 14)
+        tf.attributedPlaceholder = Constants.Fonts.attributedString(for: "New password", font: Constants.Fonts.book, fontSize: 14)
         return tf
     }()
     
@@ -87,10 +87,10 @@ class ResetPasswordSecondViewController: UIViewController, UITextFieldDelegate {
         
         view.addSubview(codeTextField)
         NSLayoutConstraint.activate([
-            codeTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 52),
-            codeTextField.topAnchor.constraint(equalTo: confirmPasswordTextField.bottomAnchor, constant: 38),
-            codeTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -52),
-            codeTextField.heightAnchor.constraint(equalToConstant: 58)
+            codeTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
+            codeTextField.topAnchor.constraint(equalTo: confirmPasswordTextField.bottomAnchor, constant: 22),
+            codeTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            codeTextField.heightAnchor.constraint(equalToConstant: 56)
         ])
         
         view.addSubview(changePasswordButton)
@@ -132,7 +132,7 @@ class ResetPasswordSecondViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        if newPass == confirmPass {
+        if newPass == confirmPass, codeTextField.text != nil {
             confirmPasswordTextField.layer.borderColor = Constants.Colors.Accent.green?.cgColor
             confirmPasswordTextField.layer.borderWidth = 1
             changePasswordButton.isEnabled = true
