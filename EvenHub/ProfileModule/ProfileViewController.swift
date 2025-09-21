@@ -173,7 +173,9 @@ class ProfileViewController: UIViewController {
     @objc private func signOutButtonTapped(sender: UIButton) {
         sender.buttonTappedAnimate()
         AuthService.shared.signOut()
-        
+        let signUpVC = SignUpViewController()
+        signUpVC.modalPresentationStyle = .fullScreen
+        present(signUpVC, animated: true)
     }
     
     @objc private func editButtonTapped(sender: UIButton) {

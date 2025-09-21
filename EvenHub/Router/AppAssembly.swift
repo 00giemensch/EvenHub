@@ -64,8 +64,8 @@ final class AppAssembly {
                 /// обращаемся к навигаторконтролеру у exploreVC
                 if let nav = tab.exploreNavigationController {
                     /// говорим че делать
-                    let searchVC = SearchViewController()
-                    nav.pushViewController(searchVC, animated: true)
+//                    let searchVC = SearchViewController()
+//                    nav.pushViewController(searchVC, animated: true)
                 }
             }
             return exploreVC
