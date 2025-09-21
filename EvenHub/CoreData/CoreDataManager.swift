@@ -64,7 +64,7 @@ final class CoreDataManager {
                         ]
                     )
                 )
-            ]
+            ], categories: ["Кабак"]
         )
         
         // 2. Тест кэширования
@@ -166,7 +166,8 @@ final class CoreDataManager {
             dates: [EventDate(start: 1, end: 2, startDate: "2025-01-01", startTime: "10:00", endTime: "12:00")],
             place: nil,
             location: nil,
-            participants: nil
+            participants: nil,
+            categories: ["Кабак"]
         )
         
         CoreDataManager.shared.cacheEvents([testEvent], cacheKey: "quick_test")
