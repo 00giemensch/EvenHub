@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks: eventhub-devrush.firebaseapp.com</string>
+		<string>applinks:eventhub-devrush.firebaseapp.com</string>
 	</array>
 </dict>
 </plist>

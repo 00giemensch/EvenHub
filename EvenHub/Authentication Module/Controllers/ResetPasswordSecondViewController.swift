@@ -3,16 +3,7 @@ import FirebaseAuth
 
 class ResetPasswordSecondViewController: UIViewController, UITextFieldDelegate {
     
-    private let oobCode: String
-    
-    init(oobCode: String) {
-        self.oobCode = oobCode
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    var oobCode: String?
     
     // MARK: - UI Components
     private let backButton: UIButton = {
@@ -41,6 +32,12 @@ class ResetPasswordSecondViewController: UIViewController, UITextFieldDelegate {
         return tf
     }()
     
+    private let codeTextField: AuthenticationSecureTextField = {
+        let codeTextField = AuthenticationSecureTextField()
+        codeTextField.placeholder = "oobCode"
+        return codeTextField
+    }()
+    
     private let changePasswordButton: AuthenticationButton = {
         let btn = AuthenticationButton(title: "CHANGE \nPASSWORD")
         btn.alpha = 0.5
@@ -54,10 +51,10 @@ class ResetPasswordSecondViewController: UIViewController, UITextFieldDelegate {
         hideKeyboardWhenTappedAround()
         setupUI()
         
-        // Делегат для passwordTextField
+        if oobCode != nil {
+            codeTextField.isHidden = true
+        }
         passwordTextField.delegate = self
-        
-        // confirmPassword проверяем на лету
         confirmPasswordTextField.addTarget(self, action: #selector(confirmPasswordDidChange), for: .editingChanged)
     }
     
@@ -88,10 +85,18 @@ class ResetPasswordSecondViewController: UIViewController, UITextFieldDelegate {
             confirmPasswordTextField.heightAnchor.constraint(equalToConstant: 56)
         ])
         
+        view.addSubview(codeTextField)
+        NSLayoutConstraint.activate([
+            codeTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 52),
+            codeTextField.topAnchor.constraint(equalTo: confirmPasswordTextField.bottomAnchor, constant: 38),
+            codeTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -52),
+            codeTextField.heightAnchor.constraint(equalToConstant: 58)
+        ])
+        
         view.addSubview(changePasswordButton)
         NSLayoutConstraint.activate([
             changePasswordButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 52),
-            changePasswordButton.topAnchor.constraint(equalTo: confirmPasswordTextField.bottomAnchor, constant: 38),
+            changePasswordButton.topAnchor.constraint(equalTo: codeTextField.bottomAnchor, constant: 38),
             changePasswordButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -52),
             changePasswordButton.heightAnchor.constraint(equalToConstant: 58)
         ])
@@ -144,7 +149,9 @@ class ResetPasswordSecondViewController: UIViewController, UITextFieldDelegate {
     @objc private func changePasswordPressed(_ sender: UIButton) {
         guard let newPass = passwordTextField.text else { return }
         
-        Auth.auth().confirmPasswordReset(withCode: oobCode, newPassword: newPass) { [weak self] error in
+        let codeToUse = oobCode ?? codeTextField.text
+        guard let code = codeToUse, !code.isEmpty else { return }
+        Auth.auth().confirmPasswordReset(withCode: code, newPassword: newPass) { [weak self] error in
             guard let self = self else { return }
             
             if let error = error {
