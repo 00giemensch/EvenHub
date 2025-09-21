@@ -497,7 +497,6 @@ extension CoreDataManager {
         event.startDate = dto.dates.first?.startDate
         event.startTime = dto.dates.first?.startTime
         event.endTime = dto.dates.first?.endTime
-        
         // Место (Place)
         if let placeDTO = dto.place {
             let placeEntity = PlaceEntity(context: context)

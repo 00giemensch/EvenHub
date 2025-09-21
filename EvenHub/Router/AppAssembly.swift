@@ -20,6 +20,11 @@ final class AppAssembly {
         return vc
     }
     
+    func makeSignUp() -> UIViewController {
+        let vc = SignUpViewController()
+        return vc
+    }
+    
     ///добавляем параметр testClosure
     func makeExploreModule(testClosure: @escaping () -> Void) -> UIViewController {
         let exploreVC = ExploreViewController()
