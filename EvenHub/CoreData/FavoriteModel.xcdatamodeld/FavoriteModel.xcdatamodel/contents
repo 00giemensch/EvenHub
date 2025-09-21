@@ -31,6 +31,7 @@
         <attribute name="startDate" optional="YES" attributeType="String"/>
         <attribute name="startTime" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="userID" optional="YES" attributeType="String"/>
         <relationship name="eventLocation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EventLocationEntity" inverseName="event" inverseEntity="EventLocationEntity"/>
         <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ImagesEntity" inverseName="event" inverseEntity="ImagesEntity"/>
         <relationship name="participants" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ParticipantEntity" inverseName="event" inverseEntity="ParticipantEntity"/>
