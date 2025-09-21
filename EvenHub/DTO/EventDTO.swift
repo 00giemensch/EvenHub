@@ -23,6 +23,7 @@ struct EventDTO: Codable, Identifiable, Sendable, Hashable {
     let place: PlaceDTO?
     let location: EventLocation?
     let participants: [Participant]?
+    let categories: [String]
 }
 
 struct CategoryDTO: Codable, Identifiable, Sendable {
