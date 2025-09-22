@@ -18,9 +18,10 @@ class EventsViewController: UIViewController {
     private let eventsCD = CoreDataManager.shared.getCachedEvents()
     var openSeeAllScene: (() -> Void)?
     let viewModel = EventsViewModel.shared
-    var pastEventsArray = [EventDTO]()
+    var pastEventsArray = [FavoriteEvent]()
     var upcomingEventsArray = [EventDTO]()
     var isUpcoming = true
+    let coreData = CoreDataManager.shared
     
     
     //MARK: - UI
@@ -86,10 +87,12 @@ class EventsViewController: UIViewController {
         
         setViews()
         setupConstraints()
+        setEvents()
     
-            if eventsCollectionView.numberOfItems(inSection: 0) == 0 {
-                calendarIcon.isHidden = false
-            }
+        if eventsCollectionView.numberOfItems(inSection: 0) == 0 {
+            calendarIcon.isHidden = false
+        }
+
         
     }
     override func viewDidLayoutSubviews() {
@@ -138,8 +141,9 @@ class EventsViewController: UIViewController {
     }
     
     private func setEvents() {
-        pastEventsArray = viewModel.pastEvents
+        pastEventsArray = coreData.getCachedEvents(cacheKey: "pastEvents")
         upcomingEventsArray = viewModel.upcomingEvents
+        eventsCollectionView.reloadData()
     }
     
     
@@ -197,21 +201,29 @@ extension EventsViewController {
         ])
     }
     @objc func segmentedChanged() {
-            print("Selected index: \(segmented.selectedIndex)")
+        isUpcoming = segmented.selectedIndex == 0
+            eventsCollectionView.reloadData()
         }
 }
 
 //MARK: - Extension UICollectionViewDelegate & UICollectionViewDataSource
 extension EventsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return upcomingEventsArray.count
+        return isUpcoming ? upcomingEventsArray.count : pastEventsArray.count
 }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteCell.cellID, for: indexPath) as! FavoriteCell
-        cell.titleLabel.text = upcomingEventsArray[indexPath.row].title
-        cell.dateLabel.text = upcomingEventsArray[indexPath.row].dates[indexPath.row].startDate
-        
-        
+        if isUpcoming {
+                let event = upcomingEventsArray[indexPath.row]
+                cell.titleLabel.text = event.title
+//                cell.locationLabel.text = event.location
+//                cell.dateLabel.text = event.startDate
+            } else {
+                let event = pastEventsArray[indexPath.row]
+                cell.titleLabel.text = event.title
+                cell.locationLabel.text = event.eventLocation?.name
+                cell.dateLabel.text = event.startDate
+            }
         
         return cell
     }
