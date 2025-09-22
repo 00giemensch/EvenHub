@@ -86,21 +86,10 @@ class EventsViewController: UIViewController {
         
         setViews()
         setupConstraints()
-        
-        Task {
-            async let upcoming: () = viewModel.fetchUpcomingEvents()
-            async let pastEvents: () = viewModel.fetchPastEvents()
-
-            await upcoming
-            await pastEvents
-            
-            setEvents()
-            
-            eventsCollectionView.reloadData()
+    
             if eventsCollectionView.numberOfItems(inSection: 0) == 0 {
                 calendarIcon.isHidden = false
             }
-        }
         
     }
     override func viewDidLayoutSubviews() {
@@ -220,6 +209,9 @@ extension EventsViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteCell.cellID, for: indexPath) as! FavoriteCell
         cell.titleLabel.text = upcomingEventsArray[indexPath.row].title
+        cell.dateLabel.text = upcomingEventsArray[indexPath.row].dates[indexPath.row].startDate
+        
+        
         
         return cell
     }
