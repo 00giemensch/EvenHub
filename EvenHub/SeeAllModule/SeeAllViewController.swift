@@ -164,9 +164,13 @@ extension SeeAllViewController : UICollectionViewDelegate, UICollectionViewDeleg
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            let selectedEvent = events[indexPath.item]
-            print("Selected event: \(selectedEvent.title ?? "No title")")
-        }
+        guard let cell = collectionView.cellForItem(at: indexPath) as? SeeAllCell else { return }
+        let image = cell.getImage()
+        let selectedEvent = events[indexPath.item]
+        let vc = EventDetailsVC(event: selectedEvent, image: image)
+        vc.configureWithEvent(event: selectedEvent)
+        present(vc, animated: true)
+    }
     
 }
 

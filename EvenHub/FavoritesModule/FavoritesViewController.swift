@@ -212,15 +212,11 @@ extension FavoritesViewController : UICollectionViewDelegate, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if self.navigationController == nil {
-                print("❗️ ОШИБКА: navigationController is nil — нельзя сделать push")
-            }
         guard let cell = collectionView.cellForItem(at: indexPath) as? FavoriteCell else { return }
         let image = cell.getImage()
         let selectedEvent = favoriteEvents[indexPath.item]
         let vc = EventDetailsVC(event: selectedEvent, image: image)
-        navigationController?.pushViewController(vc, animated: true)
+        vc.configureWithEvent(event: selectedEvent)
+        present(vc, animated: true)
     }
-    
-    
 }
