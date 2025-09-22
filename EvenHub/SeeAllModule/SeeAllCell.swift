@@ -5,8 +5,17 @@
 //  Created by Евгений Васильев on 17.09.2025.
 //
 import UIKit
+import Kingfisher
 
 class SeeAllCell: UICollectionViewCell {
+    
+    var isAddedInFavorite: Bool = false {
+        didSet {
+            updateFavoriteIcon()
+        }
+    }
+    
+    var favoriteButtonAction: (() -> Void)?
     
     let leftImageView : UIImageView = {
         let view = UIImageView()
@@ -53,12 +62,58 @@ class SeeAllCell: UICollectionViewCell {
         return label
     }()
     
-    let favIcon : UIImageView = {
-        let view = UIImageView()
-        view.image = UIImage(named: SeeAllModel.Constants.favoriteIcon)
-        view.isHidden = true
+    let favIcon : UIButton = {
+        let view = UIButton()
+        view.setImage(UIImage(named: SeeAllModel.Constants.favoriteEmptyButton), for: .normal)
+        view.addTarget(self, action: #selector(favoriteButtonTapped), for: .touchUpInside)
         return view
     }()
+    
+    //MARK: - Configure
+    
+    func configure(with event: FavoriteEvent) {
+        titleLabel.text = event.title
+        let datePart = event.startDate ?? "—"
+        let timePart = event.startTime ?? "—"
+        dateLabel.text = "\(datePart) • \(timePart)"
+        if let place = event.place {
+            let locationName = place.title ?? "Unknown Place"
+            let address = place.address ?? "Unknown Address"
+            locationLabel.text = "\(locationName) • \(address)"
+        } else {
+            locationLabel.text = "Location not available"
+        }
+        if let images = event.images?.allObjects as? [ImagesEntity],
+           let firstImage = images.first,
+           let imageUrlString = firstImage.image,
+           let url = URL(string: imageUrlString) {
+            
+            let placeholderImage = UIImage(systemName: "photo.artframe")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
+            leftImageView.kf.setImage(
+                with: url,
+                placeholder: placeholderImage,
+                options: [.transition(.fade(0.2))]
+            )
+            leftImageView.kf.indicatorType = .activity
+        } else {
+            leftImageView.image = UIImage(systemName: "photo.fill")
+            leftImageView.kf.cancelDownloadTask() // на случай, если ячейка переиспользуется
+        }
+        isAddedInFavorite = CoreDataManager.shared.isEventFavorite(eventId: event.id ?? "")
+    }
+    
+    private func updateFavoriteIcon() {
+        DispatchQueue.main.async {
+            let imageName = self.isAddedInFavorite ? UIImage(named: SeeAllModel.Constants.favoriteIcon) : UIImage(named: SeeAllModel.Constants.favoriteEmptyButton)
+            self.favIcon.setImage(imageName, for: .normal)
+        }
+    }
+    
+    @objc private func favoriteButtonTapped() {
+        isAddedInFavorite.toggle()
+        favoriteButtonAction?()
+    }
+    
     
     //MARK: - Setup
     

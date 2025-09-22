@@ -12,7 +12,7 @@ final class ExploreViewModel {
     
     //MARK: - Properties
     private let apiService = EventAPIService()
-    private lazy var dataManager = CoreDataManager.shared
+    lazy var dataManager = CoreDataManager.shared
     var locationsIsLoaded: ((EventLocation) -> Void)?
     var eventsIsLoaded: (() -> Void)?
     var nearbyIsLoaded: (() -> Void)?
