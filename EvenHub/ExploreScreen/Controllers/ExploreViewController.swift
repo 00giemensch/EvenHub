@@ -24,7 +24,7 @@ class ExploreViewController: UIViewController {
     private var tapOutsideGesture = UITapGestureRecognizer()
     
     ///тут наш метод который будет вызывать все то, что делали в AppAssembly и CustomTabBarController
-    var openSearchScene: (() -> Void)?
+    var pushNewVC: ((UIViewController) -> Void)?
     
     //MARK: - UI Components
     private let locationButton = UIButton()
@@ -344,7 +344,10 @@ class ExploreViewController: UIViewController {
 
 //MARK: - CollectionView Delegate
 extension ExploreViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = ExploreDetailViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 //MARK: - CollectionView DataSource
@@ -392,7 +395,8 @@ extension ExploreViewController: UITableViewDelegate, UITableViewDataSource {
 extension ExploreViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.endEditing(true)
+        let searchVC = SearchViewController()
         /// и вот тут мы его вызвали
-        openSearchScene?()
+        pushNewVC?(searchVC)
     }
 }
