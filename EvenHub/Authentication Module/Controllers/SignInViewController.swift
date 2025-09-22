@@ -6,8 +6,10 @@ import FirebaseStorage
 class SignInViewController: UIViewController {
     
     private var account: AuthenticationModel?
-    
     private var authService = AuthService.shared
+    var onSignUp: (() -> Void)?
+    var onResetPassword: (() -> Void)?
+    var onMain: (() -> Void)?
     
     //MARK: - UI Components
     private let eventHubImage: UIImageView = {
@@ -170,7 +172,6 @@ class SignInViewController: UIViewController {
             rememberMeSwitch.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
             rememberMeSwitch.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 22)
         ])
-        rememberMeSwitch.addTarget(self, action: #selector(rememberMeChanged), for: .valueChanged)
         
         view.addSubview(rememberMeLabel)
         NSLayoutConstraint.activate([
@@ -230,17 +231,9 @@ class SignInViewController: UIViewController {
         
     }
     
-    @objc private func rememberMeChanged(_ sender: UISwitch) {
-        if sender.isOn {
-            authService.setRememberMe(true)
-        } else {
-            authService.setRememberMe(false)
-        }
-    }
-    
     @objc private func forgotPasswordPressed(_ sender: UIButton) {
         // Navigation to reset password screen
-        navigationController?.pushViewController(ResetPasswordMainViewController(), animated: true)
+        onResetPassword?()
     }
     
     @objc private func signInButtonPressed(_ sender: UIButton) {
@@ -257,8 +250,8 @@ class SignInViewController: UIViewController {
         guard let email = loginTextField.text, let password = passwordTextField.text else { return }
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
             if error == nil {
-                //               navigationController?.pushViewController(ExploreVC, animated: true)
-                print("Success")
+                self.authService.setRememberMe(self.rememberMeSwitch.isOn)
+                self.onMain?()
             }
             else {
                 self.showErrorAlert(title: "Error", message: error?.localizedDescription)
@@ -271,8 +264,7 @@ class SignInViewController: UIViewController {
             switch result {
             case .success(let user):
                 print("Enter: \(user.email ?? "unknown")")
-                //                    let exploreVC = ExploreViewController()
-                //                    self?.navigationController?.pushViewController(exploreVC, animated: true)
+                self!.onMain?()
             case .failure(let error):
                 self?.showErrorAlert(title: "Error", message: error.localizedDescription)
             }
@@ -287,7 +279,7 @@ class SignInViewController: UIViewController {
     
     @objc private func signUpPressed(_ sender: UIButton) {
         //Navigation to SignUp VC
-        navigationController?.pushViewController(SignUpViewController(), animated: true)
+        self.onSignUp?()
     }
 }
 

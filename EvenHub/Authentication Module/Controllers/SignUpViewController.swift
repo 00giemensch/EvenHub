@@ -2,13 +2,31 @@ import UIKit
 import FirebaseCore
 import FirebaseAuth
 import FirebaseStorage
+import CoreData
 
 class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     private var authService = AuthService.shared
+    private var dataManager = CoreDataManager.shared
+    var onSignIn: (() -> Void)?
+    var onMain: (() -> Void)?
     
     //MARK: - UI Components
     //Navigation Bar Items
+    private let navBar: UINavigationBar = {
+        let navBar = UINavigationBar()
+        navBar.translatesAutoresizingMaskIntoConstraints = false
+        return navBar
+    }()
+    
+    private let appearance: UINavigationBarAppearance =  {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = .clear
+        appearance.shadowColor = .clear
+        return appearance
+    }()
+    
     private let backButton: UIButton = {
         let backButton = UIButton()
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -23,6 +41,9 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         return navLabel
     }()
     
+    private let navItem = UINavigationItem()
+    
+    // SingUP
     private let profileTextField: AuthenticationTextField = {
         let profileTextField = AuthenticationTextField()
         profileTextField.attributedPlaceholder = Constants.Fonts.attributedString(for: "Full name", font: Constants.Fonts.book, fontSize: 14)
@@ -100,24 +121,27 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
         setupUI()
-        
-        // делегат для passwordTextField
         passwordTextField.delegate = self
-        
-        // confirmPasswordTextField проверяется "на лету"
-        confirmPasswordTextField.addTarget(self, action: #selector(confirmPasswordDidChange), for: .editingChanged)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     //MARK: - Methods
     func setupUI() {
         view.backgroundColor = Constants.Colors.Background.white
-        navigationItem.titleView = navLabel
+        navItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        navItem.titleView = navLabel
         backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        navBar.setItems([navItem], animated: false)
+        navBar.standardAppearance = appearance
+        navBar.scrollEdgeAppearance = appearance
+        navBar.compactAppearance = appearance
+        
+        view.addSubview(navBar)
+        NSLayoutConstraint.activate([
+            navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navBar.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            
+        ])
         
         view.addSubview(profileTextField)
         NSLayoutConstraint.activate([
@@ -151,7 +175,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             confirmPasswordTextField.heightAnchor.constraint(equalToConstant: 56),
             confirmPasswordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30)
         ])
-        
+        confirmPasswordTextField.addTarget(self, action: #selector(confirmPasswordDidChange), for: .editingChanged)
+
         view.addSubview(signUpButton)
         NSLayoutConstraint.activate([
             signUpButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 52),
@@ -238,7 +263,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: - Actions
     @objc private func backButtonPressed(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
+        onSignIn?()
     }
     
     @objc private func signUpButtonPressed(_ sender: UIButton) {
@@ -252,8 +277,14 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         guard let email = loginTextField.text, let password = passwordTextField.text else { return }
         Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
             if error == nil {
-                print("Sign up is successful")
+                if let uid = Auth.auth().currentUser?.uid {
+                    self.dataManager.saveUserToCoreData(uid: uid, name: self.profileTextField.text ?? "new user")
+                }
                 self.showErrorAlert(title: "Congratulations!", message: "Sign up is successful")
+                let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                    // Переход на ExploreVC()
+                    self.onMain?()
+                }
             }
             else {
                 self.showErrorAlert(title: "Error", message: error?.localizedDescription)
@@ -265,9 +296,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         authService.signInWithGoogle(presentingViewController: self) { [weak self] result in
             switch result {
             case .success(let user):
-                print("Enter: \(user.email ?? "unknown")")
-                //                    let exploreVC = ExploreViewController()
-                //                    self?.navigationController?.pushViewController(exploreVC, animated: true)
+                self!.onMain?()
             case .failure(let error):
                 self?.showErrorAlert(title: "Error", message: error.localizedDescription)
             }
@@ -281,6 +310,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func signInPressed(_ sender: UIButton) {
-        navigationController?.pushViewController(SignInViewController(), animated: true)
+        onSignIn?()
     }
 }
