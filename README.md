@@ -63,12 +63,7 @@ One app — from onboarding to sharing with friends.
     cd EvenHub
     open EvenHub.xcodeproj
 
-(Запусти в симуляторе или на устройстве через Xcode)
-
-### Configuration
-- Подключите Firebase (Google Sign-In) — добавьте `GoogleService-Info.plist` в проект.
-- Укажите URL и ключи API в `Config` или используйте xcconfig/.env по вашему выбору.
-- Иконки категорий добавляются в `Assets` и сопоставляются с id категорий из API.
+    # Build and run on simulator or device
 
 ---
 
@@ -80,33 +75,24 @@ One app — from onboarding to sharing with friends.
 </a>
 </div>
 
-Рекомендуется добавить в `docs/` пример ответов API (endpoints, схемы), чтобы было проще интегрировать.
 
 ---
 
 ## 📁 App Flow (short)
 
-- Onboarding — показывается при первом запуске.
-- Sign In — Email/Password или Google (Firebase). "Remember me" — сохраняет состояние.
-- Main (Tab Bar): Map (placeholder), Explore, Events, Favorites, Profile.
-- Explore — поиск, фильтры, выбор города (API).
-- Event Details — подробности события, добавление в избранное, шаринг.
-- Share — модальное окно с кнопками популярных соцсетей/мессенджеров.
-- Events — список ближайших 7 дней; фильтры: актуальные / прошедшие.
-- Favorites — управление избранными событиями.
-- Profile — редактирование и выход.
+- Onboarding — shown on first launch.  
+- Sign In — Email/Password or Google (Firebase). "Remember me" saves the state.  
+- Main (Tab Bar): Map (placeholder), Explore, Events, Favorites, Profile.  
+- Explore — search, filters, city selection (API).  
+- Event Details — event information, add to favorites, sharing.  
+- Share — modal window with buttons for popular social networks/messengers.  
+- Events — list of upcoming 7 days; filters: actual / past.  
+- Favorites — manage favorite events.  
+- Profile — edit and sign out.  
 
 ---
 
-## 📸 Screens
-
-Добавь GIF/PNG превью в `docs/screens/` и вставь так:
-
-    ![Explore demo](docs/screens/ExploreDemo.gif)
-
----
-
-## 👨‍💻 Contributors
+## 👨‍💻 Team
 
 <div align="center">
 <a href="https://github.com/vasilev-evgeny"><img src="https://img.shields.io/badge/vasilev--evgeny-orange?style=for-the-badge" alt="vasilev-evgeny"/></a>
@@ -118,9 +104,6 @@ One app — from onboarding to sharing with friends.
 
 ---
 
-## 📄 License & Notes
-
 © 2025 EvenHub — for educational / demo purposes.  
-Репозиторий демонстрирует структуру приложения и основные потоки (onboarding, auth, explore, share). Для продакшн-использования обновите интеграции и дизайн.
 
 ---
