@@ -35,9 +35,12 @@ One app — from onboarding to sharing with friends.
 <a href="https://swift.org">
 <img src="https://img.shields.io/badge/Swift-5-orange?style=for-the-badge&logo=swift" alt="Swift 5"/></a>
 <a href="https://developer.apple.com/ios/">
-<img src="https://img.shields.io/badge/iOS-16+-black?style=for-the-badge&logo=apple" alt="iOS 16+"/></a>
+<img src="https://img.shields.io/badge/iOS-15%2B-black?style=for-the-badge&logo=apple" alt="iOS 16+"/></a>
 <img src="https://img.shields.io/badge/UIKit-blue?style=for-the-badge" alt="UIKit"/>
 <img src="https://img.shields.io/badge/MVVM-ff69b4?style=for-the-badge" alt="MVVM"/>
+<img src="https://img.shields.io/badge/Coordinator-purple?style=for-the-badge" alt="Coordinator"/>
+<img src="https://img.shields.io/badge/CoreData-darkgreen?style=for-the-badge" alt="CoreData"/>
+<img src="https://img.shields.io/badge/Kingfisher-lightblue?style=for-the-badge" alt="Kingfisher"/>
 <img src="https://img.shields.io/badge/FirebaseAuth-red?style=for-the-badge" alt="Firebase Auth"/>
 <img src="https://img.shields.io/badge/URLSession-green?style=for-the-badge" alt="URLSession"/>
 <img src="https://img.shields.io/badge/JSONDecoder-yellow?style=for-the-badge" alt="JSONDecoder"/>
