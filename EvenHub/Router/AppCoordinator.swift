@@ -56,11 +56,8 @@ final class AppCoordinator {
     }
     
     private func rootState() -> AppState {
-        
-        if assembly.appState.hasCompletedOnboarding && assembly.appState.hasEnabledRememberMe {
-            return .main
-        } else if assembly.appState.hasCompletedOnboarding && !assembly.appState.hasEnabledRememberMe {
-            return .auth
+        if assembly.appState.hasCompletedOnboarding {
+            return assembly.appState.hasEnabledRememberMe ? .main : .auth
         } else {
             return .onboarding
         }

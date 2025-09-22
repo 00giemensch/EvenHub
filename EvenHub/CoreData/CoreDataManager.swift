@@ -23,7 +23,6 @@ final class CoreDataManager {
     private init() {}
     
     // MARK: - Core Data Stack
-    
     private lazy var context: NSManagedObjectContext = {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             fatalError("AppDelegate not found")
@@ -32,6 +31,17 @@ final class CoreDataManager {
     }()
     
     // MARK: - User Management
+    func saveUserToCoreData(uid: String, name: String) {
+
+        let account = Account(context: self.context)
+        account.uid = uid
+        account.name = name
+        account.aboutMe = ""
+        if let defaultImage = UIImage(named: "underConstruction2"), let imageData = defaultImage.pngData() {
+            account.avatar = imageData
+        }
+        saveContext()
+    }
     
     private func currentUserID() -> String {
         return Auth.auth().currentUser?.uid ?? "anonymous"

@@ -114,10 +114,6 @@ class AuthService {
     func signOut() {
         do {
             try Auth.auth().signOut()
-            // if rememberMe was on reset saved instance
-            if !getRememberMe() {
-                setRememberMe(false)
-            }
         } catch let signOutError as NSError {
             print("Sing out error: %@", signOutError)
         }
