@@ -38,7 +38,7 @@ One app — from onboarding to sharing with friends.
 <img src="https://img.shields.io/badge/iOS-15%2B-black?style=for-the-badge&logo=apple" alt="iOS 16+"/></a>
 <img src="https://img.shields.io/badge/UIKit-blue?style=for-the-badge" alt="UIKit"/>
 <img src="https://img.shields.io/badge/MVVM-ff69b4?style=for-the-badge" alt="MVVM"/>
-<img src="https://img.shields.io/badge/Coordinator-purple?style=for-the-badge" alt="Coordinator"/>
+<img src="https://img.shields.io/badge/Router?style=for-the-badge" alt="Router"/>
 <img src="https://img.shields.io/badge/CoreData-darkgreen?style=for-the-badge" alt="CoreData"/>
 <img src="https://img.shields.io/badge/Kingfisher-lightblue?style=for-the-badge" alt="Kingfisher"/>
 <img src="https://img.shields.io/badge/FirebaseAuth-red?style=for-the-badge" alt="Firebase Auth"/>
