@@ -89,9 +89,9 @@ class EventDetailsVC: UIViewController {
     }
 
     private lazy var backButton = UIButton.make(
-        image: UIImage(named: SeeAllModel.Constants.backButtonIcon)?.withTintColor(.white, renderingMode: .alwaysOriginal),
+        image: UIImage(named: SeeAllModel.Constants.backButtonIcon)?.withTintColor(.white, renderingMode: .alwaysTemplate),
         size: CGSize(width: 22, height: 22),
-        tintColor: .white,
+        tintColor: .label,
         action: UIAction { [weak self] _ in
             self?.backTapped()
         }
@@ -305,6 +305,10 @@ class EventDetailsVC: UIViewController {
     
     
     private func configureUI() {
+        backButton.layer.cornerRadius = 11
+        backButton.backgroundColor = .black.withAlphaComponent(0.1)
+        eventsLabel.layer.cornerRadius = 4
+        eventsLabel.layer.backgroundColor = UIColor.black.withAlphaComponent(0.1).cgColor
         tableView.reloadData()
         tableView.layoutIfNeeded()
         tableViewHeightConstraint.constant = tableView.contentSize.height

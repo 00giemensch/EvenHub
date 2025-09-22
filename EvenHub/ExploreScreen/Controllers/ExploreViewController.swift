@@ -63,7 +63,8 @@ class ExploreViewController: UIViewController {
             await viewModel.fetchLocations()
             async let upcoming: () = viewModel.fetchUpcomingEvents()
             async let nearby: () = viewModel.fetchNearby()
-
+            async let past: () = viewModel.fetchPastEvents()
+            
             await upcoming
             await nearby
             
@@ -72,6 +73,7 @@ class ExploreViewController: UIViewController {
             
             setDataSourceSnapshots()
             exploreCollectionView.reloadData()
+            await past
         }
     }
     override func viewWillAppear(_ animated: Bool) {

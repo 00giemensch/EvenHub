@@ -42,7 +42,7 @@ final class ExploreViewModel {
     
     //MARK: - Lifecycle
     private init(){}
-  
+    
     //MARK: - Private methods
     private func fetchEventsById<T:Identifiable>(events: [T]) async -> [EventDTO] where T.ID == Int {
         var res = [EventDTO]()
@@ -56,9 +56,21 @@ final class ExploreViewModel {
         }
         return res
     }
-    private func saveEventsToCoreData(_ events: [EventDTO], key: String) -> [FavoriteEvent] {
+    private func saveAndReturnEvents(_ events: [EventDTO], key: String) -> [FavoriteEvent] {
         dataManager.cacheEvents(events, cacheKey: key)
         return dataManager.getCachedEvents(cacheKey: key)
+    }
+    private func saveEvents(_ events: [EventDTO], key: String) {
+        dataManager.cacheEvents(events, cacheKey: key)
+    }
+    private func getTodayDate() -> String {
+        let today = Date()
+
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        return formatter.string(from: today)
     }
     
     //MARK: - Public methods
@@ -78,7 +90,7 @@ final class ExploreViewModel {
         do {
             let eventsResponse = try await apiService.getUpcomingEvents(with: .none, .en, .none)
             await MainActor.run {
-                self.upcomingEvents = self.saveEventsToCoreData(eventsResponse, key: "upcomingEvents")
+                self.upcomingEvents = self.saveAndReturnEvents(eventsResponse, key: "upcomingEvents")
             }
         }
         catch {
@@ -90,7 +102,19 @@ final class ExploreViewModel {
         do {
             let eventsResponse = try await apiService.getNearbyYouEvents(with: .en, currentSlug, .none, .none)
             await MainActor.run {
-                self.nearbyEvents = self.saveEventsToCoreData(eventsResponse, key: "nearbyEvents")
+                self.nearbyEvents = self.saveAndReturnEvents(eventsResponse, key: "nearbyEvents")
+            }
+        }
+        catch {
+            print("ExploreViewModel: \(#function)\nОшибка: \(error.localizedDescription)")
+        }
+    }
+    func fetchPastEvents() async {
+        let today = getTodayDate()
+        do {
+            let currentResponce = try await apiService.getUpcomingEvents("2025-01-01", today, .en, .none)
+            await MainActor.run {
+                self.saveEvents(currentResponce, key: "pastEvents")
             }
         }
         catch {
