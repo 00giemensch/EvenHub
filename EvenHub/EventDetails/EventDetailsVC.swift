@@ -127,7 +127,7 @@ class EventDetailsVC: UIViewController {
     private let subtitleLbl = UILabel.make(
         text: "About Event",
         font: UIFont(name: Constants.Fonts.book, size: 18),
-        color: .black,
+        color: .black
     )
     
     private let subtitleContentLbl = UILabel.make(
@@ -135,7 +135,7 @@ class EventDetailsVC: UIViewController {
         font: UIFont(name: Constants.Fonts.light, size: 16),
         color: .black,
         lines: 0,
-        lineSpacing: 6,
+        lineSpacing: 6
     )
     
     private lazy var tableView: UITableView = {

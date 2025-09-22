@@ -191,51 +191,157 @@ extension CoreDataManager {
 // MARK: - Favorites Management (Избранное)
 extension CoreDataManager {
     
-    /// Добавляет событие в избранное из DTO с полными relationships
-    func addToFavorites(from eventDTO: EventDTO) -> Bool {
-        let eventId = "\(eventDTO.id)"
+    /// Добавляет событие в избранное из FavoriteEvent (уже закэшированного)
+    func addToFavorites(from cachedEvent: FavoriteEvent) -> Bool {
+        let eventId = cachedEvent.id
         
-        guard !isEventFavorite(eventId: eventId) else {
-            print("⚠️ Событие уже в избранном: \(eventDTO.title)")
+        guard !isEventFavorite(eventId: eventId!) else {
+            print("⚠️ Событие уже в избранном: \(cachedEvent.title ?? "Unknown")")
             return false
         }
         
-        if let existingEvent = getEvent(by: eventId) {
+        if let existingEvent = getEvent(by: eventId!) {
+            // Уже существует — просто помечаем как избранное
             existingEvent.isFavorite = true
             existingEvent.addedDate = Date()
-            updateEventRelations(existingEvent, with: eventDTO)
+            // ❗️ВАЖНО: не перезаписываем данные, т.к. они уже есть и актуальны
         } else {
+            // Клонируем событие в новую запись (если вдруг не существует)
             let favoriteEvent = FavoriteEvent(context: context)
-            configureEvent(favoriteEvent, with: eventDTO)
+            
+            // Копируем все поля вручную (Core Data не позволяет просто скопировать объект между контекстами)
+            favoriteEvent.id = cachedEvent.id
+            favoriteEvent.title = cachedEvent.title
+            favoriteEvent.eventDescription = cachedEvent.eventDescription
+            favoriteEvent.bodyText = cachedEvent.bodyText
+            favoriteEvent.favoritesCount = cachedEvent.favoritesCount
+            favoriteEvent.startDate = cachedEvent.startDate
+            favoriteEvent.startTime = cachedEvent.startTime
+            favoriteEvent.endTime = cachedEvent.endTime
+            favoriteEvent.category = cachedEvent.category
+            favoriteEvent.userID = currentUserID()
             favoriteEvent.isFavorite = true
             favoriteEvent.addedDate = Date()
-            favoriteEvent.isCached = false
-            favoriteEvent.userID = currentUserID()
+            favoriteEvent.isCached = false // ❗️в избранном отдельно — не привязано к кэшу
+            
+            // Копируем relationships вручную
+            cloneRelationships(from: cachedEvent, to: favoriteEvent)
         }
         
         saveContext()
-        print("✅ Добавлено в избранное: \(eventDTO.title)")
+        print("✅ Добавлено в избранное (из кэша): \(cachedEvent.title ?? "Unknown")")
         return true
     }
     
-    /// Удаляет событие из избранного
-    func removeFromFavorites(eventId: String) -> Bool {
-        guard let event = getEvent(by: eventId), event.isFavorite else {
-            print("❌ Событие не найдено в избранном: \(eventId)")
-            return false
+    /// Клонирует relationships из одного FavoriteEvent в другой (для случаев, когда нужно создать копию)
+    private func cloneRelationships(from source: FavoriteEvent, to destination: FavoriteEvent) {
+        // Место
+        if let place = source.place {
+            let newPlace = PlaceEntity(context: context)
+            newPlace.id = place.id
+            newPlace.title = place.title
+            newPlace.slug = place.slug
+            newPlace.address = place.address
+            newPlace.location = place.location
+            
+            if let coords = place.coordinates {
+                let newCoords = CoordinatesEntity(context: context)
+                newCoords.lat = coords.lat
+                newCoords.lon = coords.lon
+                newPlace.coordinates = newCoords
+            }
+            
+            destination.place = newPlace
         }
         
-        if event.isCached {
-            event.isFavorite = false
-            event.addedDate = nil
-        } else {
-            deleteEventWithRelations(event)
+        // Локация события
+        if let location = source.eventLocation {
+            let newLocation = EventLocationEntity(context: context)
+            newLocation.slug = location.slug
+            newLocation.name = location.name
+            destination.eventLocation = newLocation
         }
         
-        saveContext()
-        print("✅ Удалено из избранного: \(event.title ?? "Unknown")")
-        return true
+        // Изображения
+        if let images = source.images?.allObjects as? [ImagesEntity] {
+            for image in images {
+                let newImage = ImagesEntity(context: context)
+                newImage.image = image.image
+                destination.addToImages(newImage)
+            }
+        }
+        
+        // Участники
+        if let participants = source.participants?.allObjects as? [ParticipantEntity] {
+            for participant in participants {
+                let newParticipant = ParticipantEntity(context: context)
+                newParticipant.roleSlug = participant.roleSlug
+                
+                if let agent = participant.agent {
+                    let newAgent = AgentEntity(context: context)
+                    newAgent.id = agent.id
+                    newAgent.title = agent.title
+                    
+                    if let agentImages = agent.images?.allObjects as? [ImagesEntity] {
+                        for agentImage in agentImages {
+                            let newAgentImage = ImagesEntity(context: context)
+                            newAgentImage.image = agentImage.image
+                            newAgent.addToImages(newAgentImage)
+                        }
+                    }
+                    
+                    newParticipant.agent = newAgent
+                }
+                
+                destination.addToParticipants(newParticipant)
+            }
+        }
     }
+    
+    
+    func removeFromFavorites(eventId: String) -> Bool {
+            guard let event = getEvent(by: eventId), event.isFavorite else {
+                print("❌ Событие не найдено в избранном: \(eventId)")
+                return false
+            }
+            
+            if event.isCached {
+                event.isFavorite = false
+                event.addedDate = nil
+            } else {
+                deleteEventWithRelations(event)
+            }
+            
+            saveContext()
+            print("✅ Удалено из избранного: \(event.title ?? "Unknown")")
+            return true
+        }
+    
+    func addToFavorites(from eventDTO: EventDTO) -> Bool {
+            let eventId = "\(eventDTO.id)"
+            
+            guard !isEventFavorite(eventId: eventId) else {
+                print("⚠️ Событие уже в избранном: \(eventDTO.title)")
+                return false
+            }
+            
+            if let existingEvent = getEvent(by: eventId) {
+                existingEvent.isFavorite = true
+                existingEvent.addedDate = Date()
+                updateEventRelations(existingEvent, with: eventDTO)
+            } else {
+                let favoriteEvent = FavoriteEvent(context: context)
+                configureEvent(favoriteEvent, with: eventDTO)
+                favoriteEvent.isFavorite = true
+                favoriteEvent.addedDate = Date()
+                favoriteEvent.isCached = false
+                favoriteEvent.userID = currentUserID()
+            }
+            
+            saveContext()
+            print("✅ Добавлено в избранное: \(eventDTO.title)")
+            return true
+        }
     
     /// Переключает статус избранного для события
     func toggleFavorite(for eventDTO: EventDTO) -> Bool {
@@ -387,6 +493,7 @@ extension CoreDataManager {
         event.startTime = dto.dates.first?.startTime
         event.endTime = dto.dates.first?.endTime
         event.userID = currentUserID()
+        event.category = dto.categories
         
         // Место (Place)
         if let placeDTO = dto.place {
