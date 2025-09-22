@@ -159,7 +159,7 @@ class ExploreViewController: UIViewController {
         setupLocationButton()
         setupLocationLabel()
         setupLocationList()
-        setupLocationBatton()
+        setupNotificationButton()
     }
     private func setupLocationButton() {
         view.addSubview(locationButton)
@@ -235,7 +235,7 @@ class ExploreViewController: UIViewController {
             searchTextField.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
-    private func setupLocationBatton() {
+    private func setupNotificationButton() {
         view.addSubview(notificationButton)
         notificationButton.setImage(UIImage(resource: .navNotificationFill), for: .normal)
         notificationButton.translatesAutoresizingMaskIntoConstraints = false
@@ -383,7 +383,7 @@ extension ExploreViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-
+//MARK: - TextField Delegate
 extension ExploreViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.endEditing(true)
