@@ -91,6 +91,12 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         let res = todayDate.split(separator: " ")
         return ("\(res[0])", "\(res[1])")
     }
+    //MARK: - Public method
+    func getImage() -> UIImage {
+        guard let image = eventImageView.image else { return UIImage()}
+        
+        return image == UIImage(systemName: "photo.artframe")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal) ? UIImage() : image
+    }
     
     //MARK: - Support UI methods
     private func setupSubtitleAttributedString(place: String) -> NSAttributedString {
@@ -133,7 +139,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
                 avatarsHStack.addArrangedSubview(createAvatarImageView(avatarURL: "person.circle"))
             }
         } else {
-            for i in 0..<3 {
+            for _ in 0..<3 {
                 avatarsHStack.addArrangedSubview(createAvatarImageView(avatarURL: "person.circle"))
             }
             let count = userCount - 3

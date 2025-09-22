@@ -30,14 +30,15 @@ class EventDetailsVC: UIViewController {
     
     private var itemsData: [Items] = []
     private var tableViewHeightConstraint: NSLayoutConstraint!
-    var event: EventDTO?
-    
+    var event: FavoriteEvent?
+    var image: UIImage?
     
     
     // MARK: - Init
     
-    init(event: EventDTO? = nil) {
+    init(event: FavoriteEvent? = nil, image: UIImage? = nil) {
         self.event = event
+        self.image = image
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -88,7 +89,7 @@ class EventDetailsVC: UIViewController {
     }
 
     private lazy var backButton = UIButton.make(
-        image: UIImage(named: SeeAllModel.Constants.backButtonIcon)?.withRenderingMode(.alwaysTemplate),
+        image: UIImage(named: SeeAllModel.Constants.backButtonIcon)?.withTintColor(.white, renderingMode: .alwaysOriginal),
         size: CGSize(width: 22, height: 22),
         tintColor: .white,
         action: UIAction { [weak self] _ in
@@ -186,53 +187,54 @@ class EventDetailsVC: UIViewController {
 //            itemsData = createItems(from: event)
 //            tableView.reloadData()
 //    }
-    func configureWithEvent(event: EventDTO) {
+    func configureWithEvent(event: FavoriteEvent) {
             self.event = event
             titleLbl.text = event.title
-            subtitleContentLbl.text = stripHTML(from: event.description ?? event.bodyText ?? "No description available")
+        subtitleContentLbl.text = stripHTML(from: event.bodyText ?? "")
             // Загрузка изображения
-            if let imageUrl = event.images.first?.image {
-                headerImg.load(urlString: imageUrl)
-            }
+//            if let imageUrl = event.images.first?.image {
+//                headerImg.load(urlString: imageUrl)
+//            }
+        headerImg.image = image
             itemsData = createItems(from: event)
             tableView.reloadData()
         }
     
-    private func createItems(from event: EventDTO) -> [Items] {
+    private func createItems(from event: FavoriteEvent) -> [Items] {
         var items: [Items] = []
         
         // 1. Дата и время
-        if let date = event.dates.first {
-            let dateString = formatDate(date.startDate)
-            let timeString = formatTime(date.startTime) + (date.endTime != nil ? " - \(formatTime(date.endTime))" : "")
+//        if let date = event {
+            let dateString = formatDate(event.startDate)
+            let timeString = formatTime(event.startTime) + (event.endTime != nil ? " - \(formatTime(event.endTime))" : "")
             items.append(Items(
                 image: .local(name: "eventDetails_date"),
                 title: dateString,
                 subtitle: timeString
             ))
-        }
+//        }
         
         // 2. Место проведения
         if let place = event.place {
             let title = place.title ?? "Unknown place"
-            let subtitle = place.address.isEmpty ? "Unknown street" : place.address // Изменено: используем "Unknown street" для пустого адреса
+            let subtitle = place.address.isEmpty ? "" : place.address // Изменено: убрал "Unknown street" т.к. эта подпись к онлайн эвентам выглядит странно
             items.append(Items(
                 image: .local(name: "eventDetails_location"),
                 title: title,
                 subtitle: subtitle
             ))
-        } else if let location = event.location {
+        } else if let location = event.eventLocation {
             items.append(Items(
                 image: .local(name: "eventDetails_location"),
                 title: location.name ?? "Unknown location",
-                subtitle: "Unknown street" // Изменено: используем "Unknown street" вместо пустой строки
+                subtitle: "" // Изменено: та же причина что и выше
             ))
         }
         
         // 3. Организатор
-        print("Participants: \(event.participants)")
-        if let participants = event.participants, !participants.isEmpty {
-            print("Available roles: \(participants.map { $0.role?.name ?? "nil" })")
+//        print("Participants: \(event.participants)")
+        if let participants = event.participants?.allObjects as? [ParticipantEntity]{
+            print("Available roles: \(participants.map { $0.roleSlug ?? "nil" })")
             if let participant = participants.first, // Берем первого участника
                let agent = participant.agent {
                 let title = agent.title ?? "Unknown organizer"

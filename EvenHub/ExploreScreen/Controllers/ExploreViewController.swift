@@ -345,8 +345,19 @@ class ExploreViewController: UIViewController {
 //MARK: - CollectionView Delegate
 extension ExploreViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = ExploreDetailViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        let newVC = EventDetailsVC()
+        guard let selectedEvent = dataSource.itemIdentifier(for: indexPath),
+        let cell = collectionView.cellForItem(at: indexPath) as? ExploreCollectionViewCell else { return }
+//        if indexPath.section == 0 {
+//            selectedEvent = viewModel.upcomingEvents[indexPath.item]
+//        } else {
+//            selectedEvent = viewModel.nearbyEvents[indexPath.item]
+//        }
+        let image = cell.getImage()
+        newVC.event = selectedEvent
+        newVC.image = image
+        newVC.configureWithEvent(event: selectedEvent)
+        pushNewVC?(newVC)
     }
 }
 
@@ -363,22 +374,6 @@ extension ExploreViewController: UICollectionViewDataSource {
         }
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //для eventDetail
-        let vc = EventDetailsVC()
-        let selectedEvent: EventDTO
-        if indexPath.section == 0 {
-            selectedEvent = viewModel.upcomingEvents[indexPath.item]
-        } else {
-            selectedEvent = viewModel.nearbyEvents[indexPath.item]
-        }
-        vc.event = selectedEvent
-        vc.configureWithEvent(event: selectedEvent)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    
 }
 
 //MARK: - TableView Delegate and DataSource
