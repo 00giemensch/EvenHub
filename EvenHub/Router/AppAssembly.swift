@@ -91,8 +91,9 @@ final class AppAssembly {
         return nav
     }
     
-    func makeProfileModule() -> UIViewController {
+    func makeProfileModule(onSignIn: @escaping () -> Void) -> UIViewController {
         let vc = ProfileViewController()
+        vc.onSigin = onSignIn
         return vc
     }
     

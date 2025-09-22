@@ -280,11 +280,13 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                 if let uid = Auth.auth().currentUser?.uid {
                     self.dataManager.saveUserToCoreData(uid: uid, name: self.profileTextField.text ?? "new user")
                 }
-                self.showErrorAlert(title: "Congratulations!", message: "Sign up is successful")
+                let alertController = UIAlertController(title: "Congratulations!", message: "Sign up is successful", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-                    // Переход на ExploreVC()
+                    // Переход на SignInVC
                     self.onMain?()
                 }
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true)
             }
             else {
                 self.showErrorAlert(title: "Error", message: error?.localizedDescription)

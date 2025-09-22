@@ -34,6 +34,7 @@ class OnboardingViewController: UIViewController {
     
     private func setupActions() {
         onboardingView.nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
+        onboardingView.skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
     }
     
     //MARK: - Func

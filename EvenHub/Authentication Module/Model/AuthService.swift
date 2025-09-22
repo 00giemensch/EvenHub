@@ -117,5 +117,6 @@ class AuthService {
         } catch let signOutError as NSError {
             print("Sing out error: %@", signOutError)
         }
+        self.setRememberMe(false)
     }
 }

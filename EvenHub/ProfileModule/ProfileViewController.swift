@@ -15,6 +15,7 @@ class ProfileViewController: UIViewController {
     
     private var isTextExpanded = false
     private var isEditMode = false
+    var onSigin: (() -> Void)?
     
     //MARK: - Create UI
     
@@ -173,7 +174,7 @@ class ProfileViewController: UIViewController {
     @objc private func signOutButtonTapped(sender: UIButton) {
         sender.buttonTappedAnimate()
         AuthService.shared.signOut()
-        
+        onSigin?()
     }
     
     @objc private func editButtonTapped(sender: UIButton) {

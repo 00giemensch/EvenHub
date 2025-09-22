@@ -184,15 +184,9 @@ class ResetPasswordSecondViewController: UIViewController, UITextFieldDelegate {
             if let error = error {
                 self.showAlert("Error", error.localizedDescription)
             } else {
-                //TODO: Если currentuser = nil, то переходим на SignIn, если нет - то возвращаемся на последний экран
                 let alert = UIAlertController(title: "Done!", message: "Password was successfully changed", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-                    let loginVC = SignInViewController()
-                    if let nav = self.navigationController {
-                        nav.setViewControllers([loginVC], animated: true)
-                    } else {
-                        self.present(loginVC, animated: true)
-                    }
+                    self.onSignIn?()
                 }))
                 self.present(alert, animated: true)
             }
@@ -200,7 +194,7 @@ class ResetPasswordSecondViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func backButtonPressed(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
+        onResetPassword?()
     }
     
     private func showAlert(_ title: String, _ message: String) {
