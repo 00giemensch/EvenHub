@@ -24,7 +24,7 @@ class ExploreViewController: UIViewController {
     private var tapOutsideGesture = UITapGestureRecognizer()
     
     ///тут наш метод который будет вызывать все то, что делали в AppAssembly и CustomTabBarController
-    var openSearchScene: (() -> Void)?
+    var pushNewVC: ((UIViewController) -> Void)?
     
     //MARK: - UI Components
     private let locationButton = UIButton()
@@ -63,7 +63,8 @@ class ExploreViewController: UIViewController {
             await viewModel.fetchLocations()
             async let upcoming: () = viewModel.fetchUpcomingEvents()
             async let nearby: () = viewModel.fetchNearby()
-
+            async let past: () = viewModel.fetchPastEvents()
+            
             await upcoming
             await nearby
             
@@ -72,6 +73,7 @@ class ExploreViewController: UIViewController {
             
             setDataSourceSnapshots()
             exploreCollectionView.reloadData()
+            await past
         }
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -344,7 +346,21 @@ class ExploreViewController: UIViewController {
 
 //MARK: - CollectionView Delegate
 extension ExploreViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let newVC = EventDetailsVC()
+        guard let selectedEvent = dataSource.itemIdentifier(for: indexPath),
+        let cell = collectionView.cellForItem(at: indexPath) as? ExploreCollectionViewCell else { return }
+//        if indexPath.section == 0 {
+//            selectedEvent = viewModel.upcomingEvents[indexPath.item]
+//        } else {
+//            selectedEvent = viewModel.nearbyEvents[indexPath.item]
+//        }
+        let image = cell.getImage()
+        newVC.event = selectedEvent
+        newVC.image = image
+        newVC.configureWithEvent(event: selectedEvent)
+        pushNewVC?(newVC)
+    }
 }
 
 //MARK: - CollectionView DataSource
@@ -360,22 +376,6 @@ extension ExploreViewController: UICollectionViewDataSource {
         }
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //для eventDetail
-        let vc = EventDetailsVC()
-        let selectedEvent: EventDTO
-        if indexPath.section == 0 {
-            selectedEvent = viewModel.upcomingEvents[indexPath.item]
-        } else {
-            selectedEvent = viewModel.nearbyEvents[indexPath.item]
-        }
-        vc.event = selectedEvent
-        vc.configureWithEvent(event: selectedEvent)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    
 }
 
 //MARK: - TableView Delegate and DataSource
@@ -410,7 +410,8 @@ extension ExploreViewController: UITableViewDelegate, UITableViewDataSource {
 extension ExploreViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.endEditing(true)
+        let searchVC = SearchViewController()
         /// и вот тут мы его вызвали
-        openSearchScene?()
+        pushNewVC?(searchVC)
     }
 }

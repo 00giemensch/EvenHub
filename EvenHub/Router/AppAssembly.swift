@@ -26,10 +26,10 @@ final class AppAssembly {
     }
     
     ///добавляем параметр testClosure
-    func makeExploreModule(openSearchScene: @escaping () -> Void) -> UIViewController {
+    func makeExploreModule(openSearchScene: @escaping (UIViewController) -> Void) -> UIViewController {
         let exploreVC = ExploreViewController()
         ///присваеваем кложур
-        exploreVC.openSearchScene = openSearchScene
+        exploreVC.pushNewVC = openSearchScene
         return exploreVC
     }
     
@@ -60,12 +60,12 @@ final class AppAssembly {
         tab.exploreProvider = { [weak self] in
             guard let self else { return UIViewController() }
             /// дергаем метод выше для создания exploreVC
-            let exploreVC = self.makeExploreModule {
+            let exploreVC = self.makeExploreModule { newVC in
                 /// обращаемся к навигаторконтролеру у exploreVC
                 if let nav = tab.exploreNavigationController {
                     /// говорим че делать
-                    let searchVC = SearchViewController()
-                    nav.pushViewController(searchVC, animated: true)
+                    
+                    nav.pushViewController(newVC, animated: true)
                 }
             }
             return exploreVC
