@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ExploreCollectionViewCell: UICollectionViewCell {
     //MARK: - Properties
@@ -37,23 +38,30 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         titleLabel.text = nil
         subtitleLabel.attributedText = nil
-        eventImageView.image = UIImage(systemName: "photo.artframe")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
+        eventImageView.image = nil
         dateLabel.removeText()
         avatarsHStack.subviews.forEach { $0.removeFromSuperview() }
         isAddedInFavorite = false
     }
     
     //MARK: - Methods
-    func configure(with event: EventDTO) {
-        let image = UIImage(systemName: "photo.artframe")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
-        eventImageView.image = image
-        titleLabel.text = event.title.capitalized
-        let date = getStartDate(date: event.dates.first)
+    func configure(with event: FavoriteEvent) {
+        titleLabel.text = event.title?.capitalized
+        let date = getStartDate(date: event.startDate)
         dateLabel.setDate(day: date.day, month: date.month)
-        fillingHStack(userCount: event.favoritesCount ?? Int.random(in: 0...2))
-        subtitleLabel.attributedText = setupSubtitleAttributedString(place: event.place?.address ?? event.place?.location ?? event.location?.name ?? "Coming soon" )
+        fillingHStack(userCount: event.favoritesCount)
+        subtitleLabel.attributedText = setupSubtitleAttributedString(place: event.place?.address ?? event.place?.location ?? event.eventLocation?.name ?? "Coming soon" )
+        loadImage(eventImages: event.images)
     }
     //MARK: - Private methods
+    private func loadImage(eventImages: NSSet?) {
+        guard let images = eventImages?.allObjects as? [ImagesEntity],
+              let strUrl = images[0].image,
+              let url = URL(string: strUrl) else { return }
+        let placeholderImage = UIImage(systemName: "photo.artframe")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
+        eventImageView.kf.setImage(with: url, placeholder: placeholderImage)
+        eventImageView.kf.indicatorType = .activity
+    }
     @objc private func buttonPressed() {
         isAddedInFavorite.toggle()
         guard let action = self.favoriteButtonAction else { return }
@@ -62,8 +70,8 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     private func fillingBookmark() {
         favoriteButton.tintColor = isAddedInFavorite ? .systemRed : .gray
     }
-    private func getStartDate(date: EventDate?) -> (day: String, month: String) {
-        guard let startDate = date?.startDate else {
+    private func getStartDate(date: String?) -> (day: String, month: String) {
+        guard let startDate = date else {
             return makeTodayDateString()
         }
         let date = startDate.split(separator: "-").map { String($0) }
@@ -82,6 +90,12 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         let todayDate = dateFormatter.string(from: now)
         let res = todayDate.split(separator: " ")
         return ("\(res[0])", "\(res[1])")
+    }
+    //MARK: - Public method
+    func getImage() -> UIImage {
+        guard let image = eventImageView.image else { return UIImage()}
+        
+        return image == UIImage(systemName: "photo.artframe")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal) ? UIImage() : image
     }
     
     //MARK: - Support UI methods
@@ -118,14 +132,14 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         
         return avatarImageView
     }
-    private func fillingHStack(userCount: Int) {
+    private func fillingHStack(userCount: Int32) {
         guard userCount > 0 else { return }
         if userCount <= 3 {
             for _ in 0..<userCount {
                 avatarsHStack.addArrangedSubview(createAvatarImageView(avatarURL: "person.circle"))
             }
         } else {
-            for i in 0..<3 {
+            for _ in 0..<3 {
                 avatarsHStack.addArrangedSubview(createAvatarImageView(avatarURL: "person.circle"))
             }
             let count = userCount - 3
@@ -171,7 +185,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         eventImageView.layer.cornerRadius = 16
         let image = UIImage(systemName: "photo.artframe")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
         eventImageView.image = image
-        eventImageView.contentMode = .scaleAspectFit
+        eventImageView.contentMode = .scaleAspectFill
         eventImageView.layer.masksToBounds = true
         eventImageView.translatesAutoresizingMaskIntoConstraints = false
         let shadowView = UIView()

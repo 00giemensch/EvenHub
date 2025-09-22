@@ -42,7 +42,7 @@ class ProfileViewController: UIViewController {
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 24, weight: .regular)
         label.textAlignment = .center
-        label.text = ProfileModel.Constants.nameLabel
+        label.text = Auth.auth().currentUser?.displayName
         label.numberOfLines = 0
         return label
     }()

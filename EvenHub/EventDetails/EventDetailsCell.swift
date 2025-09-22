@@ -7,27 +7,22 @@
 
 import UIKit
 
+// MARK: - test version
 class EventDetailsCell: UITableViewCell {
     
     // MARK: - UI
     
-    let titleEventLbl: UILabel = {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "14 December, 2021"
-        $0.font = .systemFont(ofSize: 16, weight: .regular)
-        $0.numberOfLines = 0
-        $0.textColor = .black
-        return $0
-    }(UILabel())
+    let titleEventLbl = UILabel.make(
+        text: "14 December, 2021",
+        font: UIFont(name: Constants.Fonts.book, size: 16),
+        kern: 0.6
+    )
     
-    let subtitleEventLbl: UILabel = {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "Tuesday, 4:00PM - 9:00PM"
-        $0.font = .systemFont(ofSize: 12, weight: .regular)
-        $0.numberOfLines = 0
-        $0.textColor = .gray
-        return $0
-    }(UILabel())
+    let subtitleEventLbl = UILabel.make(
+        text: "Tuesday, 4:00PM - 9:00PM",
+        font: UIFont(name: Constants.Fonts.book, size: 12),
+        color: .gray,
+    )
     
     lazy var cellView: UIView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -45,28 +40,20 @@ class EventDetailsCell: UITableViewCell {
     }(UIView())
     
     
-    lazy var cellImage: UIImageView = {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        $0.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        $0.contentMode = .scaleAspectFill
-        
-        $0.clipsToBounds = true
-        $0.layer.cornerRadius = 12
-        return $0
-    }(UIImageView())
+    lazy var cellImage = UIImageView.make(
+        contentMode: .scaleAspectFill,
+        cornerRadius: 12,
+        height: 30,
+        width: 30
+    )
     
     // MARK: - Init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         clipsToBounds = true
-        
-        contentView.addSubview(cellView)
-        contentView.addSubview(titleEventLbl)
-        contentView.addSubview(subtitleEventLbl)
-        contentView.addSubview(imgView)
-        contentView.addSubview(cellImage)
+
+        contentView.addSubviews(cellView, titleEventLbl, subtitleEventLbl, imgView, cellImage)
         
         setupConstraints()
     }
@@ -84,18 +71,22 @@ class EventDetailsCell: UITableViewCell {
     }
     
     // MARK: - Configure
-    
-    func configure(with items: Items) {
-        titleEventLbl.text = items.title
-        subtitleEventLbl.text = items.subtitle
-        
-        switch items.image {
-        case .local(let name):
-            cellImage.image = UIImage(named: name)
-        case .remote(url: let url):
-            break
+        func configure(with item: Items) {
+            titleEventLbl.text = item.title
+            subtitleEventLbl.text = item.subtitle
+            
+            switch item.image {
+            case .local(let name):
+                cellImage.image = name.isEmpty ? UIImage(named: "filter_art") : UIImage(named: name)
+                imgView.isHidden = name.isEmpty && UIImage(named: "filter_art") == nil
+            case .remote(let url):
+                cellImage.load(urlString: url)
+                imgView.isHidden = url.isEmpty
+            case nil:
+                cellImage.image = UIImage(named: "filter_art")
+                imgView.isHidden = UIImage(named: "filter_art") == nil
+            }
         }
-    }
     
     // MARK: - Layout
     
@@ -110,14 +101,13 @@ class EventDetailsCell: UITableViewCell {
             imgView.leadingAnchor.constraint(equalTo: cellView.leadingAnchor, constant: 16),
             imgView.centerYAnchor.constraint(equalTo: cellView.centerYAnchor),
             
-//            cellImage.leadingAnchor.constraint(equalTo: cellView.leadingAnchor, constant: 16),
             cellImage.centerXAnchor.constraint(equalTo: imgView.centerXAnchor),
             cellImage.centerYAnchor.constraint(equalTo: imgView.centerYAnchor),
             
-            titleEventLbl.topAnchor.constraint(equalTo: cellView.topAnchor, constant: 15),
+            titleEventLbl.topAnchor.constraint(equalTo: cellView.topAnchor, constant: 13),
             titleEventLbl.leadingAnchor.constraint(equalTo: imgView.trailingAnchor, constant: 16),
 
-            subtitleEventLbl.bottomAnchor.constraint(equalTo: cellView.bottomAnchor, constant: -15),
+            subtitleEventLbl.bottomAnchor.constraint(equalTo: cellView.bottomAnchor, constant: -13),
             subtitleEventLbl.leadingAnchor.constraint(equalTo: imgView.trailingAnchor, constant: 16),
 
         ])

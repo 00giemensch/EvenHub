@@ -111,8 +111,8 @@ class ResetPasswordMainViewController: UIViewController {
                 alertController.message = "If you entered an existing email address, check it for password reset instructions."
                 
                 let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-                    // Natigate to SignInVC
-                    self.navigationController?.pushViewController(SignInViewController(), animated: true)
+                    // Переход на SignInVC
+                    self.navigationController?.pushViewController(ResetPasswordSecondViewController(), animated: true)
                 }
                 
                 alertController.addAction(okAction)

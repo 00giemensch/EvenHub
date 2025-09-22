@@ -68,6 +68,7 @@ struct Participant: Codable, Sendable, Hashable {
 }
 
 struct Role: Codable, Sendable, Hashable {
+    let name: String?
     let slug: String?
 }
 
