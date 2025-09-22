@@ -15,7 +15,14 @@ class ExploreViewController: UIViewController {
         cell.configure(with: itemIdentifier)
         cell.favoriteButtonAction = { [weak self] in
             print("favoriteButton tup")
-//            self?.viewModel.addToFavorite(event: <#T##EventDTO#>)
+            let success = self?.viewModel.dataManager.addToFavorites(from: itemIdentifier) ?? false
+                if success {
+                    // Обновляем состояние ячейки — уже добавлено
+                    cell.isAddedInFavorite = true
+                } else {
+                    self!.viewModel.dataManager.removeFromFavorites(eventId: itemIdentifier.id!)
+                    cell.isAddedInFavorite = false
+                }
         }
         return cell
     }
@@ -143,7 +150,7 @@ class ExploreViewController: UIViewController {
         shapeLayer.path = path.cgPath
     }
     private func setDataSource() {
-//        setDataSourceSnapshots()
+        //        setDataSourceSnapshots()
         setSectionHeader()
     }
     private func setDataSourceSnapshots() {
@@ -262,7 +269,13 @@ class ExploreViewController: UIViewController {
                 for: indexPath
             ) as! ExploreCollectionHeader
             header.action = { [weak self] in
-                print("seeAll button tup")
+                let vc: SeeAllViewController
+                if indexPath.section == 0 {
+                    vc = SeeAllViewController(events: self?.viewModel.upcomingEvents ?? [], type: .upcoming)
+                } else {
+                    vc = SeeAllViewController(events: self?.viewModel.nearbyEvents ?? [], type: .nearby)
+                }
+                self?.pushNewVC?(vc)
             }
             if indexPath.section == 0 {
                 header.setTitle("Upcoming Events")
@@ -349,12 +362,12 @@ extension ExploreViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let newVC = EventDetailsVC()
         guard let selectedEvent = dataSource.itemIdentifier(for: indexPath),
-        let cell = collectionView.cellForItem(at: indexPath) as? ExploreCollectionViewCell else { return }
-//        if indexPath.section == 0 {
-//            selectedEvent = viewModel.upcomingEvents[indexPath.item]
-//        } else {
-//            selectedEvent = viewModel.nearbyEvents[indexPath.item]
-//        }
+              let cell = collectionView.cellForItem(at: indexPath) as? ExploreCollectionViewCell else { return }
+        //        if indexPath.section == 0 {
+        //            selectedEvent = viewModel.upcomingEvents[indexPath.item]
+        //        } else {
+        //            selectedEvent = viewModel.nearbyEvents[indexPath.item]
+        //        }
         let image = cell.getImage()
         newVC.event = selectedEvent
         newVC.image = image

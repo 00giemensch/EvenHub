@@ -21,7 +21,7 @@ class EventDetailsCell: UITableViewCell {
     let subtitleEventLbl = UILabel.make(
         text: "Tuesday, 4:00PM - 9:00PM",
         font: UIFont(name: Constants.Fonts.book, size: 12),
-        color: .gray,
+        color: .gray
     )
     
     lazy var cellView: UIView = {

@@ -72,9 +72,17 @@ final class SearchViewModel {
         dataManager.clearCachedEvents(cacheKey: key)
         searchedEvents.removeAll()
     }
+//    func filterByCategory(category: String) {
+//        filtredEvents = searchedEvents.filter { $0.category == category }
+//        searchedEvents.forEach {print($0.category)}
+//    }
+    
     func filterByCategory(category: String) {
-        filtredEvents = searchedEvents.filter { $0.category == category }
-        searchedEvents.forEach {print($0.category)}
+        filtredEvents = searchedEvents.filter { event in
+            guard let categories = event.category else { return false }
+            return categories.contains(category)
+        }
+        searchedEvents.forEach { print($0.category ?? "nil") }
     }
     func removeFilterCategory() {
         filtredEvents = searchedEvents
