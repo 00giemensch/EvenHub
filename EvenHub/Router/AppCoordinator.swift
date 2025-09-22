@@ -77,12 +77,7 @@ final class AppCoordinator {
     }
     
     private func presentShareFromRoot() {
-        let share = ShareVC()
-        share.modalPresentationStyle = .pageSheet
-        if let sheet = share.sheetPresentationController {
-            sheet.detents = [.medium()]
-            sheet.prefersGrabberVisible = true
-        }
+        let share = FavoritesViewController()
         window.rootViewController?.present(share, animated: true)
     }
 }

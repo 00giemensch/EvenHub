@@ -114,6 +114,12 @@ class SeeAllCell: UICollectionViewCell {
         favoriteButtonAction?()
     }
     
+    func getImage() -> UIImage {
+        guard let image = leftImageView.image else { return UIImage()}
+        
+        return image == UIImage(systemName: "photo.artframe")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal) ? UIImage() : image
+    }
+    
     
     //MARK: - Setup
     
