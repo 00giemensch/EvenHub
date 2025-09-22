@@ -4,6 +4,8 @@ import FirebaseAuth
 class ResetPasswordSecondViewController: UIViewController, UITextFieldDelegate {
     
     var oobCode: String?
+    var onSignIn: (() -> Void)?
+    var onResetPassword: (() -> Void)?
     
     // MARK: - UI Components
     private let backButton: UIButton = {

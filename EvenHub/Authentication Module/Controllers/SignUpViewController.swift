@@ -6,6 +6,8 @@ import FirebaseStorage
 class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     private var authService = AuthService.shared
+    var onSignIn: (() -> Void)?
+    var onMain: (() -> Void)?
     
     //MARK: - UI Components
     //Navigation Bar Items
@@ -100,11 +102,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
         setupUI()
-        
-        // делегат для passwordTextField
         passwordTextField.delegate = self
-        
-        // confirmPasswordTextField проверяется "на лету"
         confirmPasswordTextField.addTarget(self, action: #selector(confirmPasswordDidChange), for: .editingChanged)
     }
     
@@ -238,7 +236,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: - Actions
     @objc private func backButtonPressed(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
+//        navigationController?.popViewController(animated: true)
+        onSignIn?()
     }
     
     @objc private func signUpButtonPressed(_ sender: UIButton) {
@@ -254,6 +253,11 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             if error == nil {
                 print("Sign up is successful")
                 self.showErrorAlert(title: "Congratulations!", message: "Sign up is successful")
+                let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                    // Переход на SignInVC
+//                    self.navigationController?.pushViewController(ResetPasswordSecondViewController(), animated: true)
+                    self.onMain?()
+                }
             }
             else {
                 self.showErrorAlert(title: "Error", message: error?.localizedDescription)
@@ -281,6 +285,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func signInPressed(_ sender: UIButton) {
-        navigationController?.pushViewController(SignInViewController(), animated: true)
+//        navigationController?.pushViewController(SignInViewController(), animated: true)
+        onSignIn?()
     }
 }

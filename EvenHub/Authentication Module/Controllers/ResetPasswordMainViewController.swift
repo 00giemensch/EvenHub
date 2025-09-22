@@ -4,6 +4,8 @@ import FirebaseAuth
 class ResetPasswordMainViewController: UIViewController {
     
     //MARK: - UI Components
+    var onSignIn: (() -> Void)?
+    var onResetPasswordSecondStep: (() -> Void)?
     
     private let backButton: UIButton = {
         let button = UIButton()
@@ -95,7 +97,8 @@ class ResetPasswordMainViewController: UIViewController {
     
     //MARK: - Actions
     @objc private func backButtonPressed(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
+//        navigationController?.popViewController(animated: true)
+        onSignIn?()
     }
     
     @objc private func sendButtonPressed(_ sender: UIButton) {
@@ -112,7 +115,8 @@ class ResetPasswordMainViewController: UIViewController {
                 
                 let okAction = UIAlertAction(title: "OK", style: .default) { _ in
                     // Переход на SignInVC
-                    self.navigationController?.pushViewController(ResetPasswordSecondViewController(), animated: true)
+//                    self.navigationController?.pushViewController(ResetPasswordSecondViewController(), animated: true)
+                    self.onResetPasswordSecondStep?()
                 }
                 
                 alertController.addAction(okAction)

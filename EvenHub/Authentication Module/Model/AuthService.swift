@@ -29,11 +29,11 @@ class AuthService {
     
     
     func setRememberMe(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: "rememberMeEnabled")
+        UserDefaults.standard.set(value, forKey: "app.isRememberMeEnabled")
     }
     
     func getRememberMe() -> Bool {
-        return UserDefaults.standard.bool(forKey: "rememberMeEnabled")
+        return UserDefaults.standard.bool(forKey: "app.isRememberMeEnabled")
     }
     
     func signInWithEmail(email: String, password: String, rememberMe: Bool, completion: @escaping (Result<User, Error>) -> Void) {

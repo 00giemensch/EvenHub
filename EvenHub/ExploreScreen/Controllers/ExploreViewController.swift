@@ -361,19 +361,19 @@ extension ExploreViewController: UICollectionViewDataSource {
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //для eventDetail
-        let vc = EventDetailsVC()
-        let selectedEvent: EventDTO
-        if indexPath.section == 0 {
-            selectedEvent = viewModel.upcomingEvents[indexPath.item]
-        } else {
-            selectedEvent = viewModel.nearbyEvents[indexPath.item]
-        }
-        vc.event = selectedEvent
-        vc.configureWithEvent(event: selectedEvent)
-        navigationController?.pushViewController(vc, animated: true)
-    }
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        //для eventDetail
+//        let vc = EventDetailsVC()
+//        let selectedEvent: EventDTO
+//        if indexPath.section == 0 {
+//            selectedEvent = viewModel.upcomingEvents[indexPath.item]
+//        } else {
+//            selectedEvent = viewModel.nearbyEvents[indexPath.item]
+//        }
+//        vc.event = selectedEvent
+//        vc.configureWithEvent(event: selectedEvent)
+//        navigationController?.pushViewController(vc, animated: true)
+//    }
     
     
 }

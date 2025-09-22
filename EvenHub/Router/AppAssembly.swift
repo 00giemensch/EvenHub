@@ -20,8 +20,50 @@ final class AppAssembly {
         return vc
     }
     
-    func makeSignUp() -> UIViewController {
+    func makeAuth(
+        onSignUp: @escaping () -> Void,
+        onResetPassword: @escaping () -> Void,
+        onMain: @escaping () -> Void
+    ) -> UIViewController {
+        let vc = SignInViewController()
+        vc.onSignUp = onSignUp
+        vc.onResetPassword = onResetPassword
+        vc.onMain = onMain
+        return vc
+    }
+    
+    func makeSignUp(
+        onSignIn: @escaping () -> Void,
+        onMain: @escaping () -> Void
+    ) -> UIViewController {
         let vc = SignUpViewController()
+        vc.onSignIn = onSignIn
+        vc.onMain = onMain
+        return vc
+    }
+    
+    func makeResetPasswordMain(
+        onSignIn: @escaping () -> Void,
+        onResetPasswordSecondStep: @escaping () -> Void
+    ) -> UIViewController {
+        let vc = ResetPasswordMainViewController()
+        vc.onSignIn = onSignIn
+        vc.onResetPasswordSecondStep = onResetPasswordSecondStep
+        return vc
+    }
+    
+    func makeResetPasswordSecond() -> UIViewController {
+        let vc = ResetPasswordSecondViewController()
+        return vc
+    }
+    
+    func makeResetPasswordSecond(
+        onSignIn: @escaping () -> Void,
+        onResetPassword: @escaping () -> Void
+    ) -> UIViewController {
+        let vc = ResetPasswordSecondViewController()
+        vc.onSignIn = onSignIn
+        vc.onResetPassword = onResetPassword
         return vc
     }
     
