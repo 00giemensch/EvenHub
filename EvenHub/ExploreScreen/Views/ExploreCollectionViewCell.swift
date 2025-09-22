@@ -50,7 +50,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         let date = getStartDate(date: event.startDate)
         dateLabel.setDate(day: date.day, month: date.month)
         fillingHStack(userCount: event.favoritesCount)
-        subtitleLabel.attributedText = setupSubtitleAttributedString(place: event.place?.address ?? event.place?.location ?? "Coming soon" )
+        subtitleLabel.attributedText = setupSubtitleAttributedString(place: event.place?.address ?? event.place?.location ?? event.eventLocation?.name ?? "Coming soon" )
         loadImage(eventImages: event.images)
     }
     //MARK: - Private methods
