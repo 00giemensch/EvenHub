@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchViewModel {
+final class SearchViewModel {
     static let shared = SearchViewModel()
     
     //MARK: - Properties
@@ -15,6 +15,7 @@ class SearchViewModel {
     var searchedEventsLoaded: (() -> Void)?
     private lazy var dataManager = CoreDataManager.shared
     private let apiService = EventAPIService()
+    private(set) var categories = [String]()
     private(set) var searchedEvents = [FavoriteEvent]() {
         didSet {
             filtredEvents = searchedEvents
@@ -32,14 +33,19 @@ class SearchViewModel {
     //MARK: - Private methods
     private func fetchEventsById(searchResult: [SearchResultDTO]) async -> [EventDTO] {
         var res = [EventDTO]()
+        self.categories = []
         for searchEvent in searchResult {
             do {
                 let event = try await apiService.getEventDetails(eventIDs: String(searchEvent.id), language: .en)
                 res += event
+                if let category = event.first?.categories {
+                    self.categories += category
+                }
             } catch {
                 print("ExploreViewModel: \(#function)\nОшибка: \(error.localizedDescription)")
             }
         }
+        self.categories = Array(Set(categories))
         return res
     }
     private func saveEventsToCoreData(_ events: [EventDTO]) {
@@ -64,8 +70,13 @@ class SearchViewModel {
     }
     func clearSavedEvents() {
         dataManager.clearCachedEvents(cacheKey: key)
+        searchedEvents.removeAll()
     }
-    func filterByCategory(category: String?) {
-        
+    func filterByCategory(category: String) {
+        filtredEvents = searchedEvents.filter { $0.category == category }
+        searchedEvents.forEach {print($0.category)}
+    }
+    func removeFilterCategory() {
+        filtredEvents = searchedEvents
     }
 }

@@ -10,9 +10,13 @@ import UIKit
 class ExploreViewController: UIViewController {
     //MARK: - Properties
     private let viewModel = ExploreViewModel.shared
-    private lazy var dataSource = UICollectionViewDiffableDataSource<Int, EventDTO>(collectionView: exploreCollectionView) { collectionView, indexPath, itemIdentifier in
+    private lazy var dataSource = UICollectionViewDiffableDataSource<Int, FavoriteEvent>(collectionView: exploreCollectionView) { collectionView, indexPath, itemIdentifier in
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ExploreCollectionViewCell.cellId, for: indexPath) as! ExploreCollectionViewCell
         cell.configure(with: itemIdentifier)
+        cell.favoriteButtonAction = { [weak self] in
+            print("favoriteButton tup")
+//            self?.viewModel.addToFavorite(event: <#T##EventDTO#>)
+        }
         return cell
     }
     private var isLocationListVisible = false
@@ -141,7 +145,7 @@ class ExploreViewController: UIViewController {
         setSectionHeader()
     }
     private func setDataSourceSnapshots() {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, EventDTO>()
+        var snapshot = NSDiffableDataSourceSnapshot<Int, FavoriteEvent>()
         snapshot.appendSections([1,2])
         snapshot.appendItems(Array(viewModel.upcomingEvents), toSection: 1)
         snapshot.appendItems(Array(viewModel.nearbyEvents), toSection: 2)
@@ -159,7 +163,7 @@ class ExploreViewController: UIViewController {
         setupLocationButton()
         setupLocationLabel()
         setupLocationList()
-        setupLocationBatton()
+        setupNotificationButton()
     }
     private func setupLocationButton() {
         view.addSubview(locationButton)
@@ -225,6 +229,7 @@ class ExploreViewController: UIViewController {
         searchTextField.delegate = self
         searchTextField.action = { [weak self] in
             print("filter button tup")
+            self?.viewModel.checkDatabaseStatus()
         }
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
         
@@ -235,7 +240,7 @@ class ExploreViewController: UIViewController {
             searchTextField.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
-    private func setupLocationBatton() {
+    private func setupNotificationButton() {
         view.addSubview(notificationButton)
         notificationButton.setImage(UIImage(resource: .navNotificationFill), for: .normal)
         notificationButton.translatesAutoresizingMaskIntoConstraints = false
@@ -401,7 +406,7 @@ extension ExploreViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-
+//MARK: - TextField Delegate
 extension ExploreViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.endEditing(true)
