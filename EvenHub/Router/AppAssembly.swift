@@ -126,7 +126,8 @@ final class AppAssembly {
             guard let self else { return UIViewController() }
             let eventsVC = self.makeEventsModule {
                 if let nav = tab.eventsNavigationController {
-                    let seeAllVC = SeeAllViewController()
+                    let mockEvents: [FavoriteEvent] = []
+                    let seeAllVC = SeeAllViewController(events: mockEvents, type: .upcoming)
                     nav.pushViewController(seeAllVC, animated: true)
                 }
             }
