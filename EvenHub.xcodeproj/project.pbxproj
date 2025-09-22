@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2266857A2E7C1B7600BF6318 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E5FE8102E730E6C00104B1A /* LaunchScreen.storyboard */; };
+		22A196ED2E80822000A936DA /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A196EA2E80822000A936DA /* MapViewController.swift */; };
+		22A196EE2E80822000A936DA /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A196EB2E80822000A936DA /* MapViewModel.swift */; };
+		22A196EF2E80822000A936DA /* MapCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A196E92E80822000A936DA /* MapCategoryCell.swift */; };
 		676E2C162E7097B20074641F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E2C0D2E7097B20074641F /* AppDelegate.swift */; };
 		676E2C172E7097B20074641F /* EventDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E2C0F2E7097B20074641F /* EventDetailsVC.swift */; };
 		676E2C182E7097B20074641F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676E2C132E7097B20074641F /* SceneDelegate.swift */; };
@@ -55,6 +58,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		22A196E92E80822000A936DA /* MapCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCategoryCell.swift; sourceTree = "<group>"; };
+		22A196EA2E80822000A936DA /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		22A196EB2E80822000A936DA /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		676E2BE62E6F36470074641F /* EvenHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EvenHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		676E2C0D2E7097B20074641F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		676E2C0F2E7097B20074641F /* EventDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsVC.swift; sourceTree = "<group>"; };
@@ -174,6 +180,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		22A196EC2E80822000A936DA /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				22A196E92E80822000A936DA /* MapCategoryCell.swift */,
+				22A196EA2E80822000A936DA /* MapViewController.swift */,
+				22A196EB2E80822000A936DA /* MapViewModel.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		676E2BDD2E6F36470074641F = {
 			isa = PBXGroup;
 			children = (
@@ -214,6 +230,7 @@
 				223640C32E7722EE0078BBC9 /* CustomTabBar */,
 				1B540D582E7AEFDD00E9C3F3 /* CoreData */,
 				22E8C8CB2E79BCE4003A2717 /* Events */,
+				22A196EC2E80822000A936DA /* Map */,
 				6EC0D1B62E802DEB00D37E99 /* Authentication Module */,
 				6EC0D1C22E802E0000D37E99 /* EvenHub.entitlements */,
 				6EC0D1C32E802E0E00D37E99 /* GoogleService-Info.plist */,
@@ -519,6 +536,9 @@
 				BEE373732E7AED21002C9178 /* EventAPIProtocols.swift in Sources */,
 				BEE3736E2E7AE97E002C9178 /* NetworkError.swift in Sources */,
 				9FE3FAFD2E798B4600344DEF /* ExploreCategoryCell.swift in Sources */,
+				22A196ED2E80822000A936DA /* MapViewController.swift in Sources */,
+				22A196EE2E80822000A936DA /* MapViewModel.swift in Sources */,
+				22A196EF2E80822000A936DA /* MapCategoryCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,13 +7,22 @@
 
 import UIKit
 
-class Events: UIViewController {
+class EventsViewController: UIViewController {
     
-    //MARK: - Constants
+    //MARK: - Properties
     private let exploreButtonTitle = NSAttributedString(string: "EXPLORE EVENTS", attributes: [.kern: 1.0])
     private let segmented = CapsuleSegmentedControl(items: ["UPCOMING", "PAST EVENTS"])
     private let topFadeView = UIView()
     private let bottomFadeView = UIView()
+    private let eventsCount = CoreDataManager.shared.getCachedEventsCount()
+    private let eventsCD = CoreDataManager.shared.getCachedEvents()
+    var openSeeAllScene: (() -> Void)?
+    let viewModel = EventsViewModel.shared
+    var pastEventsArray = [FavoriteEvent]()
+    var upcomingEventsArray = [EventDTO]()
+    var isUpcoming = true
+    let coreData = CoreDataManager.shared
+    
     
     //MARK: - UI
     private lazy var titleLabel: UILabel = {
@@ -46,11 +55,7 @@ class Events: UIViewController {
         element.layer.shadowRadius = 25
         element.layer.shadowOffset = CGSize(width: 0, height: 10)
         element.layer.shadowOpacity = 1
-    
-        
-        
-        
-        
+
         element.configuration = configuration
         element.contentHorizontalAlignment = .right
         element.setAttributedTitle(exploreButtonTitle, for: .normal)
@@ -82,15 +87,28 @@ class Events: UIViewController {
         
         setViews()
         setupConstraints()
+        setEvents()
+    
+        if eventsCollectionView.numberOfItems(inSection: 0) == 0 {
+            calendarIcon.isHidden = false
+        }
+
+        
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setupFade()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isHidden = true
+    }
+    
     //MARK: - Methods
     @objc private func exploreButtonTapped() {
-        print("Explore button tapped")
+        openSeeAllScene?()
     }
     private func setupFadeView(_ view: UIView, _ isTop: Bool) {
         let gradient = CAGradientLayer()
@@ -121,10 +139,18 @@ class Events: UIViewController {
             gradient.frame = bottomFadeView.bounds
         }
     }
+    
+    private func setEvents() {
+        pastEventsArray = coreData.getCachedEvents(cacheKey: "pastEvents")
+        upcomingEventsArray = viewModel.upcomingEvents
+        eventsCollectionView.reloadData()
+    }
+    
+    
 }
 
 //MARK: - Setup constraints and set views
-extension Events {
+extension EventsViewController {
     private func setViews() {
         
         view.addSubview(titleLabel)
@@ -136,11 +162,6 @@ extension Events {
         view.addSubview(calendarIcon)
         setupFadeView(topFadeView, true)
         setupFadeView(bottomFadeView, false)
-        
-        
-        if eventsCollectionView.numberOfItems(inSection: 0) == 0 {
-            calendarIcon.isHidden = false
-        }
         
         segmented.translatesAutoresizingMaskIntoConstraints = false
         segmented.addTarget(self, action: #selector(segmentedChanged), for: .valueChanged)
@@ -180,17 +201,30 @@ extension Events {
         ])
     }
     @objc func segmentedChanged() {
-            print("Selected index: \(segmented.selectedIndex)")
+        isUpcoming = segmented.selectedIndex == 0
+            eventsCollectionView.reloadData()
         }
 }
 
 //MARK: - Extension UICollectionViewDelegate & UICollectionViewDataSource
-extension Events: UICollectionViewDelegate, UICollectionViewDataSource {
+extension EventsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 7
-    }
+        return isUpcoming ? upcomingEventsArray.count : pastEventsArray.count
+}
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteCell.cellID, for: indexPath) as! FavoriteCell
+        if isUpcoming {
+                let event = upcomingEventsArray[indexPath.row]
+                cell.titleLabel.text = event.title
+//                cell.locationLabel.text = event.location
+//                cell.dateLabel.text = event.startDate
+            } else {
+                let event = pastEventsArray[indexPath.row]
+                cell.titleLabel.text = event.title
+                cell.locationLabel.text = event.eventLocation?.name
+                cell.dateLabel.text = event.startDate
+            }
+        
         return cell
     }
 }
