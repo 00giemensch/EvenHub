@@ -27,6 +27,7 @@ class SeeAllViewController : UIViewController {
     let backButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: SeeAllModel.Constants.backButtonIcon), for: .normal)
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -44,10 +45,7 @@ class SeeAllViewController : UIViewController {
         view.isHidden = false
         return view
     }()
-    
 
-
-    
     //MARK: - SetDelegates
     
     func setDelegates() {
@@ -63,6 +61,11 @@ class SeeAllViewController : UIViewController {
         setupViews()
         setConstraints()
         setDelegates()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
     }
     
     private func setupViews() {
@@ -106,6 +109,12 @@ class SeeAllViewController : UIViewController {
             backButton.widthAnchor.constraint(equalToConstant: 22),
             backButton.heightAnchor.constraint(equalToConstant: 22)
         ])
+    }
+    
+    //MARK: - Methods
+    @objc private func backButtonTapped() {
+        print("backButtonTapped")
+        navigationController?.popToRootViewController(animated: true)
     }
 }
 

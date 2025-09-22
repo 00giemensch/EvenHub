@@ -9,13 +9,18 @@ import UIKit
 
 class EventsViewController: UIViewController {
     
-    //MARK: - Constants
+    //MARK: - Properties
     private let exploreButtonTitle = NSAttributedString(string: "EXPLORE EVENTS", attributes: [.kern: 1.0])
     private let segmented = CapsuleSegmentedControl(items: ["UPCOMING", "PAST EVENTS"])
     private let topFadeView = UIView()
     private let bottomFadeView = UIView()
-    private let coreDM = CoreDataManager.shared
-    
+    private let eventsCount = CoreDataManager.shared.getCachedEventsCount()
+    private let eventsCD = CoreDataManager.shared.getCachedEvents()
+    var openSeeAllScene: (() -> Void)?
+    let viewModel = EventsViewModel.shared
+    var pastEventsArray = [EventDTO]()
+    var upcomingEventsArray = [EventDTO]()
+    var isUpcoming = true
     
     
     //MARK: - UI
@@ -49,11 +54,7 @@ class EventsViewController: UIViewController {
         element.layer.shadowRadius = 25
         element.layer.shadowOffset = CGSize(width: 0, height: 10)
         element.layer.shadowOpacity = 1
-    
-        
-        
-        
-        
+
         element.configuration = configuration
         element.contentHorizontalAlignment = .right
         element.setAttributedTitle(exploreButtonTitle, for: .normal)
@@ -85,15 +86,37 @@ class EventsViewController: UIViewController {
         
         setViews()
         setupConstraints()
+        
+        Task {
+            async let upcoming: () = viewModel.fetchUpcomingEvents()
+            async let pastEvents: () = viewModel.fetchPastEvents()
+
+            await upcoming
+            await pastEvents
+            
+            setEvents()
+            
+            eventsCollectionView.reloadData()
+            if eventsCollectionView.numberOfItems(inSection: 0) == 0 {
+                calendarIcon.isHidden = false
+            }
+        }
+        
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setupFade()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isHidden = true
+    }
+    
     //MARK: - Methods
     @objc private func exploreButtonTapped() {
-        print("Explore button tapped")
+        openSeeAllScene?()
     }
     private func setupFadeView(_ view: UIView, _ isTop: Bool) {
         let gradient = CAGradientLayer()
@@ -124,6 +147,13 @@ class EventsViewController: UIViewController {
             gradient.frame = bottomFadeView.bounds
         }
     }
+    
+    private func setEvents() {
+        pastEventsArray = viewModel.pastEvents
+        upcomingEventsArray = viewModel.upcomingEvents
+    }
+    
+    
 }
 
 //MARK: - Setup constraints and set views
@@ -139,11 +169,6 @@ extension EventsViewController {
         view.addSubview(calendarIcon)
         setupFadeView(topFadeView, true)
         setupFadeView(bottomFadeView, false)
-        
-        
-        if eventsCollectionView.numberOfItems(inSection: 0) == 0 {
-            calendarIcon.isHidden = false
-        }
         
         segmented.translatesAutoresizingMaskIntoConstraints = false
         segmented.addTarget(self, action: #selector(segmentedChanged), for: .valueChanged)
@@ -190,13 +215,12 @@ extension EventsViewController {
 //MARK: - Extension UICollectionViewDelegate & UICollectionViewDataSource
 extension EventsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        1
-        //        return CoreDataManager.shared.getCachedEventsCount()
+        return upcomingEventsArray.count
 }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteCell.cellID, for: indexPath) as! FavoriteCell
-        let events = coreDM.getCachedEvents(cacheKey: "title")
-        print(events)
+        cell.titleLabel.text = upcomingEventsArray[indexPath.row].title
+        
         return cell
     }
 }

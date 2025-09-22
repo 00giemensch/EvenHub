@@ -33,6 +33,12 @@ final class AppAssembly {
         return exploreVC
     }
     
+    func makeEventsModule(openSeeAllScene: @escaping () -> Void) -> UIViewController {
+        let eventsVC = EventsViewController()
+        eventsVC.openSeeAllScene = openSeeAllScene
+        return eventsVC
+    }
+    
     func makeEventModule() -> UIViewController {
         let vc = EventDetailsVC()
         return vc
@@ -56,6 +62,7 @@ final class AppAssembly {
     func makeMainTabBar(onCenterTap: @escaping () -> Void) -> UIViewController {
         let tab = CustomTabBarController()
         tab.onCenterTap = onCenterTap
+        
         ///создание exploreVC
         tab.exploreProvider = { [weak self] in
             guard let self else { return UIViewController() }
@@ -69,6 +76,17 @@ final class AppAssembly {
                 }
             }
             return exploreVC
+        }
+    
+        tab.eventsProvider = { [weak self] in
+            guard let self else { return UIViewController() }
+            let eventsVC = self.makeEventsModule {
+                if let nav = tab.eventsNavigationController {
+                    let seeAllVC = SeeAllViewController()
+                    nav.pushViewController(seeAllVC, animated: true)
+                }
+            }
+            return eventsVC
         }
         ///вызываем настройку всех контроллеров
         tab.setupViewControllers()

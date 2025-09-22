@@ -17,6 +17,9 @@ class CustomTabBarController: UITabBarController {
     /// навигатор контроллер для exploreVC
     private(set) var exploreNavigationController: UINavigationController?
     
+    var eventsProvider: (() -> UIViewController)?
+    private(set) var eventsNavigationController: UINavigationController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .green
@@ -63,7 +66,9 @@ class CustomTabBarController: UITabBarController {
         
         
         // Events
-        let eventsVC = EventsViewController()
+        let eventsVC = UINavigationController(rootViewController: eventsProvider?() ?? UIViewController())
+        
+        eventsNavigationController = eventsVC
         let eventsVCNormalImage = UIImage(named: "tabBar_calendar")?.withTintColor(btnTintColor, renderingMode: .alwaysOriginal)
         let eventsVCSelectedImage = UIImage(named: "tabBar_calendar")?.withTintColor(btnSelectedTintColor, renderingMode: .alwaysOriginal)
         
