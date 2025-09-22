@@ -12,6 +12,7 @@ class SearchViewController: UIViewController {
     private lazy var viewModel = SearchViewModel.shared
     private lazy var isCategoryListVisible = false
     private lazy var tapOutsideGesture = UITapGestureRecognizer()
+    var pushNewVC: ((UIViewController) -> Void)?
     
     //MARK: - UI Components
     private lazy var searchTextField = SearchTextField(scheme: .blue)
@@ -228,6 +229,16 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let event = viewModel.filtredEvents[indexPath.row]
         cell.configure(with: event)
         return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let newVC = EventDetailsVC()
+        let selectedEvent = viewModel.filtredEvents[indexPath.row]
+        guard let cell = collectionView.cellForItem(at: indexPath) as? SearchCollectionViewCell else { return }
+        let image = cell.getImage()
+        newVC.event = selectedEvent
+        newVC.image = image
+        newVC.configureWithEvent(event: selectedEvent)
+        pushNewVC?(newVC)
     }
 }
 //MARK: - TextField Delegate

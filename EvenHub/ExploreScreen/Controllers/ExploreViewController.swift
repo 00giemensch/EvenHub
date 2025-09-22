@@ -411,6 +411,7 @@ extension ExploreViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.endEditing(true)
         let searchVC = SearchViewController()
+        searchVC.pushNewVC = pushNewVC
         /// и вот тут мы его вызвали
         pushNewVC?(searchVC)
     }

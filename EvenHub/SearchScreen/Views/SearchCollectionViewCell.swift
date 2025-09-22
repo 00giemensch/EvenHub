@@ -33,7 +33,12 @@ class SearchCollectionViewCell: UICollectionViewCell {
         eventImageView.image = nil
     }
     
-    //MARK: - Methods
+    //MARK: - Public method
+    func getImage() -> UIImage {
+        guard let image = eventImageView.image else { return UIImage()}
+        
+        return image == UIImage(systemName: "photo.artframe")?.withTintColor(.lightGray, renderingMode: .alwaysOriginal) ? UIImage() : image
+    }
     func configure(with event: FavoriteEvent) {
         let dateString = getStringDate(date: event.startDate, time: event.startTime)
         titleLabel.text = event.title?.capitalized
