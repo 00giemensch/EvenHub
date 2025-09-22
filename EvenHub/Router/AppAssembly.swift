@@ -51,7 +51,8 @@ final class AppAssembly {
     
     func makeFavoritesModule() -> UIViewController {
         let vc = FavoritesViewController()
-        return vc
+        let nav = UINavigationController(rootViewController: vc)
+        return nav
     }
     
     func makeProfileModule() -> UIViewController {

@@ -5,12 +5,15 @@
 //  Created by Евгений Васильев on 16.09.2025.
 //
 import UIKit
+import Kingfisher
 
 class FavoritesViewController : UIViewController {
-  
+    
     enum Constants {
         
     }
+    
+    private var favoriteEvents: [FavoriteEvent] = []
     
     //MARK: - Create UI
     
@@ -71,6 +74,26 @@ class FavoritesViewController : UIViewController {
         favCollectionView.register(FavoriteCell.self, forCellWithReuseIdentifier: "FavCell")
     }
     
+    //MARK: - Func
+    
+    private func updateUI() {
+        if favoriteEvents.isEmpty {
+            favCollectionView.isHidden = true
+            noFavContainer.isHidden = false
+            noFavImageView.isHidden = false
+        } else {
+            favCollectionView.isHidden = false
+            noFavContainer.isHidden = true
+            noFavImageView.isHidden = true
+        }
+    }
+    
+    private func loadFavoriteEvents() {
+        favoriteEvents = CoreDataManager.shared.getAllFavoriteEvents()
+        updateUI()
+        favCollectionView.reloadData()
+    }
+    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -78,6 +101,10 @@ class FavoritesViewController : UIViewController {
         setupViews()
         setConstraints()
         setDelegates()
+        loadFavoriteEvents()
+        print("✅ navigationController: \(String(describing: navigationController))")
+        print("✅ parent: \(String(describing: parent))")
+        print("✅ tabBarController: \(String(describing: tabBarController))")
     }
     
     private func setupViews() {
@@ -145,7 +172,7 @@ class FavoritesViewController : UIViewController {
 
 extension FavoritesViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return favoriteEvents.count
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -160,7 +187,40 @@ extension FavoritesViewController : UICollectionViewDelegate, UICollectionViewDe
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FavCell", for: indexPath) as! FavoriteCell
+        let event = favoriteEvents[indexPath.item]
+        cell.configure(with: event)
+        cell.favoriteButtonAction = { [weak self] in
+            guard let self = self else { return }
+            
+            let isAlreadyFavorite = CoreDataManager.shared.isEventFavorite(eventId: event.id ?? "")
+            
+            if isAlreadyFavorite {
+                let success = CoreDataManager.shared.removeFromFavorites(eventId: event.id ?? "")
+                if success {
+                    cell.isAddedInFavorite = false
+                    // Обновляем список после удаления
+                    self.loadFavoriteEvents()
+                }
+            } else {
+                let success = CoreDataManager.shared.addToFavorites(from: event)
+                if success {
+                    cell.isAddedInFavorite = true
+                }
+            }
+        }
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if self.navigationController == nil {
+                print("❗️ ОШИБКА: navigationController is nil — нельзя сделать push")
+            }
+        guard let cell = collectionView.cellForItem(at: indexPath) as? FavoriteCell else { return }
+        let image = cell.getImage()
+        let selectedEvent = favoriteEvents[indexPath.item]
+        let vc = EventDetailsVC(event: selectedEvent, image: image)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     
 }

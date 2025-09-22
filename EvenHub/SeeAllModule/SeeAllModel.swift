@@ -13,5 +13,6 @@ struct SeeAllModel {
         static let mapPointIcon = "map_event_location"
         static let favoriteIcon = "common_favorite_selected"
         static let backButtonIcon = "nav_back_black"
+        static let favoriteEmptyButton = "common_favorite_add"
     }
 }

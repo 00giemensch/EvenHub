@@ -8,9 +8,13 @@ import UIKit
 
 class SeeAllViewController : UIViewController {
   
-    enum Constants {
-        
+    enum SeeAllType {
+        case upcoming
+        case nearby
     }
+    
+    private let events: [FavoriteEvent]
+    private let type: SeeAllType
     
     //MARK: - Create UI
     
@@ -45,7 +49,20 @@ class SeeAllViewController : UIViewController {
         view.isHidden = false
         return view
     }()
+    
+    //MARK: - Init
+    
+    init(events: [FavoriteEvent], type: SeeAllType) {
+        self.events = events
+        self.type = type
+        super.init(nibName: nil, bundle: nil)
+    }
 
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    
     //MARK: - SetDelegates
     
     func setDelegates() {
@@ -61,6 +78,7 @@ class SeeAllViewController : UIViewController {
         setupViews()
         setConstraints()
         setDelegates()
+        eventsLabel.text = type == .upcoming ? "Upcoming Events" : "Nearby Events"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -122,7 +140,7 @@ class SeeAllViewController : UIViewController {
 
 extension SeeAllViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return events.count
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -137,8 +155,30 @@ extension SeeAllViewController : UICollectionViewDelegate, UICollectionViewDeleg
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SeeAllCell", for: indexPath) as! SeeAllCell
+        let event = events[indexPath.item]
+        cell.configure(with: event)
+        cell.favoriteButtonAction = { [weak self] in
+            guard let self = self else { return }
+            let isAlreadyFavorite = CoreDataManager.shared.isEventFavorite(eventId: event.id ?? "")
+            if isAlreadyFavorite {
+                let success = CoreDataManager.shared.removeFromFavorites(eventId: event.id ?? "")
+                if success {
+                    cell.isAddedInFavorite = false
+                }
+            } else {
+                let success = CoreDataManager.shared.addToFavorites(from: event)
+                if success {
+                    cell.isAddedInFavorite = true
+                }
+            }
+        }
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            let selectedEvent = events[indexPath.item]
+            print("Selected event: \(selectedEvent.title ?? "No title")")
+        }
     
 }
 
