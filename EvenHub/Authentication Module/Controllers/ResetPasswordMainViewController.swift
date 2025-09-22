@@ -4,20 +4,39 @@ import FirebaseAuth
 class ResetPasswordMainViewController: UIViewController {
     
     //MARK: - UI Components
+    var onSignIn: (() -> Void)?
+    var onResetPasswordSecondStep: (() -> Void)?
+    
+    //Navigation Bar Items
+    private let navBar: UINavigationBar = {
+        let navBar = UINavigationBar()
+        navBar.translatesAutoresizingMaskIntoConstraints = false
+        return navBar
+    }()
+    
+    private let appearance: UINavigationBarAppearance =  {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = .clear
+        appearance.shadowColor = .clear
+        return appearance
+    }()
     
     private let backButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(Constants.Icons.NavigationBar.backBlack, for: .normal)
-        return button
+        let backButton = UIButton()
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.setImage(Constants.Icons.NavigationBar.backBlack, for: .normal)
+        return backButton
     }()
     
     private let navLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.attributedText = Constants.Fonts.attributedString(for: "Reset Password", font: Constants.Fonts.medium, fontSize: 24)
-        return label
+        let navLabel = UILabel()
+        navLabel.translatesAutoresizingMaskIntoConstraints = false
+        navLabel.attributedText = Constants.Fonts.attributedString(for: "Reset Password", font: Constants.Fonts.medium, fontSize: 24)
+        return navLabel
     }()
+    
+    private let navItem = UINavigationItem()
     
     private let headerLabel: UILabel = {
         let label = UILabel()
@@ -53,18 +72,24 @@ class ResetPasswordMainViewController: UIViewController {
         setupUI()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-        navigationController?.isNavigationBarHidden = false
-    }
-    
     //MARK: - Setup UI
     private func setupUI() {
         view.backgroundColor = Constants.Colors.Background.white
-        navigationItem.titleView = navLabel
-        
+        navItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        navItem.titleView = navLabel
         backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        navBar.setItems([navItem], animated: false)
+        navBar.standardAppearance = appearance
+        navBar.scrollEdgeAppearance = appearance
+        navBar.compactAppearance = appearance
+        
+        view.addSubview(navBar)
+        NSLayoutConstraint.activate([
+            navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navBar.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            
+        ])
         
         view.addSubview(headerLabel)
         NSLayoutConstraint.activate([
@@ -95,7 +120,8 @@ class ResetPasswordMainViewController: UIViewController {
     
     //MARK: - Actions
     @objc private func backButtonPressed(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
+//        navigationController?.popViewController(animated: true)
+        onSignIn?()
     }
     
     @objc private func sendButtonPressed(_ sender: UIButton) {
@@ -112,7 +138,7 @@ class ResetPasswordMainViewController: UIViewController {
                 
                 let okAction = UIAlertAction(title: "OK", style: .default) { _ in
                     // Переход на SignInVC
-                    self.navigationController?.pushViewController(ResetPasswordSecondViewController(), animated: true)
+                    self.onResetPasswordSecondStep?()
                 }
                 
                 alertController.addAction(okAction)

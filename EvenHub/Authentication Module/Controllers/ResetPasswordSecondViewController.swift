@@ -4,8 +4,25 @@ import FirebaseAuth
 class ResetPasswordSecondViewController: UIViewController, UITextFieldDelegate {
     
     var oobCode: String?
+    var onSignIn: (() -> Void)?
+    var onResetPassword: (() -> Void)?
     
     // MARK: - UI Components
+    //Navigation Bar Items
+    private let navBar: UINavigationBar = {
+        let navBar = UINavigationBar()
+        navBar.translatesAutoresizingMaskIntoConstraints = false
+        return navBar
+    }()
+    
+    private let appearance: UINavigationBarAppearance =  {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = .clear
+        appearance.shadowColor = .clear
+        return appearance
+    }()
+    
     private let backButton: UIButton = {
         let backButton = UIButton()
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -14,11 +31,13 @@ class ResetPasswordSecondViewController: UIViewController, UITextFieldDelegate {
     }()
     
     private let navLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.attributedText = Constants.Fonts.attributedString(for: "Reset Password", font: Constants.Fonts.medium, fontSize: 24)
-        return label
+        let navLabel = UILabel()
+        navLabel.translatesAutoresizingMaskIntoConstraints = false
+        navLabel.attributedText = Constants.Fonts.attributedString(for: "Reset Password", font: Constants.Fonts.medium, fontSize: 24)
+        return navLabel
     }()
+    
+    private let navItem = UINavigationItem()
     
     private let passwordTextField: AuthenticationSecureTextField = {
         let tf = AuthenticationSecureTextField()
@@ -55,19 +74,26 @@ class ResetPasswordSecondViewController: UIViewController, UITextFieldDelegate {
             codeTextField.isHidden = true
         }
         passwordTextField.delegate = self
-        confirmPasswordTextField.addTarget(self, action: #selector(confirmPasswordDidChange), for: .editingChanged)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     }
     
     // MARK: - UI Setup
     private func setupUI() {
         view.backgroundColor = Constants.Colors.Background.white
-        navigationItem.titleView = navLabel
+        navItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        navItem.titleView = navLabel
         backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        navBar.setItems([navItem], animated: false)
+        navBar.standardAppearance = appearance
+        navBar.scrollEdgeAppearance = appearance
+        navBar.compactAppearance = appearance
+        
+        view.addSubview(navBar)
+        NSLayoutConstraint.activate([
+            navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navBar.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            
+        ])
         
         view.addSubview(passwordTextField)
         NSLayoutConstraint.activate([
@@ -84,6 +110,7 @@ class ResetPasswordSecondViewController: UIViewController, UITextFieldDelegate {
             confirmPasswordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             confirmPasswordTextField.heightAnchor.constraint(equalToConstant: 56)
         ])
+        confirmPasswordTextField.addTarget(self, action: #selector(confirmPasswordDidChange), for: .editingChanged)
         
         view.addSubview(codeTextField)
         NSLayoutConstraint.activate([
@@ -157,15 +184,9 @@ class ResetPasswordSecondViewController: UIViewController, UITextFieldDelegate {
             if let error = error {
                 self.showAlert("Error", error.localizedDescription)
             } else {
-                //TODO: Если currentuser = nil, то переходим на SignIn, если нет - то возвращаемся на последний экран
                 let alert = UIAlertController(title: "Done!", message: "Password was successfully changed", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-                    let loginVC = SignInViewController()
-                    if let nav = self.navigationController {
-                        nav.setViewControllers([loginVC], animated: true)
-                    } else {
-                        self.present(loginVC, animated: true)
-                    }
+                    self.onSignIn?()
                 }))
                 self.present(alert, animated: true)
             }
@@ -173,7 +194,7 @@ class ResetPasswordSecondViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func backButtonPressed(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
+        onResetPassword?()
     }
     
     private func showAlert(_ title: String, _ message: String) {
