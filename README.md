@@ -14,7 +14,7 @@ One app — from onboarding to sharing with friends.
 ## 🖼️ Screens
 
 <div align="center">
-  <img src="docs/screens/Showreel_-Mobile-gallery-[remix].gif" alt="Showreel demo" width="800">
+  <img src="showreel.gif" alt="Showreel demo" width="800">
 </div>
 
 ## ✨ Features
