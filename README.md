@@ -14,7 +14,7 @@ One app — from onboarding to sharing with friends.
 ## 🖼️ Screens
 
 <div align="center">
-  <img src="showreel.gif" alt="Showreel demo" width="800">
+  <img src="https://github.com/user-attachments/assets/14f169ba-c9be-4d06-b735-d4f28f6c2d75" alt="Showreel demo" width="800">
 </div>
 
 ## ✨ Features
